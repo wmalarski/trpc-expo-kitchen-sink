@@ -71,3 +71,18 @@ web-build/
 
 .turbo
 build/**
+
+*.log
+.DS_Store
+node_modules
+dist
+
+node_modules
+package-lock.json
+
+.yalc
+yalc.lock
+
+coverage/
+*.db
+.env
