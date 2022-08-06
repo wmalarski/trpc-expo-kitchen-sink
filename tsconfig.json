@@ -1,12 +1,3 @@
 {
-  "compilerOptions": {
-    "strictNullChecks": true,
-    "noUncheckedIndexedAccess": true,
-    "paths": {
-      "app/*": [
-        "./packages/app/*"
-      ]
-    }
-  },
-  "extends": "expo/tsconfig.base"
+  "extends": "./tsconfig.base"
 }
