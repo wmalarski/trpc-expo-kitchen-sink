@@ -18,8 +18,8 @@
   },
   "workspaces": {
     "packages": [
-      "packages/*",
-      "apps/*"
+      "apps/*",
+      "packages/*"
     ]
   },
   "prettier": {

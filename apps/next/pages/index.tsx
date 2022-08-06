@@ -1,14 +1,14 @@
-import Head from "next/head";
-import Link from "next/link";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { trpc } from "../utils/trpc";
+import Head from 'next/head';
+import Link from 'next/link';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { trpc } from '../utils/trpc';
 
 export default function IndexPage() {
   const utils = trpc.useContext();
-  const postsQuery = trpc.useQuery(["post.all"]);
-  const addPost = trpc.useMutation("post.add", {
+  const postsQuery = trpc.useQuery(['post.all']);
+  const addPost = trpc.useMutation('post.add', {
     onSettled() {
-      return utils.invalidateQueries(["post.all"]);
+      return utils.invalidateQueries(['post.all']);
     },
   });
 
@@ -33,7 +33,7 @@ export default function IndexPage() {
       </p>
       <h2>
         Posts
-        {postsQuery.status === "loading" && "(loading)"}
+        {postsQuery.status === 'loading' && '(loading)'}
       </h2>
       {postsQuery.data?.map((item) => (
         <article key={item.id}>
@@ -62,8 +62,8 @@ export default function IndexPage() {
           try {
             await addPost.mutateAsync(input);
 
-            $title.value = "";
-            $text.value = "";
+            $title.value = '';
+            $text.value = '';
           } catch {}
         }}
       >
@@ -83,11 +83,11 @@ export default function IndexPage() {
         <br />
         <input type="submit" disabled={addPost.isLoading} />
         {addPost.error && (
-          <p style={{ color: "red" }}>{addPost.error.message}</p>
+          <p style={{ color: 'red' }}>{addPost.error.message}</p>
         )}
       </form>
 
-      {process.env.NODE_ENV !== "production" && (
+      {process.env.NODE_ENV !== 'production' && (
         <ReactQueryDevtools initialIsOpen={false} />
       )}
     </>

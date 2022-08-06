@@ -1,13 +1,13 @@
-import Constants from "expo-constants";
-import { useState } from "react";
-import { Text } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { transformer, trpc } from "./utils/trpc";
+import Constants from 'expo-constants';
+import { useState } from 'react';
+import { Text } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { transformer, trpc } from './utils/trpc';
 
 const { manifest } = Constants;
 
-const localhost = `http://${manifest.debuggerHost?.split(":").shift()}:3000`;
+const localhost = `http://${manifest.debuggerHost?.split(':').shift()}:3000`;
 
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
@@ -19,13 +19,13 @@ export default function App() {
         return {};
       },
       transformer,
-    })
+    }),
   );
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
-          <Text>Hello3</Text>
+          <Text>Hello4</Text>
         </SafeAreaProvider>
       </QueryClientProvider>
     </trpc.Provider>

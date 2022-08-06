@@ -1,7 +1,7 @@
-/** @type {import('next').NextConfig} */
+/**
+ * @link https://nextjs.org/docs/api-reference/next.config.js/introduction
+ */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
   experimental: {
     externalDir: true,
   },

@@ -1,4 +1,4 @@
-import type { AppRouter } from '@tens/api/src/routers/app';
+import type { AppRouter } from '@tens/api/src/routes/app';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import { withTRPC } from '@trpc/next';
