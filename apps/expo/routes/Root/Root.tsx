@@ -1,3 +1,4 @@
+import { trpc } from '@tens/expo/utils/trpc';
 import { ReactElement } from 'react';
 import {
   FlatList,
@@ -7,7 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { trpc } from '../../utils/trpc';
 
 export const Root = (): ReactElement => {
   const posts = trpc.useQuery(['post.list'], {

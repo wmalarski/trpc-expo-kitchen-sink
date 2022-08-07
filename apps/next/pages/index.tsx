@@ -1,7 +1,7 @@
+import { trpc } from '@tens/next/utils/trpc';
 import Head from 'next/head';
 import Link from 'next/link';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { trpc } from '../utils/trpc';
 
 export default function IndexPage() {
   const client = trpc.useContext();
