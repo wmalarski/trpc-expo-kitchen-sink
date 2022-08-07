@@ -1,8 +1,8 @@
 /**
  * This file contains tRPC's HTTP response handler
  */
-import { createContext } from '@tens/api/src/createContext';
-import { appRouter } from '@tens/api/src/routes/app';
+import { createContext } from '@tens/api/src/context';
+import { appRouter } from '@tens/api/src/routes';
 import * as trpcNext from '@trpc/server/adapters/next';
 
 export default trpcNext.createNextApiHandler({

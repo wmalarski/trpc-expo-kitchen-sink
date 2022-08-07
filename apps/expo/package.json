@@ -32,9 +32,9 @@
   },
   "dependencies": {
     "@tens/api": "*",
-    "@trpc/client": "^9.26.2",
-    "@trpc/react": "^9.26.2",
-    "@trpc/server": "^9.26.2",
+    "@trpc/client": "10.0.0-alpha.41",
+    "@trpc/react": "10.0.0-alpha.41",
+    "@trpc/server": "10.0.0-alpha.41",
     "expo": "^45.0.8",
     "expo-constants": "~13.1.1",
     "react": "^17.0.2",

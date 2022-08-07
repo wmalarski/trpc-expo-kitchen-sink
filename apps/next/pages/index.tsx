@@ -4,20 +4,21 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { trpc } from '../utils/trpc';
 
 export default function IndexPage() {
-  const utils = trpc.useContext();
-  const postsQuery = trpc.useQuery(['post.all']);
-  const addPost = trpc.useMutation('post.add', {
-    onSettled() {
-      return utils.invalidateQueries(['post.all']);
+  const client = trpc.useContext();
+
+  const postsQuery = trpc.proxy.post.list.useQuery(undefined, {
+    onSuccess(data) {
+      data.forEach((post) => {
+        client.setQueryData(['post.get', { id: post.id }], post);
+      });
     },
   });
 
-  // prefetch all posts for instant navigation
-  // useEffect(() => {
-  //   postsQuery.data?.forEach((post) => {
-  //     utils.prefetchQuery(['post.byId', post.id]);
-  //   });
-  // }, [postsQuery.data, utils]);
+  const addPost = trpc.proxy.post.add.useMutation({
+    onSettled() {
+      return client.invalidateQueries(['post.list']);
+    },
+  });
 
   return (
     <>
