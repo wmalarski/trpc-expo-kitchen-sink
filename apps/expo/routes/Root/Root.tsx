@@ -2,7 +2,7 @@ import { Session } from '@supabase/supabase-js';
 import { supabase } from '@tens/expo/utils/supabase';
 import { ReactElement, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import Account from '../Account/Account';
+import { Account } from '../Account/Account';
 import { Auth } from '../Login/Login';
 
 export const Root = (): ReactElement => {

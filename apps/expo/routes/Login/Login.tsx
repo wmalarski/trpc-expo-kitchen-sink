@@ -1,5 +1,5 @@
 import { supabase } from '@tens/expo/utils/supabase';
-import { Button, Input } from 'native-base';
+import { Button, FormControl, Input } from 'native-base';
 import { ReactElement, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 
@@ -8,7 +8,7 @@ export const Auth = (): ReactElement => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  async function signInWithEmail() {
+  const signInWithEmail = async () => {
     setLoading(true);
     const { user, error } = await supabase.auth.signIn({
       email: email,
@@ -19,9 +19,9 @@ export const Auth = (): ReactElement => {
 
     if (error) Alert.alert(error.message);
     setLoading(false);
-  }
+  };
 
-  async function signUpWithEmail() {
+  const signUpWithEmail = async () => {
     setLoading(true);
     const { user, error } = await supabase.auth.signUp({
       email: email,
@@ -32,44 +32,45 @@ export const Auth = (): ReactElement => {
 
     if (error) Alert.alert(error.message);
     setLoading(false);
-  }
+  };
 
   return (
     <View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input
-          // label="Email"
-          // leftIcon={{ type: 'font-awesome', name: 'envelope' }}
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          placeholder="email@address.com"
-          autoCapitalize={'none'}
-        />
+        <FormControl>
+          <FormControl.Label>Email</FormControl.Label>
+          <Input
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            placeholder="email@address.com"
+            autoCapitalize={'none'}
+          />
+        </FormControl>
       </View>
+
       <View style={styles.verticallySpaced}>
-        <Input
-          // label="Password"
-          // leftIcon={{ type: 'font-awesome', name: 'lock' }}
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-          placeholder="Password"
-          autoCapitalize={'none'}
-        />
+        <FormControl>
+          <FormControl.Label>Password</FormControl.Label>
+          <Input
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+            placeholder="Password"
+            autoCapitalize={'none'}
+          />
+        </FormControl>
       </View>
+
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button
-          // title="Sign in"
-          disabled={loading}
-          onPress={() => signInWithEmail()}
-        />
+        <Button disabled={loading} onPress={() => signInWithEmail()}>
+          Sign in
+        </Button>
       </View>
+
       <View style={styles.verticallySpaced}>
-        <Button
-          // title="Sign up"
-          disabled={loading}
-          onPress={() => signUpWithEmail()}
-        />
+        <Button disabled={loading} onPress={() => signUpWithEmail()}>
+          Sign up
+        </Button>
       </View>
     </View>
   );

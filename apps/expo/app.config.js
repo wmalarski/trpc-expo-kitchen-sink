@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 const STAGE = process.env.STAGE;
 
 const envConfig = {

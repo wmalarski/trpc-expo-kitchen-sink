@@ -1,3 +1,4 @@
+import { NativeBaseProvider } from 'native-base';
 import { useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -10,9 +11,11 @@ export default function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <SafeAreaProvider>
-          <Root />
-        </SafeAreaProvider>
+        <NativeBaseProvider>
+          <SafeAreaProvider>
+            <Root />
+          </SafeAreaProvider>
+        </NativeBaseProvider>
       </QueryClientProvider>
     </trpc.Provider>
   );

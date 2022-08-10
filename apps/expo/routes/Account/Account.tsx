@@ -1,10 +1,10 @@
 import { ApiError, Session } from '@supabase/supabase-js';
 import { supabase } from '@tens/expo/utils/supabase';
-import { Button, Input } from 'native-base';
-import { useEffect, useState } from 'react';
+import { Button, FormControl, Input } from 'native-base';
+import { ReactElement, useEffect, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 
-export default function Account({ session }: { session: Session }) {
+export const Account = ({ session }: { session: Session }): ReactElement => {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [website, setWebsite] = useState('');
@@ -14,7 +14,7 @@ export default function Account({ session }: { session: Session }) {
     if (session) getProfile();
   }, [session]);
 
-  async function getProfile() {
+  const getProfile = async () => {
     try {
       setLoading(true);
       const user = supabase.auth.user();
@@ -39,9 +39,9 @@ export default function Account({ session }: { session: Session }) {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function updateProfile({
+  const updateProfile = async ({
     username,
     website,
     avatar_url,
@@ -49,7 +49,7 @@ export default function Account({ session }: { session: Session }) {
     username: string;
     website: string;
     avatar_url: string;
-  }) {
+  }) => {
     try {
       setLoading(true);
       const user = supabase.auth.user();
@@ -75,49 +75,52 @@ export default function Account({ session }: { session: Session }) {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input
-          // label="Email"
-          value={session?.user?.email}
-          // disabled
-        />
+        <FormControl>
+          <FormControl.Label>Email</FormControl.Label>
+          <Input value={session?.user?.email} isDisabled />
+        </FormControl>
       </View>
+
       <View style={styles.verticallySpaced}>
-        <Input
-          // label="Username"
-          value={username || ''}
-          onChangeText={(text) => setUsername(text)}
-        />
+        <FormControl>
+          <FormControl.Label>Username</FormControl.Label>
+          <Input
+            value={username || ''}
+            onChangeText={(text) => setUsername(text)}
+          />
+        </FormControl>
       </View>
+
       <View style={styles.verticallySpaced}>
-        <Input
-          // label="Website"
-          value={website || ''}
-          onChangeText={(text) => setWebsite(text)}
-        />
+        <FormControl>
+          <FormControl.Label>Website</FormControl.Label>
+          <Input
+            value={website || ''}
+            onChangeText={(text) => setWebsite(text)}
+          />
+        </FormControl>
       </View>
 
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Button
-          // title={loading ? 'Loading ...' : 'Update'}
           onPress={() => updateProfile({ username, website, avatar_url })}
           disabled={loading}
-        />
+        >
+          {loading ? 'Loading ...' : 'Update'}
+        </Button>
       </View>
 
       <View style={styles.verticallySpaced}>
-        <Button
-          // title="Sign Out"
-          onPress={() => supabase.auth.signOut()}
-        />
+        <Button onPress={() => supabase.auth.signOut()}>Sign Out</Button>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
