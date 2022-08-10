@@ -1,52 +1,28 @@
-import { trpc } from '@tens/expo/utils/trpc';
-import { ReactElement } from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Session } from '@supabase/supabase-js';
+import { supabase } from '@tens/expo/utils/supabase';
+import { ReactElement, useEffect, useState } from 'react';
+import { View } from 'react-native';
+import Account from '../Account/Account';
+import { Auth } from '../Login/Login';
 
 export const Root = (): ReactElement => {
-  const posts = trpc.useQuery(['post.list'], {
-    refetchInterval: 3000,
-  });
+  const [session, setSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    setSession(supabase.auth.session());
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      {posts.data ? (
-        <FlatList
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => {
-                alert(`You clicked ID ${item.id} `);
-              }}
-            >
-              <View style={styles.item}>
-                <Text>{item.title}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          data={posts.data}
-          keyExtractor={(item) => item.id}
-        />
+    <View>
+      {session && session.user ? (
+        <Account key={session.user.id} session={session} />
       ) : (
-        <Text>{posts.status}</Text>
+        <Auth />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  item: {
-    flex: 1,
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-  },
-});
