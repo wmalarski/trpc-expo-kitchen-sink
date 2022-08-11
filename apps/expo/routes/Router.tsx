@@ -10,8 +10,6 @@ const Stack = createNativeStackNavigator();
 export const Router = (): ReactElement => {
   const status = useSessionStatus();
 
-  console.log({ status });
-
   return (
     <NavigationContainer>
       <Stack.Navigator>

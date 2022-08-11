@@ -57,6 +57,11 @@ export const useSessionStatus = (): SessionServiceContextValue['status'] => {
   return context.status;
 };
 
+export const useSession = (): Session | null => {
+  const context = useContext(SessionServiceContext);
+  return context.status === 'auth' ? context.service.session : null;
+};
+
 type Props = {
   children: ReactNode;
 };
