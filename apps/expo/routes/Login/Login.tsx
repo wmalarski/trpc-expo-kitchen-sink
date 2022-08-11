@@ -1,37 +1,24 @@
-import { supabase } from '@tens/expo/utils/supabase';
 import { Button, FormControl, Input } from 'native-base';
 import { ReactElement, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useMutation } from 'react-query';
+import { useAnonService } from '../../services/SessionService';
 
 export const Login = (): ReactElement => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const signInWithEmail = async () => {
-    setLoading(true);
-    const { user, error } = await supabase.auth.signIn({
-      email: email,
-      password: password,
-    });
+  const anonService = useAnonService();
 
-    console.log({ user });
+  const signInMutation = useMutation(anonService.signIn);
+  const signUpMutation = useMutation(anonService.signUp);
 
-    if (error) Alert.alert(error.message);
-    setLoading(false);
+  const handleSignInPress = async () => {
+    signInMutation.mutate({ email, password });
   };
 
-  const signUpWithEmail = async () => {
-    setLoading(true);
-    const { user, error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-
-    console.log({ user });
-
-    if (error) Alert.alert(error.message);
-    setLoading(false);
+  const handleSignUpPress = async () => {
+    signUpMutation.mutate({ email, password });
   };
 
   return (
@@ -62,13 +49,19 @@ export const Login = (): ReactElement => {
       </View>
 
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button disabled={loading} onPress={() => signInWithEmail()}>
+        <Button
+          disabled={signInMutation.isLoading}
+          onPress={() => handleSignInPress()}
+        >
           Sign in
         </Button>
       </View>
 
       <View style={styles.verticallySpaced}>
-        <Button disabled={loading} onPress={() => signUpWithEmail()}>
+        <Button
+          disabled={signUpMutation.isLoading}
+          onPress={() => handleSignUpPress()}
+        >
           Sign up
         </Button>
       </View>

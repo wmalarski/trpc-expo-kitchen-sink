@@ -11,7 +11,7 @@ import { supabase } from '../utils/supabase';
 
 type AuthService = {
   session: Session;
-  signOut: () => void;
+  signOut: () => Promise<void>;
 };
 
 type AnonService = {
