@@ -111,7 +111,7 @@ export const Account = ({ session }: { session: Session }): ReactElement => {
           onPress={() => updateProfile({ username, website, avatar_url })}
           disabled={loading}
         >
-          {loading ? 'Loading ...' : 'Update'}
+          {loading ? 'Loading ...' : 'UpdateAA'}
         </Button>
       </View>
 
