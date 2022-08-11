@@ -3,7 +3,7 @@ import { Button, FormControl, Input } from 'native-base';
 import { ReactElement, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 
-export const Auth = (): ReactElement => {
+export const Login = (): ReactElement => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

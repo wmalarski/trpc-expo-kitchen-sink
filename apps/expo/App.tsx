@@ -1,19 +1,22 @@
 import { NativeBaseProvider } from 'native-base';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Root } from './routes/Root/Root';
+import { Router } from './routes/Router';
+import { useSession } from './utils/supabase';
 import { createTrpcClient, trpc } from './utils/trpc';
 
 export default function App() {
+  const session = useSession();
   const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() => createTrpcClient());
+  const trpcClient = useMemo(() => createTrpcClient(), []);
+
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <NativeBaseProvider>
           <SafeAreaProvider>
-            <Root />
+            <Router session={session} />
           </SafeAreaProvider>
         </NativeBaseProvider>
       </QueryClientProvider>
