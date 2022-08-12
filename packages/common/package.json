@@ -1,0 +1,13 @@
+{
+  "name": "@tens/common",
+  "version": "0.0.1",
+  "author": "w.malarski@gmail.com",
+  "license": "MIT",
+  "private": true,
+  "files": [
+    "src"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
+}

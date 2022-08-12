@@ -36,6 +36,7 @@
     "@react-navigation/native-stack": "^6.7.0",
     "@supabase/supabase-js": "^1.35.6",
     "@tens/api": "*",
+    "@tens/common": "*",
     "@trpc/client": "10.0.0-alpha.41",
     "@trpc/react": "10.0.0-alpha.41",
     "@trpc/server": "10.0.0-alpha.41",

@@ -1,7 +1,7 @@
+import { useSession } from '@tens/common/src/services/SessionService';
 import { ReactElement, ReactNode, useMemo, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { createTrpcClient, trpc } from '../utils/trpc';
-import { useSession } from './SessionService';
 
 type Props = {
   children: ReactNode;

@@ -1,8 +1,8 @@
+import { useAuthService } from '@tens/common/src/services/SessionService';
 import { Button } from 'native-base';
 import { ReactElement } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useMutation } from 'react-query';
-import { useAuthService } from '../../services/SessionService';
 import { PostsList } from './PostsList/PostsList';
 
 export const Account = (): ReactElement => {

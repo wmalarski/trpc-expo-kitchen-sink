@@ -1,8 +1,8 @@
+import { useAnonService } from '@tens/common/src/services/SessionService';
 import { Button, FormControl, Input } from 'native-base';
 import { ReactElement, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useMutation } from 'react-query';
-import { useAnonService } from '../../services/SessionService';
 
 export const Login = (): ReactElement => {
   const [email, setEmail] = useState('');

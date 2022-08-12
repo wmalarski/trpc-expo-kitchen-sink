@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSessionStatus } from '@tens/common/src/services/SessionService';
 import { ReactElement } from 'react';
-import { useSessionStatus } from '../services/SessionService';
 import { Account } from './Account/Account';
 import { Login } from './Login/Login';
 

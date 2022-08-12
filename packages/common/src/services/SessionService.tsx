@@ -1,5 +1,9 @@
-import { Session, UserCredentials } from '@supabase/supabase-js';
 import {
+  Session,
+  SupabaseClient,
+  UserCredentials,
+} from '@supabase/supabase-js';
+import React, {
   createContext,
   ReactElement,
   ReactNode,
@@ -7,7 +11,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { supabase } from '../utils/supabase';
 
 type AuthService = {
   session: Session;
@@ -32,7 +35,7 @@ type SessionServiceContextValue =
       service: AnonService;
     };
 
-export const SessionServiceContext = createContext<SessionServiceContextValue>({
+const SessionServiceContext = createContext<SessionServiceContextValue>({
   status: 'idle',
 });
 
@@ -64,9 +67,13 @@ export const useSession = (): Session | null => {
 
 type Props = {
   children: ReactNode;
+  supabase: SupabaseClient;
 };
 
-export const SessionServiceProvider = ({ children }: Props): ReactElement => {
+export const SessionServiceProvider = ({
+  children,
+  supabase,
+}: Props): ReactElement => {
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
@@ -75,7 +82,7 @@ export const SessionServiceProvider = ({ children }: Props): ReactElement => {
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
-  }, []);
+  }, [supabase]);
 
   const value: SessionServiceContextValue = session
     ? {

@@ -1,13 +1,14 @@
+import { SessionServiceProvider } from '@tens/common/src/services/SessionService';
 import { NativeBaseProvider } from 'native-base';
 import { ReactElement } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Router } from './routes/Router';
 import { ApiService } from './services/ApiService';
-import { SessionServiceProvider } from './services/SessionService';
+import { supabase } from './utils/supabase';
 
 const App = (): ReactElement => {
   return (
-    <SessionServiceProvider>
+    <SessionServiceProvider supabase={supabase}>
       <ApiService>
         <NativeBaseProvider>
           <SafeAreaProvider>

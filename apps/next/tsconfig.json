@@ -21,7 +21,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "../../packages/common/src/services/SessionService.tsx"
   ],
   "exclude": [
     "node_modules"
