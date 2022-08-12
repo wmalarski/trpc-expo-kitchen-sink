@@ -3,6 +3,7 @@ import { ReactElement } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useMutation } from 'react-query';
 import { useAuthService } from '../../services/SessionService';
+import { PostsList } from './PostsList/PostsList';
 
 export const Account = (): ReactElement => {
   const authService = useAuthService();
@@ -22,6 +23,9 @@ export const Account = (): ReactElement => {
         >
           Sign Out
         </Button>
+      </View>
+      <View style={[styles.verticallySpaced]}>
+        <PostsList />
       </View>
     </View>
   );

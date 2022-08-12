@@ -17,8 +17,6 @@ export const createTrpcClient = (session: Session | null) => {
     url: `${localhost}/api/trpc`,
 
     async headers() {
-      console.log('headers', { session });
-
       if (!session) return {};
 
       return {
