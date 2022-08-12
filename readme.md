@@ -1,6 +1,6 @@
-# Learning Lerna + Expo + Next.js + Trpc
+# Learning tRPC + Expo + Next.js + Supabase = TENS Stack
 
-## Introduction
+## 🚀 Introduction
 
 A monorepo containing:
 
@@ -11,7 +11,7 @@ A monorepo containing:
 
 > In tRPC you simply write API-functions that are automatically inferred straight into your frontend - no matter if it's React, React Native, or something else _(that is TS/JS-based)_.
 
-## Folder structure
+## 📁 Folder structure
 
 ```graphql
 .
@@ -23,7 +23,7 @@ A monorepo containing:
 └── prisma      # Prisma setup
 ```
 
-## Credits
+## 🔗 Credits
 
 - [https://github.com/trpc/zart](zart) base template.
 - [https://github.com/t3-oss/create-t3-app](create-t3-app)

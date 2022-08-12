@@ -70,21 +70,11 @@ type Props = {
   supabase: SupabaseClient;
 };
 
-export const SessionServiceProvider = ({
-  children,
-  supabase,
-}: Props): ReactElement => {
-  const [session, setSession] = useState<Session | null>(null);
-
-  useEffect(() => {
-    setSession(supabase.auth.session());
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, [supabase]);
-
-  const value: SessionServiceContextValue = session
+const sessionService = (
+  supabase: SupabaseClient,
+  session: Session | null,
+): SessionServiceContextValue => {
+  return session
     ? {
         status: 'auth',
         service: {
@@ -108,6 +98,23 @@ export const SessionServiceProvider = ({
           },
         },
       };
+};
+
+export const SessionServiceProvider = ({
+  children,
+  supabase,
+}: Props): ReactElement => {
+  const [value, setValue] = useState<SessionServiceContextValue>({
+    status: 'idle',
+  });
+
+  useEffect(() => {
+    setValue(sessionService(supabase, supabase.auth.session()));
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setValue(sessionService(supabase, session));
+    });
+  }, [supabase]);
 
   return (
     <SessionServiceContext.Provider value={value}>

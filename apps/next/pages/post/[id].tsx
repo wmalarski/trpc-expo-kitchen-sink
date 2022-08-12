@@ -1,8 +1,11 @@
 import { useRouter } from 'next/dist/client/router';
 import NextError from 'next/error';
+import { useProtectedPath } from '../../utils/paths';
 import { trpc } from '../../utils/trpc';
 
 export default function PostViewPage() {
+  useProtectedPath();
+
   const id = useRouter().query.id as string;
   const postQuery = trpc.proxy.post.get.useQuery({ id });
 
