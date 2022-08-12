@@ -1,8 +1,8 @@
 import { t } from '../trpc';
-import { postRouter } from './post';
+import { roomRouter } from './room';
 
 export const appRouter = t.router({
-  post: postRouter,
+  room: roomRouter,
 });
 
 export type AppRouter = typeof appRouter;

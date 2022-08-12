@@ -9,8 +9,8 @@ import {
   View,
 } from 'react-native';
 
-export const PostsList = (): ReactElement => {
-  const posts = trpc.useQuery(['post.list'], {
+export const RoomList = (): ReactElement => {
+  const posts = trpc.useQuery(['room.list'], {
     refetchInterval: 3000,
   });
 

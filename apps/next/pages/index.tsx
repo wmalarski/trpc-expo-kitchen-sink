@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { ReactElement } from 'react';
 import { Loader } from '../modules/Loader/Loader';
 import { Logout } from '../modules/Logout/Logout';
-import { PostList } from '../modules/PostList/PostList';
+import { RoomList } from '../modules/RoomList/RoomList';
 import { useProtectedPath } from '../utils/paths';
 
 const IndexPage = (): ReactElement => {
@@ -20,7 +20,7 @@ const IndexPage = (): ReactElement => {
       {sessionStatus === 'idle' && <Loader />}
       {sessionStatus === 'auth' && (
         <>
-          <PostList />
+          <RoomList />
           <Logout />
         </>
       )}

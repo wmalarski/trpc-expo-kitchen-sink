@@ -3,7 +3,7 @@ import { Button } from 'native-base';
 import { ReactElement } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useMutation } from 'react-query';
-import { PostsList } from './PostsList/PostsList';
+import { RoomList } from './RoomList/RoomList';
 
 export const Account = (): ReactElement => {
   const authService = useAuthService();
@@ -25,7 +25,7 @@ export const Account = (): ReactElement => {
         </Button>
       </View>
       <View style={[styles.verticallySpaced]}>
-        <PostsList />
+        <RoomList />
       </View>
     </View>
   );

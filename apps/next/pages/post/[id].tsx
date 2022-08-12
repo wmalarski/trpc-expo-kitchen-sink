@@ -7,7 +7,7 @@ export default function PostViewPage() {
   useProtectedPath();
 
   const id = useRouter().query.id as string;
-  const postQuery = trpc.proxy.post.get.useQuery({ id });
+  const postQuery = trpc.proxy.room.get.useQuery({ id });
 
   if (postQuery.error) {
     const statusCode = postQuery.error.data?.httpStatus ?? 500;

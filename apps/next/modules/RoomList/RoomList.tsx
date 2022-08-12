@@ -3,20 +3,23 @@ import Link from 'next/link';
 import { ReactElement } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-export const PostList = (): ReactElement => {
+export const RoomList = (): ReactElement => {
   const client = trpc.useContext();
 
-  const postsQuery = trpc.proxy.post.list.useQuery(undefined, {
-    onSuccess(data) {
-      data.forEach((post) => {
-        client.setQueryData(['post.get', { id: post.id }], post);
-      });
+  const postsQuery = trpc.proxy.room.list.useQuery(
+    { skip: 0, take: 20 },
+    {
+      onSuccess(data) {
+        data.forEach((post) => {
+          client.setQueryData(['room.get', { id: post.id }], post);
+        });
+      },
     },
-  });
+  );
 
-  const addPost = trpc.proxy.post.add.useMutation({
+  const addPost = trpc.proxy.room.add.useMutation({
     onSettled() {
-      return client.invalidateQueries(['post.list']);
+      return client.invalidateQueries(['room.list']);
     },
   });
 
@@ -54,7 +57,7 @@ export const PostList = (): ReactElement => {
           const $title: HTMLInputElement = (e as any).target.elements.title;
           const input = {
             title: $title.value,
-            text: $text.value,
+            description: $text.value,
           };
           try {
             await addPost.mutateAsync(input);
