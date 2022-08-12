@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
@@ -10,13 +7,48 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id    String @id @default(uuid())
-  title String
-  text  String
+model Room {
+  id          String     @id @default(uuid())
+  createdAt   DateTime   @default(now())
+  description String
+  questions   Question[]
+  title       String
+  userId      String
+  members     Member[]
 
-  // To return `Date`s intact through the API we need to add data transformers
-  // https://trpc.io/docs/data-transformers
+  @@index([userId])
+}
+
+model Member {
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId    String
+  userId    String
+
+  @@index([userId])
+}
+
+model Question {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  content   String
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId    String
+  userId    String
+  votes     Vote[]
+
+  @@index([userId])
+}
+
+model Vote {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  content    String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId String
+  userId     String
+
+  @@unique([questionId, userId])
+  @@index([userId])
 }

@@ -18,7 +18,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@prisma/client": "^4.1.1",
+    "@prisma/client": "^4.2.1",
     "@supabase/supabase-js": "^1.35.6",
     "@tens/api": "*",
     "@trpc/client": "10.0.0-alpha.41",
@@ -27,7 +27,7 @@
     "@trpc/server": "10.0.0-alpha.41",
     "clsx": "^1.2.1",
     "next": "^12.2.4",
-    "prisma": "^4.1.1",
+    "prisma": "^4.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-query": "^3.39.2",
