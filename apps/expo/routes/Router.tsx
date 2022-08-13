@@ -5,9 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useSessionStatus } from '@tens/common/src/services/SessionService';
 import { ReactElement } from 'react';
 import { Account } from './Account/Account';
-import { Home } from './Home/Home';
 import { Login } from './Login/Login';
 import { Room } from './Room/Room';
+import { Rooms } from './Rooms/Rooms';
 import { SignUp } from './SignUp/SignUp';
 
 export type RoomsNavigatorParams = {
@@ -19,7 +19,7 @@ const RoomsStack = createStackNavigator<RoomsNavigatorParams>();
 const RoomsRouter = (): ReactElement => {
   return (
     <RoomsStack.Navigator>
-      <RoomsStack.Screen name="Rooms" component={Home} />
+      <RoomsStack.Screen name="Rooms" component={Rooms} />
       <RoomsStack.Screen name="Room" component={Room} />
     </RoomsStack.Navigator>
   );

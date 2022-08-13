@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 import { AddRoom } from './AddRoom/AddRoom';
 import { RoomList } from './RoomList/RoomList';
 
-export const Home = (): ReactElement => {
+export const Rooms = (): ReactElement => {
   return (
     <VStack p={4} space={2}>
       <RoomList />
