@@ -4,6 +4,7 @@ import { loggerLink } from '@trpc/client/links/loggerLink';
 import { setupTRPC } from '@trpc/next';
 import { NextPageContext } from 'next';
 import superjson from 'superjson';
+import { supabase } from './supabase';
 
 const getBaseUrl = () => {
   if (process.browser) {
@@ -40,7 +41,6 @@ export interface SSRContext extends NextPageContext {
 }
 
 export const trpc = setupTRPC<AppRouter>({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   config() {
     const url = `${getBaseUrl()}/api/trpc`;
     /**
@@ -70,6 +70,13 @@ export const trpc = setupTRPC<AppRouter>({
        * @link https://react-query.tanstack.com/reference/QueryClient
        */
       // queryClientConfig: { defaultOptions: { queries: { staleTime: 6000 } } },
+      headers() {
+        const session = supabase.auth.session();
+        if (!session) return {};
+        return Promise.resolve({
+          Authorization: `Bearer ${session.access_token}`,
+        });
+      },
     };
   },
   /**
