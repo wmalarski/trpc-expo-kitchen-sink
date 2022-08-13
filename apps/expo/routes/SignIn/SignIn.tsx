@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from '@react-navigation/native';
 import { useAnonService } from '@tens/common/src/services/SessionService';
 import {
-  Box,
   Button,
   FormControl,
   Heading,
+  HStack,
   Input,
+  Text,
   VStack,
   WarningOutlineIcon,
 } from 'native-base';
@@ -14,10 +16,11 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
 import { z } from 'zod';
+import type { StackParams } from '../Router';
 
 const schema = z.object({
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -31,10 +34,7 @@ export const SignIn = (): ReactElement => {
 
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(schema as any),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+    defaultValues: { email: '', password: '' },
   });
 
   const onSubmit = (input: FormData) => {
@@ -42,7 +42,7 @@ export const SignIn = (): ReactElement => {
   };
 
   return (
-    <VStack p={4} space={2}>
+    <VStack p={4} pt={12} space={2}>
       <Heading>{t('signIn')}</Heading>
 
       <Controller
@@ -99,14 +99,19 @@ export const SignIn = (): ReactElement => {
         )}
       />
 
-      <Box pt={4}>
+      <VStack space={2} pt={2}>
         <Button
           disabled={signInMutation.isLoading}
           onPress={handleSubmit(onSubmit)}
         >
           {t('signIn')}
         </Button>
-      </Box>
+        <HStack pt={2} alignItems="center" space={1} justifyContent="center">
+          <Link<StackParams> to={{ screen: 'SendLink' }}>{t('sendLink')}</Link>
+          <Text>{t('or')}</Text>
+          <Link<StackParams> to={{ screen: 'SignUp' }}>{t('signUp')}</Link>
+        </HStack>
+      </VStack>
     </VStack>
   );
 };

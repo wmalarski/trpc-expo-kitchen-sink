@@ -20,21 +20,20 @@ import type { StackParams } from '../Router';
 
 const schema = z.object({
   email: z.string().email(),
-  password: z.string().min(6),
 });
 
 type FormData = z.infer<typeof schema>;
 
-export const SignUp = (): ReactElement => {
-  const { t } = useTranslation('common', { keyPrefix: 'SignUp' });
+export const SendLink = (): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'SendLink' });
 
   const anonService = useAnonService();
 
-  const signInMutation = useMutation(anonService.signUp);
+  const signInMutation = useMutation(anonService.signIn);
 
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(schema as any),
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: '' },
   });
 
   const onSubmit = (input: FormData) => {
@@ -43,7 +42,7 @@ export const SignUp = (): ReactElement => {
 
   return (
     <VStack p={4} pt={12} space={2}>
-      <Heading>{t('signUp')}</Heading>
+      <Heading>{t('sendLink')}</Heading>
 
       <Controller
         control={control}
@@ -70,47 +69,17 @@ export const SignUp = (): ReactElement => {
         )}
       />
 
-      <Controller
-        control={control}
-        name="password"
-        rules={{ required: true }}
-        render={({ field: { onChange, onBlur, value }, formState }) => (
-          <FormControl
-            isRequired={true}
-            isInvalid={!!formState.errors.password}
-          >
-            <VStack space={2}>
-              <FormControl.Label>{t('password')}</FormControl.Label>
-              <Input
-                placeholder={t('passwordPlaceholder')}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                secureTextEntry={true}
-                autoCapitalize="none"
-              />
-              <FormControl.ErrorMessage
-                leftIcon={<WarningOutlineIcon size="xs" />}
-              >
-                {formState.errors.password?.message}
-              </FormControl.ErrorMessage>
-            </VStack>
-          </FormControl>
-        )}
-      />
-
-      <VStack pt={2} space={2}>
+      <VStack space={2} pt={2}>
         <Button
           disabled={signInMutation.isLoading}
           onPress={handleSubmit(onSubmit)}
         >
-          {t('signUp')}
+          {t('sendLink')}
         </Button>
-
         <HStack pt={2} alignItems="center" space={1} justifyContent="center">
-          <Link<StackParams> to={{ screen: 'SendLink' }}>{t('sendLink')}</Link>
-          <Text>{t('or')}</Text>
           <Link<StackParams> to={{ screen: 'SignIn' }}>{t('signIn')}</Link>
+          <Text>{t('or')}</Text>
+          <Link<StackParams> to={{ screen: 'SignUp' }}>{t('signUp')}</Link>
         </HStack>
       </VStack>
     </VStack>

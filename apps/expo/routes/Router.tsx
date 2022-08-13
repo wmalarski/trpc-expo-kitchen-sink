@@ -7,6 +7,7 @@ import { ReactElement } from 'react';
 import { Account } from './Account/Account';
 import { Room } from './Room/Room';
 import { Rooms } from './Rooms/Rooms';
+import { SendLink } from './SendLink/SendLink';
 import { SignIn } from './SignIn/SignIn';
 import { SignUp } from './SignUp/SignUp';
 
@@ -42,9 +43,10 @@ const DrawerRouter = (): ReactElement => {
 };
 
 export type StackParams = {
+  SendLink: undefined;
   SignIn: undefined;
   SignUp: undefined;
-  Drawer: undefined;
+  DrawerRouter: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParams>();
@@ -57,12 +59,13 @@ export const Router = (): ReactElement => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {status === 'anon' && (
           <Stack.Group>
+            <Stack.Screen name="SendLink" component={SendLink} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />
           </Stack.Group>
         )}
         {status === 'auth' && (
-          <Stack.Screen name="Drawer" component={DrawerRouter} />
+          <Stack.Screen name="DrawerRouter" component={DrawerRouter} />
         )}
       </Stack.Navigator>
     </NavigationContainer>

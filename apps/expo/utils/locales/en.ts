@@ -9,6 +9,27 @@ export const en = {
       emailPlaceholder: 'email@address.com',
       password: 'Password',
       passwordPlaceholder: 'Password',
+      sendLink: 'Sign In via link',
+      signUp: 'Sign Up',
+      or: 'or',
+    },
+    SignUp: {
+      signUp: 'Sign Up',
+      email: 'Email',
+      emailPlaceholder: 'email@address.com',
+      password: 'Password',
+      passwordPlaceholder: 'Password',
+      sendLink: 'Sign In via link',
+      signIn: 'Sign In',
+      or: 'or',
+    },
+    SendLink: {
+      sendLink: 'Send link',
+      signIn: 'Sign In',
+      signUp: 'Sign Up',
+      email: 'Email',
+      emailPlaceholder: 'email@address.com',
+      or: 'or',
     },
     Room: {
       AddQuestion: {
