@@ -3,13 +3,12 @@ export const en = {
     Account: {
       signOut: 'Sign Out',
     },
-    Login: {
+    SignIn: {
       signIn: 'Sign In',
       email: 'Email',
       emailPlaceholder: 'email@address.com',
       password: 'Password',
       passwordPlaceholder: 'Password',
-      signUp: 'Sign Up',
     },
     Room: {
       AddQuestion: {

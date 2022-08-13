@@ -5,9 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useSessionStatus } from '@tens/common/src/services/SessionService';
 import { ReactElement } from 'react';
 import { Account } from './Account/Account';
-import { Login } from './Login/Login';
 import { Room } from './Room/Room';
 import { Rooms } from './Rooms/Rooms';
+import { SignIn } from './SignIn/SignIn';
 import { SignUp } from './SignUp/SignUp';
 
 export type RoomsNavigatorParams = {
@@ -57,7 +57,7 @@ export const Router = (): ReactElement => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {status === 'anon' && (
           <Stack.Group>
-            <Stack.Screen name="SignIn" component={Login} />
+            <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />
           </Stack.Group>
         )}

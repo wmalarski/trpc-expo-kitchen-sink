@@ -66,9 +66,7 @@ export const AddRoomForm = ({ onCancel }: Props): ReactElement => {
       <Controller
         control={control}
         name="title"
-        rules={{
-          required: true,
-        }}
+        rules={{ required: true }}
         render={({ field: { onChange, onBlur, value }, formState }) => (
           <FormControl isRequired={true} isInvalid={!!formState.errors.title}>
             <VStack space={2}>
