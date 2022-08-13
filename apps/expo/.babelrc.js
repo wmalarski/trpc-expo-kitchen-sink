@@ -3,6 +3,9 @@ module.exports = function (api) {
 
   return {
     presets: [['babel-preset-expo', { jsxRuntime: 'automatic' }]],
-    plugins: ['@babel/plugin-proposal-unicode-property-regex'],
+    plugins: [
+      'react-native-reanimated/plugin',
+      '@babel/plugin-proposal-unicode-property-regex',
+    ],
   };
 };

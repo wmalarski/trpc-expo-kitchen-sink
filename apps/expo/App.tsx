@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler';
+//
 import { SessionServiceProvider } from '@tens/common/src/services/SessionService';
 import { NativeBaseProvider } from 'native-base';
 import { ReactElement, useMemo, useState } from 'react';
