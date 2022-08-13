@@ -1,6 +1,15 @@
-import { Button } from 'native-base';
+import {
+  AddIcon,
+  Box,
+  Button,
+  FormControl,
+  Heading,
+  Input,
+  TextArea,
+  VStack,
+  WarningOutlineIcon,
+} from 'native-base';
 import { ReactElement, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
 import { trpc } from '../../utils/trpc';
 
 export const Home = (): ReactElement => {
@@ -17,30 +26,44 @@ export const Home = (): ReactElement => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+    <VStack p={4} space={2}>
+      <Heading>Create room</Heading>
+
+      <FormControl isRequired>
+        <VStack pt={2} space={2}>
+          <FormControl.Label>Name</FormControl.Label>
+          <Input placeholder="Name" />
+          <FormControl.HelperText>
+            Must be atleast 6 characters.
+          </FormControl.HelperText>
+          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+            Atleast 6 characters are required.
+          </FormControl.ErrorMessage>
+        </VStack>
+      </FormControl>
+
+      <FormControl isRequired>
+        <VStack space={2}>
+          <FormControl.Label>Description</FormControl.Label>
+          <TextArea autoCompleteType="cc-csc" placeholder="Description" />
+          <FormControl.HelperText>
+            Must be atleast 6 characters.
+          </FormControl.HelperText>
+          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+            Atleast 6 characters are required.
+          </FormControl.ErrorMessage>
+        </VStack>
+      </FormControl>
+
+      <Box pt={4}>
         <Button
           disabled={addRoomMutation.isLoading}
           onPress={handleSignOutPress}
+          leftIcon={<AddIcon />}
         >
           Create room
         </Button>
-      </View>
-    </View>
+      </Box>
+    </VStack>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 40,
-    padding: 12,
-  },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: 'stretch',
-  },
-  mt20: {
-    marginTop: 20,
-  },
-});

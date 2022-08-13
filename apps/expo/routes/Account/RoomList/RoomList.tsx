@@ -11,7 +11,7 @@ import {
 
 export const RoomList = (): ReactElement => {
   const posts = trpc.useQuery(['room.list'], {
-    refetchInterval: 3000,
+    // refetchInterval: 3000,
   });
 
   return (
