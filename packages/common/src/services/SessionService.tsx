@@ -106,9 +106,13 @@ export const SessionServiceProvider = ({
   useEffect(() => {
     setValue(sessionService(supabase, supabase.auth.session()));
 
-    supabase.auth.onAuthStateChange((_event, session) => {
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
       setValue(sessionService(supabase, session));
     });
+
+    return () => {
+      data?.unsubscribe();
+    };
   }, [supabase]);
 
   return (

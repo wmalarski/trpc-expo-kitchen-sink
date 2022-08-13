@@ -1,13 +1,7 @@
 import { trpc } from '@tens/expo/utils/trpc';
+import { Box, VStack } from 'native-base';
 import { ReactElement } from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { FlatList, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 
 export const RoomList = (): ReactElement => {
   const posts = trpc.useQuery(['room.list'], {
@@ -15,38 +9,28 @@ export const RoomList = (): ReactElement => {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      {posts.data ? (
-        <FlatList
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => {
-                alert(`You clicked ID ${item.id} `);
-              }}
-            >
-              <View style={styles.item}>
-                <Text>{item.title}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          data={posts.data}
-          keyExtractor={(item) => item.id}
-        />
-      ) : (
-        <Text>{posts.status}</Text>
-      )}
+    <SafeAreaView>
+      <VStack>
+        {posts.data ? (
+          <FlatList
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  alert(`You clicked ID ${item.id} `);
+                }}
+              >
+                <Box padding={5} flex={1}>
+                  <Text>{item.title}</Text>
+                </Box>
+              </TouchableOpacity>
+            )}
+            data={posts.data}
+            keyExtractor={(item) => item.id}
+          />
+        ) : (
+          <Text>{posts.status}</Text>
+        )}
+      </VStack>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  item: {
-    flex: 1,
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-  },
-});

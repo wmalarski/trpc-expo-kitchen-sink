@@ -1,7 +1,14 @@
 import { useAnonService } from '@tens/common/src/services/SessionService';
-import { Button, FormControl, Input } from 'native-base';
+import {
+  Box,
+  Button,
+  FormControl,
+  Heading,
+  Input,
+  VStack,
+  WarningOutlineIcon,
+} from 'native-base';
 import { ReactElement, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
 import { useMutation } from 'react-query';
 
 export const Login = (): ReactElement => {
@@ -22,9 +29,11 @@ export const Login = (): ReactElement => {
   };
 
   return (
-    <View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <FormControl>
+    <VStack p={4} space={2}>
+      <Heading>Sign In</Heading>
+
+      <FormControl isRequired>
+        <VStack pt={2} space={2}>
           <FormControl.Label>Email</FormControl.Label>
           <Input
             onChangeText={(text) => setEmail(text)}
@@ -32,11 +41,14 @@ export const Login = (): ReactElement => {
             placeholder="email@address.com"
             autoCapitalize={'none'}
           />
-        </FormControl>
-      </View>
+          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+            Atleast 6 characters are required.
+          </FormControl.ErrorMessage>
+        </VStack>
+      </FormControl>
 
-      <View style={styles.verticallySpaced}>
-        <FormControl>
+      <FormControl isRequired>
+        <VStack space={2}>
           <FormControl.Label>Password</FormControl.Label>
           <Input
             onChangeText={(text) => setPassword(text)}
@@ -45,41 +57,29 @@ export const Login = (): ReactElement => {
             placeholder="Password"
             autoCapitalize={'none'}
           />
-        </FormControl>
-      </View>
+          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+            Atleast 6 characters are required.
+          </FormControl.ErrorMessage>
+        </VStack>
+      </FormControl>
 
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+      <Box pt={4}>
         <Button
           disabled={signInMutation.isLoading}
           onPress={() => handleSignInPress()}
         >
           Sign in
         </Button>
-      </View>
+      </Box>
 
-      <View style={styles.verticallySpaced}>
+      <Box pt={4}>
         <Button
           disabled={signUpMutation.isLoading}
           onPress={() => handleSignUpPress()}
         >
           Sign up
         </Button>
-      </View>
-    </View>
+      </Box>
+    </VStack>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 40,
-    padding: 12,
-  },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: 'stretch',
-  },
-  mt20: {
-    marginTop: 20,
-  },
-});

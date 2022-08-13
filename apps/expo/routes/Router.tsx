@@ -6,6 +6,7 @@ import { ReactElement } from 'react';
 import { Account } from './Account/Account';
 import { Home } from './Home/Home';
 import { Login } from './Login/Login';
+import { SignUp } from './SignUp/SignUp';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -28,6 +29,7 @@ export const Router = (): ReactElement => {
         {status === 'anon' && (
           <Stack.Group>
             <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="SignUp" component={SignUp} />
           </Stack.Group>
         )}
         {status === 'auth' && (
