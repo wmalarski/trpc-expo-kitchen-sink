@@ -13,10 +13,12 @@ export const QuestionsItem = ({ question }: Props): ReactElement => {
   };
 
   return (
-    <TouchableOpacity onPress={handleItemPress}>
-      <Box padding={5} flex={1}>
-        <Text>{question.content}</Text>
-      </Box>
-    </TouchableOpacity>
+    <Box bg="white" m={1}>
+      <TouchableOpacity onPress={handleItemPress}>
+        <Box padding={4}>
+          <Text>{question.content}</Text>
+        </Box>
+      </TouchableOpacity>
+    </Box>
   );
 };

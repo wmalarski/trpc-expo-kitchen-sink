@@ -7,9 +7,9 @@ type Props = {
 };
 
 export const RoomHeading = ({ roomId }: Props): ReactElement => {
-  const roomQuery = trpc.useQuery(['room.get', { id: roomId }]);
+  const query = trpc.useQuery(['room.get', { id: roomId }]);
 
-  if (roomQuery.status === 'loading' || roomQuery.status === 'idle') {
+  if (query.status === 'loading' || query.status === 'idle') {
     return (
       <Center>
         <Spinner size="lg" />
@@ -17,14 +17,14 @@ export const RoomHeading = ({ roomId }: Props): ReactElement => {
     );
   }
 
-  if (roomQuery.status === 'error') {
-    return <Text>{roomQuery.error.message}</Text>;
+  if (query.status === 'error') {
+    return <Text>{query.error.message}</Text>;
   }
 
   return (
     <VStack space={2}>
-      <Heading>{roomQuery.data.title}</Heading>
-      <Heading size="md">{roomQuery.data.description}</Heading>
+      <Heading>{query.data.title}</Heading>
+      <Text>{query.data.description}</Text>
     </VStack>
   );
 };

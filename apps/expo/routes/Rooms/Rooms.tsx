@@ -1,7 +1,7 @@
 import { trpc } from '@tens/expo/utils/trpc';
-import { Center, Spinner, VStack } from 'native-base';
+import { Center, FlatList, Spinner, Text, VStack } from 'native-base';
 import { ReactElement } from 'react';
-import { FlatList, SafeAreaView, Text } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { AddRoom } from './AddRoom/AddRoom';
 import { RoomsItem } from './RoomsItem/RoomsItem';
 
@@ -29,14 +29,21 @@ export const Rooms = (): ReactElement => {
     return <Text>{query.error.message}</Text>;
   }
 
+  const handleRefresh = () => {
+    query.refetch();
+  };
+
   return (
     <SafeAreaView>
       <VStack p={4} space={2}>
         <VStack>
           <FlatList
-            renderItem={({ item }) => <RoomsItem room={item} />}
             data={query.data}
             keyExtractor={(item) => item.id}
+            onRefresh={handleRefresh}
+            refreshing={query.isFetching}
+            height="full"
+            renderItem={({ item }) => <RoomsItem room={item} />}
           />
         </VStack>
       </VStack>

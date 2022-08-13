@@ -1,6 +1,6 @@
 import { Room } from '@prisma/client';
 import { NavigationProp, useNavigation } from '@react-navigation/core';
-import { Heading, Text, VStack } from 'native-base';
+import { Box, Heading, Text, VStack } from 'native-base';
 import { ReactElement } from 'react';
 import { TouchableOpacity } from 'react-native';
 import type { RoomsNavigatorParams } from '../../Router';
@@ -17,11 +17,13 @@ export const RoomsItem = ({ room }: Props): ReactElement => {
   };
 
   return (
-    <TouchableOpacity onPress={handleItemPress}>
-      <VStack padding={5} space={2}>
-        <Heading>{room.title}</Heading>
-        <Text>{room.description}</Text>
-      </VStack>
-    </TouchableOpacity>
+    <Box bg="white" m={1}>
+      <TouchableOpacity onPress={handleItemPress}>
+        <VStack padding={4} space={2}>
+          <Heading>{room.title}</Heading>
+          <Text>{room.description}</Text>
+        </VStack>
+      </TouchableOpacity>
+    </Box>
   );
 };

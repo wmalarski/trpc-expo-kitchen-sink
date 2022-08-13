@@ -1,7 +1,7 @@
 import { trpc } from '@tens/expo/utils/trpc';
-import { Center, Spinner, Text } from 'native-base';
+import { Center, FlatList, Spinner, Text } from 'native-base';
 import { ReactElement, useState } from 'react';
-import { FlatList, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
 type Props = {
@@ -25,11 +25,18 @@ export const Questions = ({ roomId }: Props): ReactElement => {
     return <Text>{query.error.message}</Text>;
   }
 
+  const handleRefresh = () => {
+    query.refetch();
+  };
+
   return (
     <SafeAreaView>
       <FlatList
         data={query.data}
         keyExtractor={(item) => item.id}
+        onRefresh={handleRefresh}
+        refreshing={query.isFetching}
+        height="full"
         renderItem={({ item }) => <QuestionsItem question={item} />}
       />
     </SafeAreaView>

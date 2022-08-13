@@ -5,6 +5,7 @@ import { en } from './locales/en';
 const supportedLngs = ['en'];
 
 i18n.use(initReactI18next).init({
+  compatibilityJSON: 'v3',
   resources: { en },
   fallbackLng: 'en',
   supportedLngs,
