@@ -11,7 +11,7 @@ import { Room } from './Room/Room';
 import { SignUp } from './SignUp/SignUp';
 
 export type RoomsNavigatorParams = {
-  List: undefined;
+  Rooms: undefined;
   Room: { roomId: string };
 };
 const RoomsStack = createStackNavigator<RoomsNavigatorParams>();
@@ -19,15 +19,15 @@ const RoomsStack = createStackNavigator<RoomsNavigatorParams>();
 const RoomsRouter = (): ReactElement => {
   return (
     <RoomsStack.Navigator>
-      <RoomsStack.Screen name="List" component={Account} />
+      <RoomsStack.Screen name="Rooms" component={Home} />
       <RoomsStack.Screen name="Room" component={Room} />
     </RoomsStack.Navigator>
   );
 };
 
 export type DrawerNavigatorParams = {
-  Home: undefined;
-  Rooms: undefined;
+  RoomsRouter: undefined;
+  Account: undefined;
 };
 
 const DrawerStack = createDrawerNavigator<DrawerNavigatorParams>();
@@ -35,8 +35,8 @@ const DrawerStack = createDrawerNavigator<DrawerNavigatorParams>();
 const DrawerRouter = (): ReactElement => {
   return (
     <DrawerStack.Navigator screenOptions={{ headerShown: false }}>
-      <DrawerStack.Screen name="Home" component={Home} />
-      <DrawerStack.Screen name="Rooms" component={RoomsRouter} />
+      <DrawerStack.Screen name="RoomsRouter" component={RoomsRouter} />
+      <DrawerStack.Screen name="Account" component={Account} />
     </DrawerStack.Navigator>
   );
 };

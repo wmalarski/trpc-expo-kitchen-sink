@@ -2,7 +2,6 @@ import { useAuthService } from '@tens/common/src/services/SessionService';
 import { Button, VStack } from 'native-base';
 import { ReactElement } from 'react';
 import { useMutation } from 'react-query';
-import { RoomList } from './RoomList/RoomList';
 
 export const Account = (): ReactElement => {
   const authService = useAuthService();
@@ -14,8 +13,7 @@ export const Account = (): ReactElement => {
   };
 
   return (
-    <VStack p={4} space={4}>
-      <RoomList />
+    <VStack p={4} pt={12} space={4}>
       <Button disabled={signOutMutation.isLoading} onPress={handleSignOutPress}>
         Sign Out
       </Button>
