@@ -13,6 +13,7 @@ import {
 } from 'native-base';
 import { ReactElement } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import type { RoomsNavigatorParams } from '../../../Router';
 
@@ -28,6 +29,8 @@ type Props = {
 };
 
 export const AddRoomForm = ({ onCancel }: Props): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'Rooms.AddRoom' });
+
   const navigation = useNavigation<NavigationProp<RoomsNavigatorParams>>();
 
   const toast = useToast();
@@ -38,11 +41,11 @@ export const AddRoomForm = ({ onCancel }: Props): ReactElement => {
     onSuccess: (data) => {
       queryClient.invalidateQueries(['room.list']);
       queryClient.setQueryData(['room.get', { id: data.room.id }], data.room);
-      toast.show({ description: 'Success' });
+      toast.show({ description: t('successDesc'), title: t('successTitle') });
       navigation.navigate('Room', { roomId: data.room.id });
     },
     onError: () => {
-      toast.show({ description: 'Failure' });
+      toast.show({ description: t('errorDesc'), title: t('errorTitle') });
     },
   });
 
@@ -69,9 +72,9 @@ export const AddRoomForm = ({ onCancel }: Props): ReactElement => {
         render={({ field: { onChange, onBlur, value }, formState }) => (
           <FormControl isRequired={true} isInvalid={!!formState.errors.title}>
             <VStack space={2}>
-              <FormControl.Label>Name</FormControl.Label>
+              <FormControl.Label>{t('nameLabel')}</FormControl.Label>
               <Input
-                placeholder="Name"
+                placeholder={t('namePlaceholder')}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -92,10 +95,10 @@ export const AddRoomForm = ({ onCancel }: Props): ReactElement => {
         render={({ field: { onChange, onBlur, value }, formState }) => (
           <FormControl isInvalid={!!formState.errors.description}>
             <VStack space={2}>
-              <FormControl.Label>Description</FormControl.Label>
+              <FormControl.Label>{t('descriptionLabel')}</FormControl.Label>
               <TextArea
                 autoCompleteType="cc-csc"
-                placeholder="Description"
+                placeholder={t('descriptionPlaceholder')}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -112,13 +115,13 @@ export const AddRoomForm = ({ onCancel }: Props): ReactElement => {
 
       <Flex justify="flex-end" direction="row">
         <Button variant="ghost" colorScheme="blueGray" onPress={onCancel}>
-          Cancel
+          {t('cancel')}
         </Button>
         <Button
           disabled={addRoomMutation.isLoading}
           onPress={handleSubmit(onSubmit)}
         >
-          Save
+          {t('save')}
         </Button>
       </Flex>
     </VStack>

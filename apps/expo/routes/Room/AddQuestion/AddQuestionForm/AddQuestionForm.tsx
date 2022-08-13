@@ -11,6 +11,7 @@ import {
 } from 'native-base';
 import { ReactElement } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -25,6 +26,8 @@ type Props = {
 };
 
 export const AddQuestionForm = ({ roomId, onClose }: Props): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'Room.AddQuestion' });
+
   const toast = useToast();
 
   const queryClient = trpc.useContext();
@@ -32,11 +35,11 @@ export const AddQuestionForm = ({ roomId, onClose }: Props): ReactElement => {
   const addMutation = trpc.useMutation(['question.add'], {
     onSuccess: () => {
       queryClient.invalidateQueries(['question.list']);
-      toast.show({ description: 'Success' });
+      toast.show({ description: t('successDesc'), title: t('successTitle') });
       onClose();
     },
     onError: () => {
-      toast.show({ description: 'Failure' });
+      toast.show({ description: t('errorDesc'), title: t('errorTitle') });
     },
   });
 
@@ -58,10 +61,10 @@ export const AddQuestionForm = ({ roomId, onClose }: Props): ReactElement => {
         render={({ field: { onChange, onBlur, value }, formState }) => (
           <FormControl isRequired={true} isInvalid={!!formState.errors.content}>
             <VStack space={2}>
-              <FormControl.Label>Question</FormControl.Label>
+              <FormControl.Label>{t('questionLabel')}</FormControl.Label>
               <TextArea
                 autoCompleteType="cc-csc"
-                placeholder="Question"
+                placeholder={t('questionPlaceholder')}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -77,13 +80,13 @@ export const AddQuestionForm = ({ roomId, onClose }: Props): ReactElement => {
       />
       <Flex justify="flex-end" direction="row">
         <Button variant="ghost" colorScheme="blueGray" onPress={onClose}>
-          Cancel
+          {t('cancel')}
         </Button>
         <Button
           disabled={addMutation.isLoading}
           onPress={handleSubmit(onSubmit)}
         >
-          Save
+          {t('save')}
         </Button>
       </Flex>
     </VStack>

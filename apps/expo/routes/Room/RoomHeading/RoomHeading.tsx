@@ -1,5 +1,5 @@
 import { trpc } from '@tens/expo/utils/trpc';
-import { Heading, Text, VStack } from 'native-base';
+import { Center, Heading, Spinner, Text, VStack } from 'native-base';
 import { ReactElement } from 'react';
 
 type Props = {
@@ -10,7 +10,11 @@ export const RoomHeading = ({ roomId }: Props): ReactElement => {
   const roomQuery = trpc.useQuery(['room.get', { id: roomId }]);
 
   if (roomQuery.status === 'loading' || roomQuery.status === 'idle') {
-    return <Text>Loading</Text>;
+    return (
+      <Center>
+        <Spinner size="lg" />
+      </Center>
+    );
   }
 
   if (roomQuery.status === 'error') {

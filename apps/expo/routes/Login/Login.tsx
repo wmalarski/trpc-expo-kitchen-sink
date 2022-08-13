@@ -9,9 +9,12 @@ import {
   WarningOutlineIcon,
 } from 'native-base';
 import { ReactElement, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useMutation } from 'react-query';
 
 export const Login = (): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'Login' });
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,26 +23,26 @@ export const Login = (): ReactElement => {
   const signInMutation = useMutation(anonService.signIn);
   const signUpMutation = useMutation(anonService.signUp);
 
-  const handleSignInPress = async () => {
+  const handleSignInPress = () => {
     signInMutation.mutate({ email, password });
   };
 
-  const handleSignUpPress = async () => {
+  const handleSignUpPress = () => {
     signUpMutation.mutate({ email, password });
   };
 
   return (
     <VStack p={4} space={2}>
-      <Heading>Sign In</Heading>
+      <Heading>{t('signIn')}</Heading>
 
       <FormControl isRequired>
         <VStack pt={2} space={2}>
-          <FormControl.Label>Email</FormControl.Label>
+          <FormControl.Label>{t('email')}</FormControl.Label>
           <Input
             onChangeText={(text) => setEmail(text)}
             value={email}
-            placeholder="email@address.com"
-            autoCapitalize={'none'}
+            placeholder={t('emailPlaceholder')}
+            autoCapitalize="none"
           />
           <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
             Atleast 6 characters are required.
@@ -49,13 +52,13 @@ export const Login = (): ReactElement => {
 
       <FormControl isRequired>
         <VStack space={2}>
-          <FormControl.Label>Password</FormControl.Label>
+          <FormControl.Label>{t('password')}</FormControl.Label>
           <Input
             onChangeText={(text) => setPassword(text)}
             value={password}
             secureTextEntry={true}
-            placeholder="Password"
-            autoCapitalize={'none'}
+            placeholder={t('passwordPlaceholder')}
+            autoCapitalize="none"
           />
           <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
             Atleast 6 characters are required.
@@ -64,20 +67,14 @@ export const Login = (): ReactElement => {
       </FormControl>
 
       <Box pt={4}>
-        <Button
-          disabled={signInMutation.isLoading}
-          onPress={() => handleSignInPress()}
-        >
-          Sign in
+        <Button disabled={signInMutation.isLoading} onPress={handleSignInPress}>
+          {t('signIn')}
         </Button>
       </Box>
 
       <Box pt={4}>
-        <Button
-          disabled={signUpMutation.isLoading}
-          onPress={() => handleSignUpPress()}
-        >
-          Sign up
+        <Button disabled={signUpMutation.isLoading} onPress={handleSignUpPress}>
+          {t('signUp')}
         </Button>
       </Box>
     </VStack>

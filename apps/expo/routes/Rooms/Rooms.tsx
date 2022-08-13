@@ -1,5 +1,5 @@
 import { trpc } from '@tens/expo/utils/trpc';
-import { VStack } from 'native-base';
+import { Center, Spinner, VStack } from 'native-base';
 import { ReactElement } from 'react';
 import { FlatList, SafeAreaView, Text } from 'react-native';
 import { AddRoom } from './AddRoom/AddRoom';
@@ -18,7 +18,11 @@ export const Rooms = (): ReactElement => {
   });
 
   if (query.status === 'loading' || query.status === 'idle') {
-    return <Text>Loading</Text>;
+    return (
+      <Center>
+        <Spinner size="lg" />
+      </Center>
+    );
   }
 
   if (query.status === 'error') {

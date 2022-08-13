@@ -1,5 +1,5 @@
 import { trpc } from '@tens/expo/utils/trpc';
-import { Text } from 'native-base';
+import { Center, Spinner, Text } from 'native-base';
 import { ReactElement, useState } from 'react';
 import { FlatList, SafeAreaView } from 'react-native';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
@@ -14,7 +14,11 @@ export const Questions = ({ roomId }: Props): ReactElement => {
   const query = trpc.useQuery(['question.list', { cursor, take: 10, roomId }]);
 
   if (query.status === 'loading' || query.status === 'idle') {
-    return <Text>Loading</Text>;
+    return (
+      <Center>
+        <Spinner size="lg" />
+      </Center>
+    );
   }
 
   if (query.status === 'error') {

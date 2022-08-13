@@ -1,5 +1,6 @@
 import { AddIcon, Fab, Modal } from 'native-base';
 import { ReactElement, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AddQuestionForm } from './AddQuestionForm/AddQuestionForm';
 
 type Props = {
@@ -7,6 +8,8 @@ type Props = {
 };
 
 export const AddQuestion = ({ roomId }: Props): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'Room.AddQuestion' });
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenPress = () => {
@@ -29,7 +32,7 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
       <Modal isOpen={isOpen} onClose={handleClose}>
         <Modal.Content>
           <Modal.CloseButton />
-          <Modal.Header>Add question</Modal.Header>
+          <Modal.Header>{t('header')}</Modal.Header>
           <Modal.Body>
             <AddQuestionForm roomId={roomId} onClose={handleClose} />
           </Modal.Body>
