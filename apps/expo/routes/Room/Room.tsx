@@ -3,6 +3,8 @@ import { Heading, Text, VStack } from 'native-base';
 import { ReactElement } from 'react';
 import { trpc } from '../../utils/trpc';
 import type { RoomsNavigatorParams } from '../Router';
+import { AddQuestion } from './AddQuestion/AddQuestion';
+import { Questions } from './Questions/Questions';
 
 export const Room = ({
   route,
@@ -20,9 +22,11 @@ export const Room = ({
   }
 
   return (
-    <VStack>
+    <VStack p={4} space={2}>
       <Heading>{roomQuery.data.title}</Heading>
       <Heading size="md">{roomQuery.data.description}</Heading>
+      <Questions roomId={roomId} />
+      <AddQuestion roomId={roomId} />
     </VStack>
   );
 };

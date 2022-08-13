@@ -3,6 +3,7 @@ import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
 import {
   AddIcon,
   Button,
+  Center,
   FormControl,
   Heading,
   Input,
@@ -113,7 +114,7 @@ export const Home = (): ReactElement => {
         )}
       />
 
-      <VStack pt={4}>
+      <VStack pt={4} space={4}>
         <Button
           disabled={addRoomMutation.isLoading}
           onPress={handleSubmit(onSubmit)}
@@ -121,7 +122,9 @@ export const Home = (): ReactElement => {
         >
           Add room
         </Button>
-        <Link to="/Rooms">AA</Link>
+        <Center>
+          <Link to="/Rooms">All rooms</Link>
+        </Center>
       </VStack>
     </VStack>
   );

@@ -39,13 +39,13 @@ export const questionRouter = t.router({
     .input(
       z.object({
         roomId: z.string().uuid(),
-        cursor: z.string().uuid(),
+        cursor: z.string().uuid().optional(),
         take: z.number().min(0),
       }),
     )
     .query(async ({ ctx, input }) => {
       const questions = await ctx.prisma.question.findMany({
-        cursor: { id: input.cursor },
+        ...(input.cursor ? { cursor: { id: input.cursor } } : {}),
         take: input.take,
         orderBy: { votes: { _count: 'desc' } },
         where: {
