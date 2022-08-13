@@ -6,7 +6,7 @@ export const roomRouter = t.router({
     .input(
       z.object({
         title: z.string().min(1).max(32),
-        description: z.string().min(1),
+        description: z.string().min(0),
       }),
     )
     .mutation(async ({ ctx, input }) => {
