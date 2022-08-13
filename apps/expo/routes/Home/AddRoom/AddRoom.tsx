@@ -1,12 +1,8 @@
 import { AddIcon, Fab, Modal } from 'native-base';
 import { ReactElement, useState } from 'react';
-import { AddQuestionForm } from './AddQuestionForm/AddQuestionForm';
+import { AddRoomForm } from './AddRoomForm/AddRoomForm';
 
-type Props = {
-  roomId: string;
-};
-
-export const AddQuestion = ({ roomId }: Props): ReactElement => {
+export const AddRoom = (): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenPress = () => {
@@ -29,9 +25,9 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
       <Modal isOpen={isOpen} onClose={handleClose}>
         <Modal.Content>
           <Modal.CloseButton />
-          <Modal.Header>Add question</Modal.Header>
+          <Modal.Header>Add room</Modal.Header>
           <Modal.Body>
-            <AddQuestionForm roomId={roomId} onClose={handleClose} />
+            <AddRoomForm onCancel={handleClose} />
           </Modal.Body>
         </Modal.Content>
       </Modal>

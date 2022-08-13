@@ -15,11 +15,10 @@ export const Account = (): ReactElement => {
 
   return (
     <VStack p={4} space={4}>
+      <RoomList />
       <Button disabled={signOutMutation.isLoading} onPress={handleSignOutPress}>
         Sign Out
       </Button>
-
-      <RoomList />
     </VStack>
   );
 };

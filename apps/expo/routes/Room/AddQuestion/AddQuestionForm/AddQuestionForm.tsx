@@ -75,7 +75,7 @@ export const AddQuestionForm = ({ roomId, onClose }: Props): ReactElement => {
           </FormControl>
         )}
       />
-      <Flex align="flex-end" justify="flex-end" direction="row">
+      <Flex justify="flex-end" direction="row">
         <Button variant="ghost" colorScheme="blueGray" onPress={onClose}>
           Cancel
         </Button>
