@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 import { FlatList, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 
 export const RoomList = (): ReactElement => {
-  const posts = trpc.useQuery(['room.list'], {
+  const posts = trpc.useQuery(['room.list', { skip: 0, take: 10 }], {
     // refetchInterval: 3000,
   });
 

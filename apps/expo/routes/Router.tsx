@@ -13,7 +13,7 @@ const Drawer = createDrawerNavigator();
 
 const Protected = (): ReactElement => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator screenOptions={{ headerShown: false }}>
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Account" component={Account} />
     </Drawer.Navigator>
@@ -25,7 +25,7 @@ export const Router = (): ReactElement => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {status === 'anon' && (
           <Stack.Group>
             <Stack.Screen name="Login" component={Login} />

@@ -1,12 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from '@react-navigation/native';
 import {
   AddIcon,
-  Box,
   Button,
   FormControl,
   Heading,
   Input,
   TextArea,
+  useToast,
   VStack,
   WarningOutlineIcon,
 } from 'native-base';
@@ -23,7 +24,22 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export const Home = (): ReactElement => {
-  const addRoomMutation = trpc.useMutation(['room.add']);
+  const toast = useToast();
+
+  const addRoomMutation = trpc.useMutation(['room.add'], {
+    onSuccess: (data) => {
+      console.log(data);
+      toast.show({
+        description: 'Success',
+      });
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.show({
+        description: 'Failure',
+      });
+    },
+  });
 
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(schema as any),
@@ -38,7 +54,7 @@ export const Home = (): ReactElement => {
   };
 
   return (
-    <VStack p={4} space={2}>
+    <VStack p={4} pt={16} space={2}>
       <Heading>Add room</Heading>
 
       <Controller
@@ -91,7 +107,7 @@ export const Home = (): ReactElement => {
         )}
       />
 
-      <Box pt={4}>
+      <VStack pt={4}>
         <Button
           disabled={addRoomMutation.isLoading}
           onPress={handleSubmit(onSubmit)}
@@ -99,7 +115,8 @@ export const Home = (): ReactElement => {
         >
           Add room
         </Button>
-      </Box>
+        <Link to="/Account">AA</Link>
+      </VStack>
     </VStack>
   );
 };
