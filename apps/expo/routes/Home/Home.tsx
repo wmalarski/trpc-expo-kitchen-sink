@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from '@react-navigation/native';
+import { Link, NavigationProp, useNavigation } from '@react-navigation/native';
 import {
   AddIcon,
   Button,
@@ -15,6 +15,7 @@ import { ReactElement } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { trpc } from '../../utils/trpc';
+import type { RoomsNavigatorParams } from '../Router';
 
 const schema = z.object({
   title: z.string().min(1).max(32),
@@ -24,14 +25,19 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export const Home = (): ReactElement => {
+  const navigation = useNavigation<NavigationProp<RoomsNavigatorParams>>();
+
   const toast = useToast();
+
+  const queryClient = trpc.useContext();
 
   const addRoomMutation = trpc.useMutation(['room.add'], {
     onSuccess: (data) => {
       console.log(data);
-      toast.show({
-        description: 'Success',
-      });
+      queryClient.invalidateQueries(['room.list']);
+      queryClient.setQueryData(['room.get', { id: data.room.id }], data.room);
+      toast.show({ description: 'Success' });
+      navigation.navigate('Room', { roomId: data.room.id });
     },
     onError: (error) => {
       console.log(error);
@@ -115,7 +121,7 @@ export const Home = (): ReactElement => {
         >
           Add room
         </Button>
-        <Link to="/Account">AA</Link>
+        <Link to="/Rooms">AA</Link>
       </VStack>
     </VStack>
   );
