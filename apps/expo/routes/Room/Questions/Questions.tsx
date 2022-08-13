@@ -1,8 +1,8 @@
-import { Question } from '@prisma/client';
 import { trpc } from '@tens/expo/utils/trpc';
-import { Box, Text } from 'native-base';
+import { Text } from 'native-base';
 import { ReactElement, useState } from 'react';
-import { FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
+import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
 type Props = {
   roomId: string;
@@ -21,22 +21,12 @@ export const Questions = ({ roomId }: Props): ReactElement => {
     return <Text>{query.error.message}</Text>;
   }
 
-  const handleItemPress = (item: Question) => {
-    console.log(item);
-  };
-
   return (
     <SafeAreaView>
       <FlatList
         data={query.data}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleItemPress(item)}>
-            <Box padding={5} flex={1}>
-              <Text>{item.content}</Text>
-            </Box>
-          </TouchableOpacity>
-        )}
+        renderItem={({ item }) => <QuestionsItem question={item} />}
       />
     </SafeAreaView>
   );
