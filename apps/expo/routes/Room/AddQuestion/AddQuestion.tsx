@@ -1,4 +1,4 @@
-import { AddIcon, Fab, Modal } from 'native-base';
+import { AddIcon, Box, Fab, Modal } from 'native-base';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AddQuestionForm } from './AddQuestionForm/AddQuestionForm';
@@ -21,11 +21,11 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
   };
 
   return (
-    <>
+    <Box bottom={0} right={0} position="absolute">
       <Fab
         icon={<AddIcon />}
         onPress={handleOpenPress}
-        renderInPortal={true}
+        renderInPortal={false}
         shadow={2}
         size="lg"
       />
@@ -38,6 +38,6 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
           </Modal.Body>
         </Modal.Content>
       </Modal>
-    </>
+    </Box>
   );
 };

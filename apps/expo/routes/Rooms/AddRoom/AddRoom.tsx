@@ -1,7 +1,7 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RoomForm, RoomFormData } from '@tens/expo/modules/RoomForm/RoomForm';
 import { trpc } from '@tens/expo/utils/trpc';
-import { AddIcon, Fab, Modal, useDisclose, useToast } from 'native-base';
+import { AddIcon, Box, Fab, Modal, useDisclose, useToast } from 'native-base';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RoomsNavigatorParams } from '../../Router';
@@ -33,11 +33,11 @@ export const AddRoom = (): ReactElement => {
   };
 
   return (
-    <>
+    <Box bottom={0} right={0} position="absolute">
       <Fab
         icon={<AddIcon />}
         onPress={onOpen}
-        renderInPortal={true}
+        renderInPortal={false}
         shadow={2}
         size="lg"
       />
@@ -55,6 +55,6 @@ export const AddRoom = (): ReactElement => {
           </Modal.Body>
         </Modal.Content>
       </Modal>
-    </>
+    </Box>
   );
 };

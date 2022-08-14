@@ -44,7 +44,7 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
         keyExtractor={(item) => item.id}
         onRefresh={handleRefresh}
         refreshing={query.isFetching}
-        height="full"
+        // height="full"
         renderItem={({ item }) => (
           <QuestionsItem question={item} cursor={cursor} take={take} />
         )}

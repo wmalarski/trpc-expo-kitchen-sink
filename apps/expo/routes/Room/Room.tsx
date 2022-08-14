@@ -16,7 +16,7 @@ export const Room = ({
 
   return (
     <SafeAreaView>
-      <VStack p={4} space={2}>
+      <VStack p={4} space={2} height="full">
         <RoomHeading roomId={roomId} onShowAnsweredChange={setShowAnswered} />
         <Questions roomId={roomId} showAnswered={showAnswered} />
         <AddQuestion roomId={roomId} />
