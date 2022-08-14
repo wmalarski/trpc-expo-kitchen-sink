@@ -1,6 +1,6 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { trpc } from '@tens/expo/utils/trpc';
-import { Actionsheet, CheckIcon, MinusIcon } from 'native-base';
+import { Actionsheet, DeleteIcon } from 'native-base';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +10,7 @@ type Props = {
   take: number;
 };
 
-export const AnsweredActions = ({
+export const DeleteAction = ({
   question,
   cursor,
   take,
@@ -19,8 +19,8 @@ export const AnsweredActions = ({
 
   const queryClient = trpc.useContext();
 
-  const mutation = trpc.useMutation(['question.answer'], {
-    onMutate: async ({ id, answered }) => {
+  const mutation = trpc.useMutation(['question.delete'], {
+    onMutate: async ({ id }) => {
       const args = { roomId: question.roomId, cursor, take };
 
       await queryClient.cancelQuery(['question.list', args]);
@@ -29,10 +29,7 @@ export const AnsweredActions = ({
 
       if (!previous) return {};
 
-      const next = [...previous];
-
-      const questionIndex = next.findIndex((entry) => entry.id === id);
-      next[questionIndex] = { ...question, answered };
+      const next = previous.filter((entry) => entry.id !== id);
 
       queryClient.setQueryData(['question.list', args], next);
 
@@ -50,19 +47,16 @@ export const AnsweredActions = ({
   });
 
   const handlePress = () => {
-    mutation.mutate({ answered: !question.answered, id: question.id });
+    mutation.mutate({ id: question.id });
   };
 
   return (
     <Actionsheet.Item
-      justifyContent="center"
-      startIcon={
-        question.answered ? <MinusIcon mt={1} /> : <CheckIcon mt={1} />
-      }
+      leftIcon={<DeleteIcon mt={1} />}
       isDisabled={mutation.isLoading}
       onPress={handlePress}
     >
-      {question.answered ? t('markAsUnanswered') : t('markAsAnswered')}
+      {t('delete')}
     </Actionsheet.Item>
   );
 };

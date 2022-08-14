@@ -41,11 +41,12 @@ export const en = {
         questionPlaceholder: 'Question',
         cancel: 'Cancel',
         save: 'Save',
-        header: 'Add room',
+        header: 'Add question',
       },
       Questions: {
         markAsAnswered: 'Mark as answered',
         markAsUnanswered: 'Mark as unanswered',
+        delete: 'Delete question',
       },
     },
     Rooms: {

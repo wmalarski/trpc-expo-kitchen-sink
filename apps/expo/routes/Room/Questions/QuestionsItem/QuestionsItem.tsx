@@ -11,6 +11,7 @@ import {
 } from 'native-base';
 import { ReactElement } from 'react';
 import { AnsweredActions } from './AnsweredActions/AnsweredActions';
+import { DeleteAction } from './DeleteAction/DeleteAction';
 import { useVoteToggleMutation } from './QuestionsItem.utils';
 import { ReactionButton } from './ReactionButton/ReactionButton';
 
@@ -89,8 +90,8 @@ export const QuestionsItem = ({
             ))}
           </HStack>
           <Divider />
-          <Actionsheet.Item>Delete</Actionsheet.Item>
           <AnsweredActions question={question} cursor={cursor} take={take} />
+          <DeleteAction question={question} cursor={cursor} take={take} />
         </Actionsheet.Content>
       </Actionsheet>
     </Box>
