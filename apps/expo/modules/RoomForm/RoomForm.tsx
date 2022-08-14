@@ -1,13 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { trpc } from '@tens/expo/utils/trpc';
 import {
   Button,
   Flex,
   FormControl,
   Input,
   TextArea,
-  useToast,
   VStack,
   WarningOutlineIcon,
 } from 'native-base';
@@ -15,51 +12,36 @@ import { ReactElement } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
-import type { RoomsNavigatorParams } from '../../../Router';
 
 const schema = z.object({
   title: z.string().min(1).max(32),
   description: z.string().min(0),
 });
 
-type FormData = z.infer<typeof schema>;
+export type RoomFormData = z.infer<typeof schema>;
 
 type Props = {
+  isLoading: boolean;
   onCancel: () => void;
+  onSubmit: (data: RoomFormData) => void;
+  submitText: string;
 };
 
-export const AddRoomForm = ({ onCancel }: Props): ReactElement => {
-  const { t } = useTranslation('common', { keyPrefix: 'Rooms.AddRoom' });
+export const RoomForm = ({
+  isLoading,
+  onCancel,
+  onSubmit,
+  submitText,
+}: Props): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'RoomForm' });
 
-  const navigation = useNavigation<NavigationProp<RoomsNavigatorParams>>();
-
-  const toast = useToast();
-
-  const queryClient = trpc.useContext();
-
-  const addRoomMutation = trpc.useMutation(['room.add'], {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['room.list']);
-      queryClient.setQueryData(['room.get', { id: data.room.id }], data.room);
-      toast.show({ description: t('successDesc'), title: t('successTitle') });
-      navigation.navigate('Room', { roomId: data.room.id });
-    },
-    onError: () => {
-      toast.show({ description: t('errorDesc'), title: t('errorTitle') });
-    },
-  });
-
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<RoomFormData>({
     resolver: zodResolver(schema as any),
     defaultValues: {
       title: '',
       description: '',
     },
   });
-
-  const onSubmit = (input: FormData) => {
-    addRoomMutation.mutate(input);
-  };
 
   return (
     <VStack space={2}>
@@ -115,11 +97,8 @@ export const AddRoomForm = ({ onCancel }: Props): ReactElement => {
         <Button variant="ghost" colorScheme="blueGray" onPress={onCancel}>
           {t('cancel')}
         </Button>
-        <Button
-          disabled={addRoomMutation.isLoading}
-          onPress={handleSubmit(onSubmit)}
-        >
-          {t('save')}
+        <Button disabled={isLoading} onPress={handleSubmit(onSubmit)}>
+          {submitText}
         </Button>
       </Flex>
     </VStack>

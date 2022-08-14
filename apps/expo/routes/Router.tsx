@@ -7,6 +7,7 @@ import { ReactElement } from 'react';
 import { Account } from './Account/Account';
 import { Room } from './Room/Room';
 import { Rooms } from './Rooms/Rooms';
+import { RoomSettings } from './RoomSettings/RoomSettings';
 import { SendLink } from './SendLink/SendLink';
 import { SignIn } from './SignIn/SignIn';
 import { SignUp } from './SignUp/SignUp';
@@ -14,6 +15,7 @@ import { SignUp } from './SignUp/SignUp';
 export type RoomsNavigatorParams = {
   Rooms: undefined;
   Room: { roomId: string };
+  RoomSettings: { roomId: string };
 };
 const RoomsStack = createStackNavigator<RoomsNavigatorParams>();
 
@@ -22,6 +24,7 @@ const RoomsRouter = (): ReactElement => {
     <RoomsStack.Navigator>
       <RoomsStack.Screen name="Rooms" component={Rooms} />
       <RoomsStack.Screen name="Room" component={Room} />
+      <RoomsStack.Screen name="RoomSettings" component={RoomSettings} />
     </RoomsStack.Navigator>
   );
 };
