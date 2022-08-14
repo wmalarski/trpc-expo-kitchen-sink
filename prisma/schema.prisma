@@ -31,6 +31,7 @@ model Member {
 
 model Question {
   id        String   @id @default(uuid())
+  answered  Boolean  @default(false)
   createdAt DateTime @default(now())
   content   String
   room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
