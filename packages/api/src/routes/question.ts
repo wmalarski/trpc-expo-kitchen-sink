@@ -58,18 +58,24 @@ export const questionRouter = t.router({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const questions = await ctx.prisma.question.findMany({
-        ...(input.cursor ? { cursor: { id: input.cursor } } : {}),
-        take: input.take,
-        orderBy: { votes: { _count: 'desc' } },
-        where: {
-          answered: input.answered,
-          roomId: input.roomId,
-          room: {
-            members: { some: { userId: ctx.user.id } },
+      const [questions, room] = await Promise.all([
+        ctx.prisma.question.findMany({
+          ...(input.cursor ? { cursor: { id: input.cursor } } : {}),
+          take: input.take,
+          orderBy: { votes: { _count: 'desc' } },
+          where: {
+            answered: input.answered,
+            roomId: input.roomId,
+            room: {
+              members: { some: { userId: ctx.user.id } },
+            },
           },
-        },
-      });
+        }),
+        ctx.prisma.room.findFirstOrThrow({
+          where: { id: input.roomId },
+          select: { userId: true },
+        }),
+      ]);
 
       const questionsIds = questions.map((question) => question.id);
 
@@ -97,6 +103,7 @@ export const questionRouter = t.router({
         ...question,
         counts: counts.filter((entry) => entry.questionId === question.id),
         vote: votes.find((vote) => vote.questionId === question.id),
+        canAnswer: room.userId === ctx.user.id,
       }));
     }),
 });

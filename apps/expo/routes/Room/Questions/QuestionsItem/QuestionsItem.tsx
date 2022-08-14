@@ -1,4 +1,5 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
+import { useAuthService } from '@tens/common/src/services/SessionService';
 import {
   Actionsheet,
   Box,
@@ -28,6 +29,9 @@ export const QuestionsItem = ({
   cursor,
   take,
 }: Props): ReactElement => {
+  const authService = useAuthService();
+  const userId = authService.session.user?.id;
+
   const { isOpen, onOpen, onClose } = useDisclose();
 
   const mutation = useVoteToggleMutation({ question, cursor, take });
@@ -90,8 +94,12 @@ export const QuestionsItem = ({
             ))}
           </HStack>
           <Divider />
-          <AnsweredActions question={question} cursor={cursor} take={take} />
-          <DeleteAction question={question} cursor={cursor} take={take} />
+          {question.canAnswer && (
+            <AnsweredActions question={question} cursor={cursor} take={take} />
+          )}
+          {(question.canAnswer || userId === question.userId) && (
+            <DeleteAction question={question} cursor={cursor} take={take} />
+          )}
         </Actionsheet.Content>
       </Actionsheet>
     </Box>
