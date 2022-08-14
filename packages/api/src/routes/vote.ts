@@ -10,11 +10,12 @@ export const voteRouter = t.router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.question.findFirstOrThrow({
-        where: {
-          id: input.questionId,
-          room: { members: { some: { id: ctx.user.id } } },
-        },
+      const question = await ctx.prisma.question.findFirstOrThrow({
+        where: { id: input.questionId },
+      });
+
+      await ctx.prisma.member.findFirstOrThrow({
+        where: { roomId: question.roomId, userId: ctx.user.id },
       });
 
       return ctx.prisma.vote.create({
@@ -41,7 +42,7 @@ export const voteRouter = t.router({
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.room.deleteMany({
+      return ctx.prisma.vote.deleteMany({
         where: { id: input.id, userId: ctx.user.id },
       });
     }),

@@ -58,19 +58,30 @@ export const questionRouter = t.router({
 
       const questionsIds = questions.map((question) => question.id);
 
-      const counts = await ctx.prisma.vote.groupBy({
-        by: ['content', 'questionId'],
-        _count: true,
-        where: {
-          questionId: {
-            in: questionsIds,
+      const [counts, votes] = await Promise.all([
+        ctx.prisma.vote.groupBy({
+          by: ['content', 'questionId'],
+          _count: true,
+          where: {
+            questionId: {
+              in: questionsIds,
+            },
           },
-        },
-      });
+        }),
+        ctx.prisma.vote.findMany({
+          where: {
+            userId: ctx.user.id,
+            questionId: {
+              in: questionsIds,
+            },
+          },
+        }),
+      ]);
 
       return questions.map((question) => ({
         ...question,
-        votes: counts.filter((entry) => entry.questionId === question.id) || [],
+        counts: counts.filter((entry) => entry.questionId === question.id),
+        vote: votes.find((vote) => vote.questionId === question.id),
       }));
     }),
 });
