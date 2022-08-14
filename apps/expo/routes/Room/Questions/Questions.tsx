@@ -8,10 +8,12 @@ type Props = {
   roomId: string;
 };
 
+const take = 10;
+
 export const Questions = ({ roomId }: Props): ReactElement => {
   const [cursor] = useState<string>();
 
-  const query = trpc.useQuery(['question.list', { cursor, take: 10, roomId }]);
+  const query = trpc.useQuery(['question.list', { cursor, take, roomId }]);
 
   if (query.status === 'loading' || query.status === 'idle') {
     return (
@@ -37,7 +39,9 @@ export const Questions = ({ roomId }: Props): ReactElement => {
         onRefresh={handleRefresh}
         refreshing={query.isFetching}
         height="full"
-        renderItem={({ item }) => <QuestionsItem question={item} />}
+        renderItem={({ item }) => (
+          <QuestionsItem question={item} cursor={cursor} take={take} />
+        )}
       />
     </SafeAreaView>
   );

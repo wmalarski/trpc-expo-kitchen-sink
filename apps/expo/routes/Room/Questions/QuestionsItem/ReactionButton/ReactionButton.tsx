@@ -20,7 +20,7 @@ export const ReactionButton = ({
   return (
     <TouchableOpacity onPress={onPress}>
       <Text bg={isSelected ? 'gray.200' : 'gray.100'} p={2} borderRadius="full">
-        {`${reaction}${counts ? ` ${counts._count}` : ''}`}
+        {`${reaction}${counts?._count ? ` ${counts._count}` : ''}`}
       </Text>
     </TouchableOpacity>
   );
