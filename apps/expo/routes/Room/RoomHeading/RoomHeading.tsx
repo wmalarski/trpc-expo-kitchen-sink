@@ -1,6 +1,15 @@
 import { trpc } from '@tens/expo/utils/trpc';
-import { Center, Heading, Spinner, Text, VStack } from 'native-base';
+import {
+  Center,
+  Flex,
+  Heading,
+  HStack,
+  Spinner,
+  Text,
+  VStack,
+} from 'native-base';
 import { ReactElement } from 'react';
+import { RoomActions } from './RoomActions/RoomActions';
 
 type Props = {
   roomId: string;
@@ -22,9 +31,14 @@ export const RoomHeading = ({ roomId }: Props): ReactElement => {
   }
 
   return (
-    <VStack space={2}>
-      <Heading>{query.data.title}</Heading>
-      <Text>{query.data.description}</Text>
-    </VStack>
+    <HStack>
+      <VStack space={2} width="4/5">
+        <Heading>{query.data.title}</Heading>
+        <Text>{query.data.description}</Text>
+      </VStack>
+      <Flex align="flex-end" flexGrow={1}>
+        <RoomActions room={query.data} />
+      </Flex>
+    </HStack>
   );
 };

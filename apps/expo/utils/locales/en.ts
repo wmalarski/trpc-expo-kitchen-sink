@@ -48,6 +48,13 @@ export const en = {
         markAsUnanswered: 'Mark as unanswered',
         delete: 'Delete question',
       },
+      RoomHeading: {
+        copyLink: 'Copy link',
+        showAll: 'Show all',
+        showAnswered: 'Show answered',
+        showUnanswered: 'Show unanswered',
+        deleteRoom: 'Delete room',
+      },
     },
     Rooms: {
       AddRoom: {
