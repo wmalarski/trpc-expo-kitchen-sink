@@ -35,12 +35,26 @@ export const questionRouter = t.router({
         },
       });
     }),
+  answer: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().uuid(),
+        answered: z.boolean(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.question.update({
+        where: { id: input.id },
+        data: { answered: input.answered },
+      });
+    }),
   list: protectedProcedure
     .input(
       z.object({
         roomId: z.string().uuid(),
         cursor: z.string().uuid().optional(),
         take: z.number().min(0),
+        answered: z.boolean().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -49,6 +63,7 @@ export const questionRouter = t.router({
         take: input.take,
         orderBy: { votes: { _count: 'desc' } },
         where: {
+          answered: input.answered,
           roomId: input.roomId,
           room: {
             members: { some: { userId: ctx.user.id } },

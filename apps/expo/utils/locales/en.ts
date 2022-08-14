@@ -43,6 +43,10 @@ export const en = {
         save: 'Save',
         header: 'Add room',
       },
+      Questions: {
+        markAsAnswered: 'Mark as answered',
+        markAsUnanswered: 'Mark as unanswered',
+      },
     },
     Rooms: {
       AddRoom: {
