@@ -1,5 +1,5 @@
 import { trpc } from '@tens/expo/utils/trpc';
-import { Center, FlatList, Spinner, Text } from 'native-base';
+import { FlatList, Skeleton, Text, VStack } from 'native-base';
 import { ReactElement, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
@@ -21,9 +21,11 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
 
   if (query.status === 'loading' || query.status === 'idle') {
     return (
-      <Center>
-        <Spinner size="lg" />
-      </Center>
+      <VStack space={2} pt={2}>
+        {[1, 2, 3, 4].map((entry) => (
+          <Skeleton height="24" key={entry} />
+        ))}
+      </VStack>
     );
   }
 

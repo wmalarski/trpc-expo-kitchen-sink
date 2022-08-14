@@ -1,13 +1,5 @@
 import { trpc } from '@tens/expo/utils/trpc';
-import {
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Spinner,
-  Text,
-  VStack,
-} from 'native-base';
+import { Flex, Heading, HStack, Skeleton, Text, VStack } from 'native-base';
 import { ReactElement } from 'react';
 import { RoomActions } from './RoomActions/RoomActions';
 
@@ -24,9 +16,15 @@ export const RoomHeading = ({
 
   if (query.status === 'loading' || query.status === 'idle') {
     return (
-      <Center>
-        <Spinner size="lg" />
-      </Center>
+      <HStack>
+        <VStack space={2} width="4/5">
+          <Skeleton.Text lines={1} _line={{ height: '8' }} />
+          <Skeleton.Text lines={2} />
+        </VStack>
+        <Flex align="flex-end" flexGrow={1}>
+          <Skeleton borderRadius="full" width="10" height="10" />
+        </Flex>
+      </HStack>
     );
   }
 
