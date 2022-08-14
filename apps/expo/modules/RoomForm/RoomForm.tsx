@@ -21,6 +21,7 @@ const schema = z.object({
 export type RoomFormData = z.infer<typeof schema>;
 
 type Props = {
+  defaultValues?: RoomFormData;
   isLoading: boolean;
   onCancel: () => void;
   onSubmit: (data: RoomFormData) => void;
@@ -28,6 +29,7 @@ type Props = {
 };
 
 export const RoomForm = ({
+  defaultValues,
   isLoading,
   onCancel,
   onSubmit,
@@ -37,7 +39,7 @@ export const RoomForm = ({
 
   const { control, handleSubmit } = useForm<RoomFormData>({
     resolver: zodResolver(schema as any),
-    defaultValues: {
+    defaultValues: defaultValues || {
       title: '',
       description: '',
     },
@@ -97,7 +99,11 @@ export const RoomForm = ({
         <Button variant="ghost" colorScheme="blueGray" onPress={onCancel}>
           {t('cancel')}
         </Button>
-        <Button disabled={isLoading} onPress={handleSubmit(onSubmit)}>
+        <Button
+          disabled={isLoading}
+          isLoading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+        >
           {submitText}
         </Button>
       </Flex>

@@ -1,17 +1,23 @@
 import { Room } from '@prisma/client';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RoomForm, RoomFormData } from '@tens/expo/modules/RoomForm/RoomForm';
 import { trpc } from '@tens/expo/utils/trpc';
 import { Heading, useToast } from 'native-base';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native';
+import type { RoomsNavigatorParams } from '../../Router';
 
 type Props = {
   room: Room;
 };
 
 export const EditRoom = ({ room }: Props): ReactElement => {
-  const { t } = useTranslation('common', { keyPrefix: 'EditRoom' });
+  const { t } = useTranslation('common', {
+    keyPrefix: 'RoomSettings.EditRoom',
+  });
+
+  const navigation = useNavigation<NavigationProp<RoomsNavigatorParams>>();
 
   const toast = useToast();
 
@@ -34,13 +40,14 @@ export const EditRoom = ({ room }: Props): ReactElement => {
   };
 
   const handleCancel = () => {
-    //
+    navigation.navigate('Room', { roomId: room.id });
   };
 
   return (
     <SafeAreaView>
-      <Heading>Update room</Heading>
+      <Heading size="md">{t('header')}</Heading>
       <RoomForm
+        defaultValues={room}
         isLoading={mutation.isLoading}
         onCancel={handleCancel}
         onSubmit={handleSubmit}

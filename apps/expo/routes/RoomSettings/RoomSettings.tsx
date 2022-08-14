@@ -1,9 +1,10 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { trpc } from '@tens/expo/utils/trpc';
-import { Flex, Heading, HStack, Skeleton, Text, VStack } from 'native-base';
+import { Heading, Skeleton, Text, VStack } from 'native-base';
 import { ReactElement } from 'react';
 import { SafeAreaView } from 'react-native';
 import type { RoomsNavigatorParams } from '../Router';
+import { EditRoom } from './EditRoom/EditRoom';
 
 export const RoomSettings = ({
   route,
@@ -15,15 +16,12 @@ export const RoomSettings = ({
   if (query.status === 'loading' || query.status === 'idle') {
     return (
       <SafeAreaView>
-        <HStack>
-          <VStack space={2} width="4/5">
-            <Skeleton.Text lines={1} _line={{ height: '8' }} />
-            <Skeleton.Text lines={2} />
-          </VStack>
-          <Flex align="flex-end" flexGrow={1}>
-            <Skeleton borderRadius="full" width="10" height="10" />
-          </Flex>
-        </HStack>
+        <VStack p={4} space={2}>
+          <Skeleton.Text lines={1} _line={{ height: '8' }} />
+          <Skeleton.Text lines={2} pb={4} pt={2} />
+          <Skeleton.Text lines={1} _line={{ height: '8' }} />
+          <Skeleton.Text lines={4} pb={4} pt={2} />
+        </VStack>
       </SafeAreaView>
     );
   }
@@ -34,9 +32,10 @@ export const RoomSettings = ({
 
   return (
     <SafeAreaView>
-      <VStack space={2} width="4/5">
+      <VStack p={4} space={2}>
         <Heading>{query.data.title}</Heading>
-        <Text>{query.data.description}</Text>
+        <Text pb={4}>{query.data.description}</Text>
+        <EditRoom room={query.data} />
       </VStack>
     </SafeAreaView>
   );

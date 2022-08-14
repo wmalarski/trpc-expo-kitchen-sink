@@ -1,6 +1,7 @@
 import type { StackScreenProps } from '@react-navigation/stack';
 import { VStack } from 'native-base';
 import { ReactElement, useState } from 'react';
+import { SafeAreaView } from 'react-native';
 import type { RoomsNavigatorParams } from '../Router';
 import { AddQuestion } from './AddQuestion/AddQuestion';
 import { Questions } from './Questions/Questions';
@@ -14,10 +15,12 @@ export const Room = ({
   const [showAnswered, setShowAnswered] = useState<boolean>();
 
   return (
-    <VStack p={4} space={2}>
-      <RoomHeading roomId={roomId} onShowAnsweredChange={setShowAnswered} />
-      <Questions roomId={roomId} showAnswered={showAnswered} />
-      <AddQuestion roomId={roomId} />
-    </VStack>
+    <SafeAreaView>
+      <VStack p={4} space={2}>
+        <RoomHeading roomId={roomId} onShowAnsweredChange={setShowAnswered} />
+        <Questions roomId={roomId} showAnswered={showAnswered} />
+        <AddQuestion roomId={roomId} />
+      </VStack>
+    </SafeAreaView>
   );
 };

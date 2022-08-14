@@ -54,6 +54,7 @@ export const en = {
         showAnswered: 'Show answered',
         showUnanswered: 'Show unanswered',
         deleteRoom: 'Delete room',
+        roomSettings: 'Room settings',
       },
     },
     RoomForm: {
@@ -71,6 +72,15 @@ export const en = {
         header: 'Add Room',
       },
     },
-    EditRoom: {},
+    RoomSettings: {
+      EditRoom: {
+        successTitle: 'Success',
+        successDesc: 'Room updated',
+        errorTitle: 'Error',
+        errorDesc: 'Something went wrong',
+        save: 'Save',
+        header: 'Update Room',
+      },
+    },
   },
 };

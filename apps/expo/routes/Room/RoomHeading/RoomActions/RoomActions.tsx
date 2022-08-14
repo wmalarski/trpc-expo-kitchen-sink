@@ -1,11 +1,14 @@
 import { Room } from '@prisma/client';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useAuthService } from '@tens/common/src/services/SessionService';
+import type { RoomsNavigatorParams } from '@tens/expo/routes/Router';
 import {
   Actionsheet,
   Box,
   CheckIcon,
   CircleIcon,
   Divider,
+  InfoIcon,
   QuestionIcon,
   ShareIcon,
   ThreeDotsIcon,
@@ -27,13 +30,19 @@ export const RoomActions = ({
 }: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Room.RoomHeading' });
 
+  const navigation = useNavigation<NavigationProp<RoomsNavigatorParams>>();
+
   const authService = useAuthService();
   const userId = authService.session.user?.id;
 
   const { isOpen, onOpen, onClose } = useDisclose();
 
+  const handleRoomSettingsPress = () => {
+    navigation.navigate('RoomSettings', { roomId: room.id });
+  };
+
   return (
-    <>
+    <Box>
       <TouchableOpacity onPress={onOpen}>
         <Box
           bg={isOpen ? 'gray.300' : 'gray.200'}
@@ -72,10 +81,16 @@ export const RoomActions = ({
             <>
               <Divider />
               <DeleteRoomAction room={room} onClose={onClose} />
+              <Actionsheet.Item
+                onPress={handleRoomSettingsPress}
+                startIcon={<InfoIcon mt={1} />}
+              >
+                {t('roomSettings')}
+              </Actionsheet.Item>
             </>
           )}
         </Actionsheet.Content>
       </Actionsheet>
-    </>
+    </Box>
   );
 };
