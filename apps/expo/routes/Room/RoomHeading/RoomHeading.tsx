@@ -13,9 +13,13 @@ import { RoomActions } from './RoomActions/RoomActions';
 
 type Props = {
   roomId: string;
+  onShowAnsweredChange: (showAnswered?: boolean) => void;
 };
 
-export const RoomHeading = ({ roomId }: Props): ReactElement => {
+export const RoomHeading = ({
+  roomId,
+  onShowAnsweredChange,
+}: Props): ReactElement => {
   const query = trpc.useQuery(['room.get', { id: roomId }]);
 
   if (query.status === 'loading' || query.status === 'idle') {
@@ -37,7 +41,10 @@ export const RoomHeading = ({ roomId }: Props): ReactElement => {
         <Text>{query.data.description}</Text>
       </VStack>
       <Flex align="flex-end" flexGrow={1}>
-        <RoomActions room={query.data} />
+        <RoomActions
+          room={query.data}
+          onShowAnsweredChange={onShowAnsweredChange}
+        />
       </Flex>
     </HStack>
   );

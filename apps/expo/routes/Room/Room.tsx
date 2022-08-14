@@ -1,6 +1,6 @@
 import type { DrawerScreenProps } from '@react-navigation/drawer';
 import { VStack } from 'native-base';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import type { RoomsNavigatorParams } from '../Router';
 import { AddQuestion } from './AddQuestion/AddQuestion';
 import { Questions } from './Questions/Questions';
@@ -11,10 +11,12 @@ export const Room = ({
 }: DrawerScreenProps<RoomsNavigatorParams, 'Room'>): ReactElement => {
   const roomId = route.params.roomId;
 
+  const [showAnswered, setShowAnswered] = useState<boolean>();
+
   return (
     <VStack p={4} space={2}>
-      <RoomHeading roomId={roomId} />
-      <Questions roomId={roomId} />
+      <RoomHeading roomId={roomId} onShowAnsweredChange={setShowAnswered} />
+      <Questions roomId={roomId} showAnswered={showAnswered} />
       <AddQuestion roomId={roomId} />
     </VStack>
   );

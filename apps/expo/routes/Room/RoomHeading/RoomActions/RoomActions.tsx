@@ -18,9 +18,13 @@ import { DeleteRoomAction } from './DeleteRoomAction/DeleteRoomAction';
 
 type Props = {
   room: Room;
+  onShowAnsweredChange: (showAnswered?: boolean) => void;
 };
 
-export const RoomActions = ({ room }: Props): ReactElement => {
+export const RoomActions = ({
+  room,
+  onShowAnsweredChange,
+}: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Room.RoomHeading' });
 
   const authService = useAuthService();
@@ -46,13 +50,22 @@ export const RoomActions = ({ room }: Props): ReactElement => {
             {t('copyLink')}
           </Actionsheet.Item>
           <Divider />
-          <Actionsheet.Item startIcon={<CircleIcon mt={1} />}>
+          <Actionsheet.Item
+            onPress={() => onShowAnsweredChange()}
+            startIcon={<CircleIcon mt={1} />}
+          >
             {t('showAll')}
           </Actionsheet.Item>
-          <Actionsheet.Item startIcon={<CheckIcon mt={1} />}>
+          <Actionsheet.Item
+            onPress={() => onShowAnsweredChange(true)}
+            startIcon={<CheckIcon mt={1} />}
+          >
             {t('showAnswered')}
           </Actionsheet.Item>
-          <Actionsheet.Item startIcon={<QuestionIcon mt={1} />}>
+          <Actionsheet.Item
+            onPress={() => onShowAnsweredChange(false)}
+            startIcon={<QuestionIcon mt={1} />}
+          >
             {t('showUnanswered')}
           </Actionsheet.Item>
           {room.userId === userId && (

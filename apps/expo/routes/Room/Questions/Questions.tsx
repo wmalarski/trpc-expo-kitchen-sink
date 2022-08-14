@@ -6,14 +6,18 @@ import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
 type Props = {
   roomId: string;
+  showAnswered?: boolean;
 };
 
 const take = 10;
 
-export const Questions = ({ roomId }: Props): ReactElement => {
+export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
   const [cursor] = useState<string>();
 
-  const query = trpc.useQuery(['question.list', { cursor, take, roomId }]);
+  const query = trpc.useQuery([
+    'question.list',
+    { cursor, take, roomId, answered: showAnswered },
+  ]);
 
   if (query.status === 'loading' || query.status === 'idle') {
     return (
