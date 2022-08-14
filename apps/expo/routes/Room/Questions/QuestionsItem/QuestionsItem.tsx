@@ -24,22 +24,14 @@ export const QuestionsItem = ({ question }: Props): ReactElement => {
 
   const queryClient = trpc.useContext();
 
-  const onSuccess = () => {
-    queryClient.invalidateQueries(['question.list']);
-  };
-
-  const addMutation = trpc.useMutation(['vote.add'], { onSuccess });
-  const deleteMutation = trpc.useMutation(['vote.delete'], { onSuccess });
-  const updateMutation = trpc.useMutation(['vote.update'], { onSuccess });
+  const mutation = trpc.useMutation(['vote.toggle'], {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['question.list']);
+    },
+  });
 
   const handleReactionClick = (content: string) => {
-    if (!question.vote) {
-      addMutation.mutate({ content, questionId: question.id });
-    } else if (question.vote.content === content) {
-      deleteMutation.mutate({ id: question.vote.id });
-    } else {
-      updateMutation.mutate({ content, id: question.vote.id });
-    }
+    mutation.mutate({ content, questionId: question.id });
   };
 
   const votesCount = question.counts.reduce(
