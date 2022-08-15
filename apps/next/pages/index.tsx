@@ -1,9 +1,10 @@
 import { useSessionStatus } from '@tens/common/src/services/SessionService';
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import { Loader } from '../modules/Loader/Loader';
+import { Loader } from '../components/Loader/Loader';
+import { AddRoom } from '../modules/AddRoom/AddRoom';
 import { Logout } from '../modules/Logout/Logout';
-import { RoomList } from '../modules/RoomList/RoomList';
+import { Rooms } from '../modules/Rooms/Rooms';
 import { useProtectedPath } from '../utils/paths';
 
 const IndexPage = (): ReactElement => {
@@ -20,7 +21,8 @@ const IndexPage = (): ReactElement => {
       {sessionStatus === 'idle' && <Loader />}
       {sessionStatus === 'auth' && (
         <>
-          <RoomList />
+          <Rooms />
+          <AddRoom />
           <Logout />
         </>
       )}

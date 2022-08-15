@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 export const paths = {
   index: '/',
   login: '/login',
+  room: (id: string) => `/room/${id}`,
 };
 
 export const usePublicPath = () => {

@@ -1,6 +1,6 @@
 import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement } from 'react';
-import { RoomForm } from '../../RoomForm/RoomForm';
+import { RoomForm } from '../RoomForm/RoomForm';
 
 export const AddRoom = (): ReactElement => {
   const client = trpc.useContext();
