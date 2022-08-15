@@ -1,16 +1,17 @@
 import { useAnonService } from '@tens/common/src/services/SessionService';
+import clsx from 'clsx';
 import { ReactElement, useState } from 'react';
 import { useMutation } from 'react-query';
 
 export const SendMagicLink = (): ReactElement => {
   const anonService = useAnonService();
 
-  const signInMutation = useMutation(anonService.signIn);
+  const mutation = useMutation(anonService.signIn);
 
   const [email, setEmail] = useState('');
 
   const handleSendClick = () => {
-    signInMutation.mutate({ email });
+    mutation.mutate({ email });
   };
 
   return (
@@ -26,13 +27,11 @@ export const SendMagicLink = (): ReactElement => {
       </div>
       <div>
         <button
-          className="btn"
+          className={clsx('btn btn-primary', { loading: mutation.isLoading })}
           onClick={handleSendClick}
-          disabled={signInMutation.isLoading}
+          disabled={mutation.isLoading}
         >
-          <span>
-            {signInMutation.isLoading ? 'Loading' : 'Send magic link'}
-          </span>
+          <span>{mutation.isLoading ? 'Loading' : 'Send magic link'}</span>
         </button>
       </div>
     </div>

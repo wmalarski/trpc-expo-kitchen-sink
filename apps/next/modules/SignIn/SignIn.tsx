@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAnonService } from '@tens/common/src/services/SessionService';
+import clsx from 'clsx';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -60,7 +61,7 @@ export const SignIn = (): ReactElement => {
           </div>
 
           <button
-            className="btn btn-primary"
+            className={clsx('btn btn-primary', { loading: mutation.isLoading })}
             type="submit"
             disabled={mutation.isLoading}
           >

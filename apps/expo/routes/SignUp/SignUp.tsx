@@ -30,7 +30,7 @@ export const SignUp = (): ReactElement => {
 
   const anonService = useAnonService();
 
-  const signInMutation = useMutation(anonService.signUp);
+  const mutation = useMutation(anonService.signUp);
 
   const { control, handleSubmit } = useForm<SignUpFormData>({
     resolver: zodResolver(schema as any),
@@ -38,7 +38,7 @@ export const SignUp = (): ReactElement => {
   });
 
   const onSubmit = (input: SignUpFormData) => {
-    signInMutation.mutate(input);
+    mutation.mutate(input);
   };
 
   return (
@@ -100,10 +100,7 @@ export const SignUp = (): ReactElement => {
       />
 
       <VStack pt={2} space={2}>
-        <Button
-          disabled={signInMutation.isLoading}
-          onPress={handleSubmit(onSubmit)}
-        >
+        <Button disabled={mutation.isLoading} onPress={handleSubmit(onSubmit)}>
           {t('signUp')}
         </Button>
 

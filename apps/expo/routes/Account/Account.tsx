@@ -9,15 +9,15 @@ export const Account = (): ReactElement => {
 
   const authService = useAuthService();
 
-  const signOutMutation = useMutation(authService.signOut);
+  const mutation = useMutation(authService.signOut);
 
   const handleSignOutPress = () => {
-    signOutMutation.mutate();
+    mutation.mutate();
   };
 
   return (
     <VStack p={4} pt={12} space={4}>
-      <Button disabled={signOutMutation.isLoading} onPress={handleSignOutPress}>
+      <Button disabled={mutation.isLoading} onPress={handleSignOutPress}>
         {t('signOut')}
       </Button>
     </VStack>

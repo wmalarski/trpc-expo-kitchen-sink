@@ -29,7 +29,7 @@ export const SendLink = (): ReactElement => {
 
   const anonService = useAnonService();
 
-  const signInMutation = useMutation(anonService.signIn);
+  const mutation = useMutation(anonService.signIn);
 
   const { control, handleSubmit } = useForm<SendLinkFormData>({
     resolver: zodResolver(schema as any),
@@ -37,7 +37,7 @@ export const SendLink = (): ReactElement => {
   });
 
   const onSubmit = (input: SendLinkFormData) => {
-    signInMutation.mutate(input);
+    mutation.mutate(input);
   };
 
   return (
@@ -70,10 +70,7 @@ export const SendLink = (): ReactElement => {
       />
 
       <VStack space={2} pt={2}>
-        <Button
-          disabled={signInMutation.isLoading}
-          onPress={handleSubmit(onSubmit)}
-        >
+        <Button disabled={mutation.isLoading} onPress={handleSubmit(onSubmit)}>
           {t('sendLink')}
         </Button>
         <HStack pt={2} alignItems="center" space={1} justifyContent="center">

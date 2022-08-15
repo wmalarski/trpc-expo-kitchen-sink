@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { DefaultErrorShape } from '@trpc/server';
+import clsx from 'clsx';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -61,7 +62,11 @@ export const RoomForm = ({
         />
       </div>
 
-      <button className="btn btn-primary" type="submit" disabled={isLoading}>
+      <button
+        className={clsx('btn btn-primary', { loading: isLoading })}
+        type="submit"
+        disabled={isLoading}
+      >
         {submitText}
       </button>
 
