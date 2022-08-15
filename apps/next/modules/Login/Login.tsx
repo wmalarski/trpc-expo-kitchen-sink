@@ -20,6 +20,7 @@ export const Login = (): ReactElement => {
         <p>Sign in via magic link with your email below</p>
         <div>
           <input
+            className="input"
             type="email"
             placeholder="Your email"
             value={email}
@@ -27,7 +28,11 @@ export const Login = (): ReactElement => {
           />
         </div>
         <div>
-          <button onClick={handleSendClick} disabled={signInMutation.isLoading}>
+          <button
+            className="btn"
+            onClick={handleSendClick}
+            disabled={signInMutation.isLoading}
+          >
             <span>
               {signInMutation.isLoading ? 'Loading' : 'Send magic link'}
             </span>

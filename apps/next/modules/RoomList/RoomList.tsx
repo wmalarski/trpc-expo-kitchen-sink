@@ -1,7 +1,7 @@
 import { trpc } from '@tens/next/utils/trpc';
 import Link from 'next/link';
 import { ReactElement } from 'react';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { AddRoom } from './AddRoom/AddRoom';
 
 export const RoomList = (): ReactElement => {
   const client = trpc.useContext();
@@ -16,12 +16,6 @@ export const RoomList = (): ReactElement => {
       },
     },
   );
-
-  const addPost = trpc.proxy.room.add.useMutation({
-    onSettled() {
-      return client.invalidateQueries(['room.list']);
-    },
-  });
 
   return (
     <>
@@ -43,53 +37,7 @@ export const RoomList = (): ReactElement => {
           </Link>
         </article>
       ))}
-
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          /**
-           * In a real app you probably don't want to use this manually
-           * Checkout React Hook Form - it works great with tRPC
-           * @link https://react-hook-form.com/
-           */
-
-          const $text: HTMLInputElement = (e as any).target.elements.text;
-          const $title: HTMLInputElement = (e as any).target.elements.title;
-          const input = {
-            title: $title.value,
-            description: $text.value,
-          };
-          try {
-            await addPost.mutateAsync(input);
-
-            $title.value = '';
-            $text.value = '';
-          } catch {}
-        }}
-      >
-        <label htmlFor="title">Title:</label>
-        <br />
-        <input
-          id="title"
-          name="title"
-          type="text"
-          disabled={addPost.isLoading}
-        />
-
-        <br />
-        <label htmlFor="text">Text:</label>
-        <br />
-        <textarea id="text" name="text" disabled={addPost.isLoading} />
-        <br />
-        <input type="submit" disabled={addPost.isLoading} />
-        {addPost.error && (
-          <p style={{ color: 'red' }}>{addPost.error.message}</p>
-        )}
-      </form>
-
-      {process.env.NODE_ENV !== 'production' && (
-        <ReactQueryDevtools initialIsOpen={false} />
-      )}
+      <AddRoom />
     </>
   );
 };

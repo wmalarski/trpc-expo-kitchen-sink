@@ -21,7 +21,7 @@ export const Logout = (): ReactElement => {
 
   return (
     <button
-      className="bg-red-400"
+      className="btn"
       disabled={signOutMutation.isLoading}
       onClick={handleSignOutPress}
     >
