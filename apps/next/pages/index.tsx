@@ -1,11 +1,11 @@
 import { useSessionStatus } from '@tens/common/src/services/SessionService';
+import { Loader } from '@tens/next/components/Loader/Loader';
+import { AddRoom } from '@tens/next/modules/AddRoom/AddRoom';
+import { Navbar } from '@tens/next/modules/Navbar/Navbar';
+import { Rooms } from '@tens/next/modules/Rooms/Rooms';
+import { useProtectedPath } from '@tens/next/utils/paths';
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import { Loader } from '../components/Loader/Loader';
-import { AddRoom } from '../modules/AddRoom/AddRoom';
-import { Logout } from '../modules/Logout/Logout';
-import { Rooms } from '../modules/Rooms/Rooms';
-import { useProtectedPath } from '../utils/paths';
 
 const IndexPage = (): ReactElement => {
   useProtectedPath();
@@ -21,9 +21,11 @@ const IndexPage = (): ReactElement => {
       {sessionStatus === 'idle' && <Loader />}
       {sessionStatus === 'auth' && (
         <>
-          <Rooms />
-          <AddRoom />
-          <Logout />
+          <Navbar />
+          <div className="flex flex-col gap-2 p-4">
+            <Rooms />
+            <AddRoom />
+          </div>
         </>
       )}
     </>

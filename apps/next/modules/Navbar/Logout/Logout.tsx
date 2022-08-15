@@ -22,7 +22,7 @@ export const Logout = (): ReactElement => {
 
   return (
     <button
-      className={clsx('btn btn-primary', { loading: mutation.isLoading })}
+      className={clsx('btn', { loading: mutation.isLoading })}
       disabled={mutation.isLoading}
       onClick={handleSignOutPress}
     >

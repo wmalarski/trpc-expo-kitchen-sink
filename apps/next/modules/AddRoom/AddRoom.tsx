@@ -12,8 +12,8 @@ export const AddRoom = (): ReactElement => {
   });
 
   return (
-    <div className="card card-compact max-w-lg">
-      <div className="card-body bg-gray-900">
+    <div className="card">
+      <div className="card-body bg-base-300">
         <h2 className="card-title">Add room</h2>
         <RoomForm
           isLoading={mutation.isLoading}

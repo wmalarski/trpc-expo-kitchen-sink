@@ -15,7 +15,7 @@ export const QuestionsItem = ({ question }: Props): ReactElement => {
 
   return (
     <div className="card">
-      <div className="card-body bg-gray-900">
+      <div className="card-body bg-base-300">
         <div className="card-title">
           <span>{votesCount}</span>
           <span>{question.content}</span>

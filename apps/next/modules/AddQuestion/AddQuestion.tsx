@@ -38,8 +38,9 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
     <div className="card">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 card-body bg-gray-900"
+        className="flex flex-col gap-4 card-body bg-base-300"
       >
+        <h2 className="card-title">Add question</h2>
         <div className="form-control w-full">
           <label className="label label-text" htmlFor="question">
             Question

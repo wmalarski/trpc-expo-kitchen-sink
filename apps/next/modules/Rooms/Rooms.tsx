@@ -27,10 +27,12 @@ export const Rooms = (): ReactElement => {
 
   return (
     <>
-      <h2>Posts</h2>
-      {query.data?.map((room) => (
-        <RoomsItem key={room.id} room={room} />
-      ))}
+      <h2 className="text-2xl p-2 font-bold">Rooms</h2>
+      <div className="flex flex-col gap-2">
+        {query.data?.map((room) => (
+          <RoomsItem key={room.id} room={room} />
+        ))}
+      </div>
     </>
   );
 };

@@ -19,10 +19,9 @@ export const RoomHeading = ({ roomId }: Props): ReactElement => {
   }
 
   return (
-    <>
-      <h1>{query.data.title}</h1>
-      <h2>Raw data:</h2>
-      <pre>{JSON.stringify(query.data, null, 4)}</pre>
-    </>
+    <div className="flex flex-col gap-2 p-2">
+      <h1 className="text-2xl font-bold">{query.data.title}</h1>
+      <p>{query.data.description}</p>
+    </div>
   );
 };
