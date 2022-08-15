@@ -1,6 +1,6 @@
+import { Loader } from '@tens/next/components/Loader/Loader';
 import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement } from 'react';
-import { Loader } from '../../components/Loader/Loader';
 import { RoomsItem } from './RoomsItem/RoomsItem';
 
 export const Rooms = (): ReactElement => {

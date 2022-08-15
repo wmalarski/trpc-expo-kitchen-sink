@@ -1,6 +1,6 @@
+import { trpc } from '@tens/next/utils/trpc';
 import NextError from 'next/error';
 import { ReactElement } from 'react';
-import { trpc } from '../../utils/trpc';
 
 type Props = {
   roomId: string;

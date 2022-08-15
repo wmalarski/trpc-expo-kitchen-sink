@@ -1,9 +1,9 @@
 import { Room } from '@prisma/client';
 import { NavigationProp, useNavigation } from '@react-navigation/core';
+import type { RoomsNavigatorParams } from '@tens/expo/routes/Router';
 import { Box, Heading, Text, VStack } from 'native-base';
 import { ReactElement } from 'react';
 import { TouchableOpacity } from 'react-native';
-import type { RoomsNavigatorParams } from '../../Router';
 
 type Props = {
   room: Room;

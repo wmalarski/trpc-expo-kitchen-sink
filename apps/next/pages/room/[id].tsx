@@ -1,10 +1,10 @@
+import { AddQuestion } from '@tens/next/modules/AddQuestion/AddQuestion';
+import { Questions } from '@tens/next/modules/Questions/Questions';
+import { RoomHeading } from '@tens/next/modules/RoomHeading/RoomHeading';
+import { useProtectedPath } from '@tens/next/utils/paths';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import { AddQuestion } from '../../modules/AddQuestion/AddQuestion';
-import { Questions } from '../../modules/Questions/Questions';
-import { RoomHeading } from '../../modules/RoomHeading/RoomHeading';
-import { useProtectedPath } from '../../utils/paths';
 
 const RoomPage = (): ReactElement => {
   useProtectedPath();
@@ -17,9 +17,11 @@ const RoomPage = (): ReactElement => {
         <title>Prisma Starter</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <RoomHeading roomId={roomId} />
-      <Questions roomId={roomId} />
-      <AddQuestion roomId={roomId} />
+      <div className="flex flex-col gap-2 p-4">
+        <RoomHeading roomId={roomId} />
+        <Questions roomId={roomId} />
+        <AddQuestion roomId={roomId} />
+      </div>
     </>
   );
 };

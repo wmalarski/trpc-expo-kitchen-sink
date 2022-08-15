@@ -1,6 +1,6 @@
+import { Loader } from '@tens/next/components/Loader/Loader';
+import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement, useState } from 'react';
-import { Loader } from '../../components/Loader/Loader';
-import { trpc } from '../../utils/trpc';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
 type Props = {

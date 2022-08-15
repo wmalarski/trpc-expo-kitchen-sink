@@ -1,8 +1,8 @@
 import { useAuthService } from '@tens/common/src/services/SessionService';
+import { paths } from '@tens/next/utils/paths';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import { useMutation } from 'react-query';
-import { paths } from '../../utils/paths';
 
 export const Logout = (): ReactElement => {
   const router = useRouter();

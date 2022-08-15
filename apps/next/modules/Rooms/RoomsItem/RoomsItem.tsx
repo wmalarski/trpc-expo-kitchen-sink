@@ -1,7 +1,7 @@
 import { Room } from '@prisma/client';
+import { paths } from '@tens/next/utils/paths';
 import Link from 'next/link';
 import { ReactElement } from 'react';
-import { paths } from '../../../utils/paths';
 
 type Props = {
   room: Room;

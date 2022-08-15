@@ -1,10 +1,10 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RoomForm, RoomFormData } from '@tens/expo/modules/RoomForm/RoomForm';
+import type { RoomsNavigatorParams } from '@tens/expo/routes/Router';
 import { trpc } from '@tens/expo/utils/trpc';
 import { AddIcon, Box, Fab, Modal, useDisclose, useToast } from 'native-base';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { RoomsNavigatorParams } from '../../Router';
 
 export const AddRoom = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Rooms.AddRoom' });
