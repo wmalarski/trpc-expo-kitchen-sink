@@ -23,7 +23,7 @@ const schema = z.object({
   password: z.string().min(6),
 });
 
-type FormData = z.infer<typeof schema>;
+type SignUpFormData = z.infer<typeof schema>;
 
 export const SignUp = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'SignUp' });
@@ -32,12 +32,12 @@ export const SignUp = (): ReactElement => {
 
   const signInMutation = useMutation(anonService.signUp);
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<SignUpFormData>({
     resolver: zodResolver(schema as any),
     defaultValues: { email: '', password: '' },
   });
 
-  const onSubmit = (input: FormData) => {
+  const onSubmit = (input: SignUpFormData) => {
     signInMutation.mutate(input);
   };
 

@@ -22,7 +22,7 @@ const schema = z.object({
   email: z.string().email(),
 });
 
-type FormData = z.infer<typeof schema>;
+type SendLinkFormData = z.infer<typeof schema>;
 
 export const SendLink = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'SendLink' });
@@ -31,12 +31,12 @@ export const SendLink = (): ReactElement => {
 
   const signInMutation = useMutation(anonService.signIn);
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<SendLinkFormData>({
     resolver: zodResolver(schema as any),
     defaultValues: { email: '' },
   });
 
-  const onSubmit = (input: FormData) => {
+  const onSubmit = (input: SendLinkFormData) => {
     signInMutation.mutate(input);
   };
 

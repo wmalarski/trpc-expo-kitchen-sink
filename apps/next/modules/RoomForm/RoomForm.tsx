@@ -38,7 +38,7 @@ export const RoomForm = ({
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       <div className="form-control w-full">
         <label className="label label-text" htmlFor="title">
-          Title:
+          Title
         </label>
         <input
           className="input w-full"
@@ -51,7 +51,7 @@ export const RoomForm = ({
 
       <div className="form-control w-full pb-2">
         <label className="label label-text" htmlFor="description">
-          Description:
+          Description
         </label>
         <textarea
           className="input w-full"

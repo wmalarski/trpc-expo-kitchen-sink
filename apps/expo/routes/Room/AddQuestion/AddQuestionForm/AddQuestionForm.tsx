@@ -18,7 +18,7 @@ const schema = z.object({
   content: z.string().min(1),
 });
 
-type FormData = z.infer<typeof schema>;
+type AddQuestionFormData = z.infer<typeof schema>;
 
 type Props = {
   roomId: string;
@@ -32,7 +32,7 @@ export const AddQuestionForm = ({ roomId, onClose }: Props): ReactElement => {
 
   const queryClient = trpc.useContext();
 
-  const addMutation = trpc.useMutation(['question.add'], {
+  const mutation = trpc.useMutation(['question.add'], {
     onSuccess: () => {
       queryClient.invalidateQueries(['question.list']);
       toast.show({ description: t('successDesc'), title: t('successTitle') });
@@ -43,13 +43,13 @@ export const AddQuestionForm = ({ roomId, onClose }: Props): ReactElement => {
     },
   });
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<AddQuestionFormData>({
     resolver: zodResolver(schema as any),
     defaultValues: { content: '' },
   });
 
-  const onSubmit = (input: FormData) => {
-    addMutation.mutate({ ...input, roomId });
+  const onSubmit = (input: AddQuestionFormData) => {
+    mutation.mutate({ ...input, roomId });
   };
 
   return (
@@ -82,10 +82,7 @@ export const AddQuestionForm = ({ roomId, onClose }: Props): ReactElement => {
         <Button variant="ghost" colorScheme="blueGray" onPress={onClose}>
           {t('cancel')}
         </Button>
-        <Button
-          disabled={addMutation.isLoading}
-          onPress={handleSubmit(onSubmit)}
-        >
+        <Button disabled={mutation.isLoading} onPress={handleSubmit(onSubmit)}>
           {t('save')}
         </Button>
       </Flex>
