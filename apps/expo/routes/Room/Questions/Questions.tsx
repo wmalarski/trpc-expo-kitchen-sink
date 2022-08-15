@@ -1,6 +1,6 @@
 import { trpc } from '@tens/expo/utils/trpc';
 import { FlatList, Skeleton, Text, VStack } from 'native-base';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useMemo } from 'react';
 import { SafeAreaView } from 'react-native';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
@@ -12,12 +12,25 @@ type Props = {
 const take = 10;
 
 export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
-  const [cursor] = useState<string>();
+  const query = trpc.useInfiniteQuery(
+    ['question.list', { take, roomId, answered: showAnswered }],
+    {
+      getNextPageParam: (data) => {
+        if (data.length < 1) return null;
+        return data[data.length - 1].id;
+      },
+    },
+  );
 
-  const query = trpc.useQuery([
-    'question.list',
-    { cursor, take, roomId, answered: showAnswered },
-  ]);
+  console.log({ params: query.data?.pageParams });
+
+  const data = useMemo(() => {
+    if (!query.data) return [];
+    return query.data?.pages.flatMap((page, index) => {
+      const cursor = query.data.pageParams[index] as string | undefined;
+      return page.map((room) => ({ ...room, cursor }));
+    });
+  }, [query.data]);
 
   if (query.status === 'loading' || query.status === 'idle') {
     return (
@@ -37,16 +50,26 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
     query.refetch();
   };
 
+  const handleEndReached = () => {
+    query.fetchNextPage();
+  };
+
+  console.log({ data });
+
   return (
     <SafeAreaView>
       <FlatList
-        data={query.data}
+        data={data}
         keyExtractor={(item) => item.id}
+        onEndReached={handleEndReached}
         onRefresh={handleRefresh}
         refreshing={query.isFetching}
-        // height="full"
-        renderItem={({ item }) => (
-          <QuestionsItem question={item} cursor={cursor} take={take} />
+        renderItem={({ item: question }) => (
+          <QuestionsItem
+            question={question}
+            cursor={question.cursor}
+            take={take}
+          />
         )}
       />
     </SafeAreaView>

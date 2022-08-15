@@ -82,5 +82,8 @@ export const en = {
         header: 'Update Room',
       },
     },
+    ErrorMessage: {
+      reload: 'Reload',
+    },
   },
 };

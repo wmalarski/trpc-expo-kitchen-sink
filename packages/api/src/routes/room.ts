@@ -46,13 +46,13 @@ export const roomRouter = t.router({
   list: protectedProcedure
     .input(
       z.object({
-        skip: z.number().min(0),
+        cursor: z.string().uuid().nullable().optional(),
         take: z.number().min(0),
       }),
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.room.findMany({
-        skip: input.skip,
+        ...(input.cursor ? { cursor: { id: input.cursor }, skip: 1 } : {}),
         take: input.take,
         orderBy: { createdAt: 'asc' },
         where: { members: { some: { userId: ctx.user.id } } },

@@ -7,7 +7,7 @@ export const Rooms = (): ReactElement => {
   const client = trpc.useContext();
 
   const query = trpc.proxy.room.list.useQuery(
-    { skip: 0, take: 20 },
+    { take: 20, cursor: null },
     {
       onSuccess(data) {
         data.forEach((post) => {
