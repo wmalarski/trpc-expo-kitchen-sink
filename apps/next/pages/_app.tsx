@@ -2,6 +2,7 @@ import { SessionServiceProvider } from '@tens/common/src/services/SessionService
 import { trpc } from '@tens/next/utils/trpc';
 import { AppType } from 'next/dist/shared/lib/utils';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import '../styles/globals.css';
 import { supabase } from '../utils/supabase';
 
 const MyApp: AppType = ({ Component, pageProps }) => {
