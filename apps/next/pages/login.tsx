@@ -2,7 +2,8 @@ import { useSessionStatus } from '@tens/common/src/services/SessionService';
 import Head from 'next/head';
 import { ReactElement } from 'react';
 import { Loader } from '../modules/Loader/Loader';
-import { Login } from '../modules/Login/Login';
+import { SendMagicLink } from '../modules/SendMagicLink/SendMagicLink';
+import { SignIn } from '../modules/SignIn/SignIn';
 import { usePublicPath } from '../utils/paths';
 
 const LoginPage = (): ReactElement => {
@@ -17,7 +18,12 @@ const LoginPage = (): ReactElement => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {sessionStatus === 'idle' && <Loader />}
-      {sessionStatus === 'anon' && <Login />}
+      {sessionStatus === 'anon' && (
+        <>
+          <SendMagicLink />
+          <SignIn />
+        </>
+      )}
     </>
   );
 };
