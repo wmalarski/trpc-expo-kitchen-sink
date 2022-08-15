@@ -1,30 +1,23 @@
 import { useRouter } from 'next/dist/client/router';
-import NextError from 'next/error';
+import Head from 'next/head';
 import { ReactElement } from 'react';
+import { Questions } from '../../modules/Questions/Questions';
+import { RoomHeading } from '../../modules/RoomHeading/RoomHeading';
 import { useProtectedPath } from '../../utils/paths';
-import { trpc } from '../../utils/trpc';
 
 const RoomPage = (): ReactElement => {
   useProtectedPath();
 
-  const id = useRouter().query.id as string;
-  const query = trpc.proxy.room.get.useQuery({ id });
-
-  if (query.status === 'error') {
-    const statusCode = query.error.data?.httpStatus ?? 500;
-    return <NextError title={query.error.message} statusCode={statusCode} />;
-  }
-
-  if (query.status === 'loading' || query.status === 'idle') {
-    return <>Loading...</>;
-  }
+  const roomId = useRouter().query.id as string;
 
   return (
     <>
-      <h1>{query.data.title}</h1>
-
-      <h2>Raw data:</h2>
-      <pre>{JSON.stringify(query.data, null, 4)}</pre>
+      <Head>
+        <title>Prisma Starter</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <RoomHeading roomId={roomId} />
+      <Questions roomId={roomId} />
     </>
   );
 };
