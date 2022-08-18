@@ -1,27 +1,31 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { trpc } from '@tens/expo/utils/trpc';
 
-type Props = {
-  question: InferQueryOutput<'question.list'>[0];
-  cursor?: string;
+type UseVoteToggleMutation = {
+  question: InferQueryOutput<'question.list'>['questions'][0];
+  showAnswered?: boolean;
   take: number;
 };
 
-export const useVoteToggleMutation = ({ question, cursor, take }: Props) => {
+export const useVoteToggleMutation = ({
+  question,
+  take,
+  showAnswered,
+}: UseVoteToggleMutation) => {
   const queryClient = trpc.useContext();
 
   return trpc.useMutation(['vote.toggle'], {
     onMutate: async ({ content, questionId }) => {
-      const args = { roomId: question.roomId, cursor, take };
+      const args = { roomId: question.roomId, take, showAnswered };
 
-      await queryClient.cancelQuery(['question.list', args]);
+      await queryClient.cancelQuery(['question.list']);
 
-      const previous = queryClient.getQueryData(['question.list', args]);
+      const previous = queryClient.getInfiniteQueryData([
+        'question.list',
+        args,
+      ]);
 
       if (!previous) return {};
-
-      const next = [...previous];
-      const counts = [...question.counts];
 
       const vote = !question.vote
         ? {
@@ -35,6 +39,7 @@ export const useVoteToggleMutation = ({ question, cursor, take }: Props) => {
         ? { ...question.vote, content }
         : undefined;
 
+      const counts = [...question.counts];
       if (!question.vote || question.vote.content !== content) {
         const index = counts.findIndex((e) => e.content === content);
         if (index >= 0) {
@@ -54,20 +59,34 @@ export const useVoteToggleMutation = ({ question, cursor, take }: Props) => {
         }
       }
 
-      const questionIndex = next.findIndex((entry) => entry.id === questionId);
-      next[questionIndex] = { ...question, vote, counts: counts };
+      const next = previous.pages.map((page) => {
+        const questionIndex = page.questions.findIndex(
+          (entry) => entry.id === questionId,
+        );
+        if (questionIndex < 0) return page;
 
-      queryClient.setQueryData(['question.list', args], next);
+        const nextQuestions = [...page.questions];
+        nextQuestions[questionIndex] = { ...question, vote, counts: counts };
+        return { ...page, questions: nextQuestions };
+      });
+
+      queryClient.setInfiniteQueryData(['question.list', args], {
+        ...previous,
+        pages: next,
+      });
 
       return { previous };
     },
     onError: (_err, _variables, context) => {
       if (!context?.previous) return;
-      const args = { roomId: question.roomId, cursor, take };
-      queryClient.setQueryData(['question.list', args], context.previous);
+      const args = { roomId: question.roomId, take };
+      queryClient.setInfiniteQueryData(
+        ['question.list', args],
+        context.previous,
+      );
     },
     onSettled: () => {
-      const args = { roomId: question.roomId, cursor, take };
+      const args = { roomId: question.roomId, take };
       queryClient.invalidateQueries(['question.list', args]);
     },
   });

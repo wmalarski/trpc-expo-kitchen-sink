@@ -1,6 +1,6 @@
 import { trpc } from '@tens/expo/utils/trpc';
 import { FlatList, Skeleton, Text, VStack } from 'native-base';
-import { ReactElement, useMemo } from 'react';
+import { ReactElement } from 'react';
 import { SafeAreaView } from 'react-native';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
@@ -15,22 +15,11 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
   const query = trpc.useInfiniteQuery(
     ['question.list', { take, roomId, answered: showAnswered }],
     {
-      getNextPageParam: (data) => {
-        if (data.length < 1) return null;
-        return data[data.length - 1].id;
+      getNextPageParam: (lastPage) => {
+        return lastPage.cursor;
       },
     },
   );
-
-  console.log({ params: query.data?.pageParams });
-
-  const data = useMemo(() => {
-    if (!query.data) return [];
-    return query.data?.pages.flatMap((page, index) => {
-      const cursor = query.data.pageParams[index] as string | undefined;
-      return page.map((room) => ({ ...room, cursor }));
-    });
-  }, [query.data]);
 
   if (query.status === 'loading' || query.status === 'idle') {
     return (
@@ -54,20 +43,19 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
     query.fetchNextPage();
   };
 
-  console.log({ data });
-
   return (
     <SafeAreaView>
       <FlatList
-        data={data}
+        data={query.data.pages.flatMap((page) => page.questions)}
         keyExtractor={(item) => item.id}
         onEndReached={handleEndReached}
         onRefresh={handleRefresh}
         refreshing={query.isFetching}
         renderItem={({ item: question }) => (
           <QuestionsItem
+            canAnswer={query.data.pages[0].canAnswer}
             question={question}
-            cursor={question.cursor}
+            showAnswered={showAnswered}
             take={take}
           />
         )}

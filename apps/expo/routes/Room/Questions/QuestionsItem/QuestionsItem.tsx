@@ -10,23 +10,25 @@ import {
   useDisclose,
   VStack,
 } from 'native-base';
-import { ReactElement } from 'react';
+import { memo, ReactElement } from 'react';
 import { AnsweredActions } from './AnsweredActions/AnsweredActions';
 import { DeleteAction } from './DeleteAction/DeleteAction';
 import { useVoteToggleMutation } from './QuestionsItem.utils';
 import { ReactionButton } from './ReactionButton/ReactionButton';
 
 type Props = {
-  question: InferQueryOutput<'question.list'>[0];
-  cursor?: string;
+  question: InferQueryOutput<'question.list'>['questions'][0];
+  canAnswer: boolean;
+  showAnswered?: boolean;
   take: number;
 };
 
 const reactions = ['👍', '👎', '❤️', '🙌', '👀', '😄', '😠'];
 
-export const QuestionsItem = ({
+const QuestionsItemInner = ({
   question,
-  cursor,
+  canAnswer,
+  showAnswered,
   take,
 }: Props): ReactElement => {
   const authService = useAuthService();
@@ -34,7 +36,7 @@ export const QuestionsItem = ({
 
   const { isOpen, onOpen, onClose } = useDisclose();
 
-  const mutation = useVoteToggleMutation({ question, cursor, take });
+  const mutation = useVoteToggleMutation({ question, showAnswered, take });
 
   const handleReactionClick = (content: string) => {
     mutation.mutate({ content, questionId: question.id });
@@ -94,14 +96,14 @@ export const QuestionsItem = ({
             ))}
           </HStack>
           <Divider />
-          {question.canAnswer && (
-            <AnsweredActions question={question} cursor={cursor} take={take} />
-          )}
-          {(question.canAnswer || userId === question.userId) && (
-            <DeleteAction question={question} cursor={cursor} take={take} />
+          {canAnswer && <AnsweredActions question={question} />}
+          {(canAnswer || userId === question.userId) && (
+            <DeleteAction question={question} />
           )}
         </Actionsheet.Content>
       </Actionsheet>
     </Box>
   );
 };
+
+export const QuestionsItem = memo(QuestionsItemInner);
