@@ -1,4 +1,5 @@
 import { Button, Text, VStack } from 'native-base';
+import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = {

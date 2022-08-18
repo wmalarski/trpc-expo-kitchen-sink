@@ -58,6 +58,27 @@ export const roomRouter = t.router({
         where: { members: { some: { userId: ctx.user.id } } },
       });
     }),
+  listSkip: protectedProcedure
+    .input(
+      z.object({
+        skip: z.number().optional(),
+        take: z.number().min(0),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const [rooms, count] = await Promise.all([
+        ctx.prisma.room.findMany({
+          skip: input.skip,
+          take: input.take,
+          orderBy: { createdAt: 'asc' },
+          where: { members: { some: { userId: ctx.user.id } } },
+        }),
+        ctx.prisma.room.count({
+          where: { members: { some: { userId: ctx.user.id } } },
+        }),
+      ]);
+      return { rooms, count };
+    }),
   get: protectedProcedure
     .input(
       z.object({

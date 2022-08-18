@@ -1,28 +1,32 @@
 import { ErrorMessage } from '@tens/expo/components/ErrorMessage/ErrorMessage';
 import { trpc } from '@tens/expo/utils/trpc';
-import { FlatList, Skeleton, VStack } from 'native-base';
-import { ReactElement } from 'react';
-import { SafeAreaView } from 'react-native';
+import { Skeleton, VStack } from 'native-base';
+import { ReactElement, useCallback, useState } from 'react';
+import { SafeAreaView, VirtualizedList } from 'react-native';
 import { AddRoom } from './AddRoom/AddRoom';
-import { RoomsItem } from './RoomsItem/RoomsItem';
+import { RoomRow, RoomsItem } from './RoomsItem/RoomsItem';
 
 export const Rooms = (): ReactElement => {
   const queryClient = trpc.useContext();
 
-  const query = trpc.useInfiniteQuery(['room.list', { take: 10 }], {
-    getNextPageParam: (data) => {
-      return data[data.length - 1]?.id;
-    },
+  const [skip, setSkip] = useState(0);
+
+  const query = trpc.useQuery(['room.listSkip', { take: 10, skip }], {
     onSuccess: (data) => {
-      data.pages
-        .flatMap((page) => page)
-        .forEach((room) => {
-          queryClient.setQueryData(['room.get', { id: room.id }], room);
-        });
+      data.rooms.forEach((room) => {
+        queryClient.setQueryData(['room.get', { id: room.id }], room);
+      });
     },
   });
 
-  console.log({ params: query.data?.pageParams });
+  const getItem = useCallback(
+    (_data: RoomRow, row: number) => {
+      const room = query.data?.rooms[row - skip];
+      if (room) return { key: room.id, room, isLoading: false as const };
+      return { key: `${Math.random() * 1e16}`, isLoading: true as const };
+    },
+    [query.data?.rooms, skip],
+  );
 
   if (query.status === 'loading' || query.status === 'idle') {
     return (
@@ -47,21 +51,35 @@ export const Rooms = (): ReactElement => {
     query.refetch();
   };
 
-  const handleEndReached = () => {
-    query.fetchNextPage();
-  };
-
   return (
     <SafeAreaView>
       <VStack p={4} space={2}>
-        <FlatList
-          data={query.data.pages.flatMap((page) => page)}
-          keyExtractor={(item) => item.id}
-          onEndReached={handleEndReached}
+        <VirtualizedList<RoomRow>
+          data={[] as RoomRow[]}
+          keyExtractor={(item) => item.key}
           onRefresh={handleRefresh}
           refreshing={query.isFetching}
-          height="full"
-          renderItem={({ item }) => <RoomsItem room={item} />}
+          // height="full"
+          initialNumToRender={4}
+          getItemCount={() => query.data.count}
+          getItem={getItem}
+          renderItem={({ item, index }) => {
+            console.log(index);
+            return <RoomsItem row={item} />;
+          }}
+          // onScroll={(event) => {
+          //   console.log({ native: event.nativeEvent });
+          // }}
+
+          // onViewableItemsChanged={(event) => {
+          //   console.log(event);
+          // }}
+          // viewabilityConfig={{
+          //   itemVisiblePercentThreshold: 10,
+          //   minimumViewTime: 0,
+          //   waitForInteraction: false,
+          //   viewAreaCoveragePercentThreshold: 10,
+          // }}
         />
       </VStack>
       <AddRoom />
