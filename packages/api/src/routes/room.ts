@@ -47,37 +47,23 @@ export const roomRouter = t.router({
     .input(
       z.object({
         cursor: z.string().uuid().nullable().optional(),
-        take: z.number().min(0),
+        take: z.number().min(1).max(100),
       }),
     )
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.room.findMany({
-        ...(input.cursor ? { cursor: { id: input.cursor }, skip: 1 } : {}),
-        take: input.take,
+      const rooms = await ctx.prisma.room.findMany({
+        cursor: input.cursor ? { id: input.cursor } : undefined,
+        take: input.take + 1,
         orderBy: { createdAt: 'asc' },
         where: { members: { some: { userId: ctx.user.id } } },
       });
-    }),
-  listSkip: protectedProcedure
-    .input(
-      z.object({
-        skip: z.number().optional(),
-        take: z.number().min(0),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      const [rooms, count] = await Promise.all([
-        ctx.prisma.room.findMany({
-          skip: input.skip,
-          take: input.take,
-          orderBy: { createdAt: 'asc' },
-          where: { members: { some: { userId: ctx.user.id } } },
-        }),
-        ctx.prisma.room.count({
-          where: { members: { some: { userId: ctx.user.id } } },
-        }),
-      ]);
-      return { rooms, count };
+
+      if (rooms.length > input.take) {
+        const nextItem = rooms.pop();
+        return { cursor: nextItem?.id, rooms };
+      }
+
+      return { rooms };
     }),
   get: protectedProcedure
     .input(
