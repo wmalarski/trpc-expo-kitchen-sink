@@ -10,7 +10,7 @@ export const Rooms = (): ReactElement => {
     { take: 20, cursor: null },
     {
       onSuccess(data) {
-        data.forEach((post) => {
+        data.rooms.forEach((post) => {
           client.setQueryData(['room.get', { id: post.id }], post);
         });
       },
@@ -29,7 +29,7 @@ export const Rooms = (): ReactElement => {
     <>
       <h2 className="text-2xl p-2 font-bold">Rooms</h2>
       <div className="flex flex-col gap-2">
-        {query.data?.map((room) => (
+        {query.data?.rooms.map((room) => (
           <RoomsItem key={room.id} room={room} />
         ))}
       </div>

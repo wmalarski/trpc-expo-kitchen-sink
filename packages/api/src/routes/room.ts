@@ -58,12 +58,10 @@ export const roomRouter = t.router({
         where: { members: { some: { userId: ctx.user.id } } },
       });
 
-      if (rooms.length > input.take) {
-        const nextItem = rooms.pop();
-        return { cursor: nextItem?.id, rooms };
-      }
-
-      return { rooms };
+      return {
+        cursor: rooms.length > input.take ? rooms.pop()?.id : undefined,
+        rooms,
+      };
     }),
   get: protectedProcedure
     .input(
