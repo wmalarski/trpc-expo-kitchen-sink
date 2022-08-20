@@ -96,9 +96,19 @@ const QuestionsItemInner = ({
             ))}
           </HStack>
           <Divider />
-          {canAnswer && <AnsweredActions question={question} />}
+          {canAnswer && (
+            <AnsweredActions
+              question={question}
+              take={take}
+              showAnswered={showAnswered}
+            />
+          )}
           {(canAnswer || userId === question.userId) && (
-            <DeleteAction question={question} />
+            <DeleteAction
+              question={question}
+              take={take}
+              showAnswered={showAnswered}
+            />
           )}
         </Actionsheet.Content>
       </Actionsheet>

@@ -5,14 +5,14 @@ import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
-  question: InferQueryOutput<'question.list'>[0];
-  cursor?: string;
+  question: InferQueryOutput<'question.list'>['questions'][0];
+  showAnswered?: boolean;
   take: number;
 };
 
 export const AnsweredActions = ({
   question,
-  cursor,
+  showAnswered,
   take,
 }: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Room.Questions' });
@@ -21,30 +21,45 @@ export const AnsweredActions = ({
 
   const mutation = trpc.useMutation(['question.answer'], {
     onMutate: async ({ id, answered }) => {
-      const args = { roomId: question.roomId, cursor, take };
+      const args = { roomId: question.roomId, showAnswered, take };
 
-      await queryClient.cancelQuery(['question.list', args]);
+      await queryClient.cancelQuery(['question.list']);
 
-      const previous = queryClient.getQueryData(['question.list', args]);
+      const previous = queryClient.getInfiniteQueryData([
+        'question.list',
+        args,
+      ]);
 
       if (!previous) return {};
 
-      const next = [...previous];
+      const next = previous.pages.map((page) => {
+        const questionIndex = page.questions.findIndex(
+          (question) => question.id === id,
+        );
+        if (questionIndex < 0) return page;
 
-      const questionIndex = next.findIndex((entry) => entry.id === id);
-      next[questionIndex] = { ...question, answered };
+        const nextQuestions = [...page.questions];
+        nextQuestions[questionIndex] = { ...question, answered };
+        return { ...page, questions: nextQuestions };
+      });
 
-      queryClient.setQueryData(['question.list', args], next);
+      queryClient.setInfiniteQueryData(['question.list', args], {
+        ...previous,
+        pages: next,
+      });
 
       return { previous };
     },
     onError: (_err, _variables, context) => {
       if (!context?.previous) return;
-      const args = { roomId: question.roomId, cursor, take };
-      queryClient.setQueryData(['question.list', args], context.previous);
+      const args = { roomId: question.roomId, showAnswered, take };
+      queryClient.setInfiniteQueryData(
+        ['question.list', args],
+        context.previous,
+      );
     },
     onSettled: () => {
-      const args = { roomId: question.roomId, cursor, take };
+      const args = { roomId: question.roomId, showAnswered, take };
       queryClient.invalidateQueries(['question.list', args]);
     },
   });
