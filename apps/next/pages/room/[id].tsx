@@ -28,8 +28,8 @@ const RoomPage = (): ReactElement => {
           <Navbar />
           <div className="flex flex-col gap-2 p-4">
             <RoomHeading roomId={roomId} />
-            <Questions roomId={roomId} />
             <AddQuestion roomId={roomId} />
+            <Questions roomId={roomId} />
           </div>
         </>
       )}

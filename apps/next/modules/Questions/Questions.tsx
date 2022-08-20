@@ -27,13 +27,13 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      {query.data.map((question) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+      {query.data.questions.map((question) => (
         <QuestionsItem
           key={question.id}
           question={question}
-          cursor={cursor}
           take={take}
+          canAnswer={query.data.canAnswer}
         />
       ))}
     </div>

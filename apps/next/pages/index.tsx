@@ -23,8 +23,8 @@ const IndexPage = (): ReactElement => {
         <>
           <Navbar />
           <div className="flex flex-col gap-2 p-4">
-            <Rooms />
             <AddRoom />
+            <Rooms />
           </div>
         </>
       )}

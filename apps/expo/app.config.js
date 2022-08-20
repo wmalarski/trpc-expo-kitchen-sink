@@ -26,7 +26,7 @@ export default {
   name: 'Example',
   description: 'Expo + Next.js Monorepo Example',
   slug: 'example',
-  scheme: 'example',
+  scheme: 'tensapp',
   owner: 'poolpoolpool',
   icon: config.icon,
   sdkVersion: '45.0.0',

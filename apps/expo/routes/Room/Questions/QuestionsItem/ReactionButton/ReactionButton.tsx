@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 type Props = {
-  question: InferQueryOutput<'question.list'>[0];
+  question: InferQueryOutput<'question.list'>['questions'][0];
   reaction: string;
   onPress: () => void;
 };

@@ -1,9 +1,10 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { ReactElement } from 'react';
+import { QuestionMenu } from './QuestionMenu/QuestionMenu';
 
 type Props = {
-  question: InferQueryOutput<'question.list'>[0];
-  cursor?: string;
+  question: InferQueryOutput<'question.list'>['questions'][0];
+  canAnswer?: boolean;
   take: number;
 };
 
@@ -19,6 +20,7 @@ export const QuestionsItem = ({ question }: Props): ReactElement => {
         <div className="card-title">
           <span>{votesCount}</span>
           <span>{question.content}</span>
+          <QuestionMenu />
         </div>
       </div>
     </div>
