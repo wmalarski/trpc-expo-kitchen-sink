@@ -7,7 +7,10 @@ type Props = {
 };
 
 export const RoomHeading = ({ roomId }: Props): ReactElement => {
-  const query = trpc.proxy.room.get.useQuery({ id: roomId });
+  const query = trpc.proxy.room.get.useQuery(
+    { id: roomId },
+    { refetchOnWindowFocus: false },
+  );
 
   if (query.status === 'error') {
     const statusCode = query.error.data?.httpStatus ?? 500;

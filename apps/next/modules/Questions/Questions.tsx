@@ -1,6 +1,7 @@
 import { Loader } from '@tens/next/components/Loader/Loader';
 import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement, useState } from 'react';
+import { useQuestionsSubscription } from './Questions.utils';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
 type Props = {
@@ -13,10 +14,14 @@ const take = 10;
 export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
   const [cursor] = useState<string>();
 
-  const query = trpc.useQuery([
-    'question.list',
-    { cursor, take, roomId, answered: showAnswered },
-  ]);
+  const query = trpc.useQuery(
+    ['question.list', { cursor, take, roomId, answered: showAnswered }],
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
+
+  useQuestionsSubscription();
 
   if (query.status === 'loading' || query.status === 'idle') {
     return <Loader />;
@@ -27,7 +32,7 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
       {query.data.questions.map((question) => (
         <QuestionsItem
           key={question.id}

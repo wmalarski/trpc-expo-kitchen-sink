@@ -13,7 +13,7 @@ model Room {
   description String
   questions   Question[]
   title       String
-  userId      String
+  userId      String     @db.Uuid()
   members     Member[]
 
   @@index([userId])
@@ -24,7 +24,7 @@ model Member {
   createdAt DateTime @default(now())
   room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId    String
-  userId    String
+  userId    String   @db.Uuid()
 
   @@index([userId])
 }
@@ -36,7 +36,7 @@ model Question {
   content   String
   room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId    String
-  userId    String
+  userId    String   @db.Uuid()
   votes     Vote[]
 
   @@index([userId])
@@ -48,7 +48,7 @@ model Vote {
   content    String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId String
-  userId     String
+  userId     String   @db.Uuid()
 
   @@unique([questionId, userId])
   @@index([userId])
