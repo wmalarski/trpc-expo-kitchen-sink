@@ -39,6 +39,7 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
           question={question}
           take={take}
           canAnswer={query.data.canAnswer}
+          showAnswered={showAnswered}
         />
       ))}
     </div>

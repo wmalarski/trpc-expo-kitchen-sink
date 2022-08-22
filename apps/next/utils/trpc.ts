@@ -39,7 +39,6 @@ export interface SSRContext extends NextPageContext {
    */
   status?: number;
 }
-
 export const trpc = setupTRPC<AppRouter>({
   config() {
     const url = `${getBaseUrl()}/api/trpc`;

@@ -16,18 +16,15 @@ type Props = {
 };
 
 export const AddQuestion = ({ roomId }: Props): ReactElement => {
-  const queryClient = trpc.useContext();
-
-  const mutation = trpc.useMutation(['question.add'], {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['question.list']);
-      reset();
-    },
-  });
-
   const { register, handleSubmit, reset } = useForm<AddQuestionFormData>({
     resolver: zodResolver(schema as any),
     defaultValues: { content: '' },
+  });
+
+  const mutation = trpc.useMutation(['question.add'], {
+    onSuccess: () => {
+      reset();
+    },
   });
 
   const onSubmit = (input: AddQuestionFormData) => {
@@ -38,7 +35,7 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
     <div className="card">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 card-body bg-base-300"
+        className="card-body bg-base-300 flex flex-col gap-4"
       >
         <h2 className="card-title">Add question</h2>
         <div className="form-control w-full">

@@ -1,5 +1,8 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useAuthService } from '@tens/common/src/services/SessionService';
+import { useToggleVoteMutation } from '@tens/common/src/services/useToggleVoteMutation';
+import { reactions } from '@tens/common/src/utils/reactions';
+import { trpc } from '@tens/expo/utils/trpc';
 import {
   Actionsheet,
   Box,
@@ -13,7 +16,6 @@ import {
 import { memo, ReactElement } from 'react';
 import { AnsweredActions } from './AnsweredActions/AnsweredActions';
 import { DeleteAction } from './DeleteAction/DeleteAction';
-import { useVoteToggleMutation } from './QuestionsItem.utils';
 import { ReactionButton } from './ReactionButton/ReactionButton';
 
 type Props = {
@@ -22,8 +24,6 @@ type Props = {
   showAnswered?: boolean;
   take: number;
 };
-
-const reactions = ['👍', '👎', '❤️', '🙌', '👀', '😄', '😠'];
 
 const QuestionsItemInner = ({
   question,
@@ -36,7 +36,12 @@ const QuestionsItemInner = ({
 
   const { isOpen, onOpen, onClose } = useDisclose();
 
-  const mutation = useVoteToggleMutation({ question, showAnswered, take });
+  const mutation = useToggleVoteMutation({
+    question,
+    showAnswered,
+    take,
+    trpc,
+  });
 
   const handleReactionClick = (content: string) => {
     mutation.mutate({ content, questionId: question.id });

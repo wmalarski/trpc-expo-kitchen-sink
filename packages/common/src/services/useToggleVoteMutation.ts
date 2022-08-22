@@ -1,17 +1,20 @@
+import type { AppRouter } from '@tens/api/src/routes';
 import type { InferQueryOutput } from '@tens/api/src/types';
-import { trpc } from '@tens/expo/utils/trpc';
+import type { CreateReactQueryHooks } from '@trpc/react/dist/createReactQueryHooks';
 
-type UseVoteToggleMutation = {
+type UseToggleVoteMutation = {
   question: InferQueryOutput<'question.list'>['questions'][0];
   showAnswered?: boolean;
   take: number;
+  trpc: Pick<CreateReactQueryHooks<AppRouter>, 'useContext' | 'useMutation'>;
 };
 
-export const useVoteToggleMutation = ({
+export const useToggleVoteMutation = ({
   question,
   take,
   showAnswered,
-}: UseVoteToggleMutation) => {
+  trpc,
+}: UseToggleVoteMutation) => {
   const queryClient = trpc.useContext();
 
   return trpc.useMutation(['vote.toggle'], {
