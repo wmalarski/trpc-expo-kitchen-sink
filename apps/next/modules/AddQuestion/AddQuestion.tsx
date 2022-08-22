@@ -3,6 +3,7 @@ import { trpc } from '@tens/next/utils/trpc';
 import clsx from 'clsx';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -16,6 +17,8 @@ type Props = {
 };
 
 export const AddQuestion = ({ roomId }: Props): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'Room.AddQuestion' });
+
   const { register, handleSubmit, reset } = useForm<AddQuestionFormData>({
     resolver: zodResolver(schema as any),
     defaultValues: { content: '' },
@@ -37,15 +40,16 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
         onSubmit={handleSubmit(onSubmit)}
         className="card-body bg-base-300 flex flex-col gap-4"
       >
-        <h2 className="card-title">Add question</h2>
+        <h2 className="card-title">{t('header')}</h2>
         <div className="form-control w-full">
           <label className="label label-text" htmlFor="question">
-            Question
+            {t('questionLabel')}
           </label>
           <input
             className="input w-full"
             id="question"
             type="text"
+            placeholder={t('questionPlaceholder')}
             disabled={mutation.isLoading}
             {...register('content', { required: true })}
           />
@@ -56,7 +60,7 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
           type="submit"
           disabled={mutation.isLoading}
         >
-          Add
+          {t('save')}
         </button>
       </form>
     </div>

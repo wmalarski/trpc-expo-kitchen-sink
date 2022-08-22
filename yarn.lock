@@ -1069,7 +1069,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.14.0", "@babel/runtime@^7.14.5", "@babel/runtime@^7.17.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.0":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.14.0", "@babel/runtime@^7.14.5", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.9", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.0":
   version "7.18.9"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.9.tgz#b4fcfce55db3d2e5e080d2490f608a3b9f407f4a"
   integrity sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==
@@ -4635,6 +4635,14 @@
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.41.tgz#f6ecf57d1b12d2befcce00e928a6a097c22980aa"
   integrity sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA==
 
+"@types/hoist-non-react-statics@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
+  integrity sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==
+  dependencies:
+    "@types/react" "*"
+    hoist-non-react-statics "^3.3.0"
+
 "@types/html-minifier-terser@^5.0.0":
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/@types/html-minifier-terser/-/html-minifier-terser-5.1.2.tgz#693b316ad323ea97eed6b38ed1a3cc02b1672b57"
@@ -4768,10 +4776,10 @@
   dependencies:
     "@types/react" "^17"
 
-"@types/react@^17", "@types/react@^17.0.39":
-  version "17.0.48"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.48.tgz#a4532a8b91d7b27b8768b6fc0c3bccb760d15a6c"
-  integrity sha512-zJ6IYlJ8cYYxiJfUaZOQee4lh99mFihBoqkOSEGV+dFi9leROW6+PgstzQ+w3gWTnUfskALtQPGHK6dYmPj+2A==
+"@types/react@*", "@types/react@^17", "@types/react@^17.0.39":
+  version "17.0.40"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.40.tgz#dc010cee6254d5239a138083f3799a16638e6bad"
+  integrity sha512-UrXhD/JyLH+W70nNSufXqMZNuUD2cXHu6UjCllC6pmOQgBX4SGXOH8fjRka0O0Ee0HrFxapDD8Bwn81Kmiz6jQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -7151,6 +7159,11 @@ core-js-compat@^3.21.0, core-js-compat@^3.22.1:
   dependencies:
     browserslist "^4.21.3"
     semver "7.0.0"
+
+core-js@^3:
+  version "3.24.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.24.1.tgz#cf7724d41724154010a6576b7b57d94c5d66e64f"
+  integrity sha512-0QTBSYSUZ6Gq21utGzkfITDylE8jWC9Ne1D2MrhvlsZBI1x39OdDIVbzSqtgMndIy6BlHxBXpMGqzZmnztg2rg==
 
 core-util-is@~1.0.0:
   version "1.0.3"
@@ -9891,7 +9904,7 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.3.0:
+hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -10128,10 +10141,22 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
+i18next-fs-backend@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-1.1.5.tgz#dcbd8227b1c1e4323b3c40e269d4762e8313d9e5"
+  integrity sha512-raTel3EfshiUXxR0gvmIoqp75jhkj8+7R1LjB006VZKPTFBbXyx6TlUVhb8Z9+7ahgpFbcQg1QWVOdf/iNzI5A==
+
 i18next@^21.9.0:
   version "21.9.0"
   resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.9.0.tgz#b63ebb0d4e1b23709951ca4774dc19d2ffac9553"
   integrity sha512-B+6/yd7rCpJidyPuBaEApUECx7G8Ai6+tqYhrChsY4MmQqJhG7qJ4eT6Lm1OnRhieVelEtfxh4aAQktdNVZtDA==
+  dependencies:
+    "@babel/runtime" "^7.17.2"
+
+i18next@^21.9.1:
+  version "21.9.1"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.9.1.tgz#9e3428990f5b2cc9ac1b98dd025f3e411c368249"
+  integrity sha512-ITbDrAjbRR73spZAiu6+ex5WNlHRr1mY+acDi2ioTHuUiviJqSz269Le1xHAf0QaQ6GgIHResUhQNcxGwa/PhA==
   dependencies:
     "@babel/runtime" "^7.17.2"
 
@@ -12851,6 +12876,19 @@ nested-error-stacks@~2.0.1:
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.0.1.tgz#d2cc9fc5235ddb371fc44d506234339c8e4b0a4b"
   integrity sha512-SrQrok4CATudVzBS7coSz26QRSmlK9TzzoFbeKfcPBUFPjcQM9Rqvr/DlJkOrwI/0KcgvMub1n1g5Jt9EgRn4A==
 
+next-i18next@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/next-i18next/-/next-i18next-12.0.0.tgz#328aa48efcc9af76d82e4fa0972b50eee6be6ebf"
+  integrity sha512-8tDySpERz+x3GNxJQUxJfR01GO77tH4wdjrZrRWXywsQCeY+660tLTomITqRocqBm2j7FY6YUI9IUFCeeNg8wA==
+  dependencies:
+    "@babel/runtime" "^7.18.9"
+    "@types/hoist-non-react-statics" "^3.3.1"
+    core-js "^3"
+    hoist-non-react-statics "^3.3.2"
+    i18next "^21.9.1"
+    i18next-fs-backend "^1.1.5"
+    react-i18next "^11.18.4"
+
 next-tick@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
@@ -14847,7 +14885,7 @@ react-devtools-core@^4.23.0:
     shell-quote "^1.6.1"
     ws "^7"
 
-react-dom@17.0.2, react-dom@^17.0.2:
+react-dom@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
   integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
@@ -14875,6 +14913,14 @@ react-i18next@^11.18.3:
   version "11.18.3"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.18.3.tgz#50211810bcc9fdea2d70c8aefdfff5f1eb39a923"
   integrity sha512-EttTX31HbqzZymUM3SIrMPuvamfSXFZVsDHm/ZAqoDfTLjhzlwyxqfbDNxcKNAGOi2mjZaXfR7hSNMlvLNpB/g==
+  dependencies:
+    "@babel/runtime" "^7.14.5"
+    html-parse-stringify "^3.0.1"
+
+react-i18next@^11.18.4:
+  version "11.18.4"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.18.4.tgz#b3c35ac4c4657b05d599b036536d7b2c0331e248"
+  integrity sha512-gK/AylAQC5DvCD5YLNCHW4PNzpCfrWIyVAXbSMl+/5QXzlDP8VdBoqE2s2niGHB+zIXwBV9hRXbDrVuupbgHcg==
   dependencies:
     "@babel/runtime" "^7.14.5"
     html-parse-stringify "^3.0.1"
@@ -15072,7 +15118,7 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
-react@17.0.2, react@^17.0.2:
+react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
