@@ -1,6 +1,6 @@
 import { Loader } from '@tens/next/components/Loader/Loader';
 import { trpc } from '@tens/next/utils/trpc';
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 import { useQuestionsSubscription } from './Questions.utils';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
@@ -12,13 +12,9 @@ type Props = {
 const take = 10;
 
 export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
-  const [cursor] = useState<string>();
-
-  const query = trpc.useQuery(
-    ['question.list', { cursor, take, roomId, answered: showAnswered }],
-    {
-      refetchOnWindowFocus: false,
-    },
+  const query = trpc.useInfiniteQuery(
+    ['question.list', { take, roomId, answered: showAnswered }],
+    { refetchOnWindowFocus: false },
   );
 
   useQuestionsSubscription();
@@ -31,17 +27,21 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
     return <span>{query.error.message}</span>;
   }
 
+  const canAnswer = query.data.pages[0].canAnswer;
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-      {query.data.questions.map((question) => (
-        <QuestionsItem
-          key={question.id}
-          question={question}
-          take={take}
-          canAnswer={query.data.canAnswer}
-          showAnswered={showAnswered}
-        />
-      ))}
+      {query.data.pages
+        .flatMap((page) => page.questions)
+        .map((question) => (
+          <QuestionsItem
+            key={question.id}
+            question={question}
+            take={take}
+            canAnswer={canAnswer}
+            showAnswered={showAnswered}
+          />
+        ))}
     </div>
   );
 };

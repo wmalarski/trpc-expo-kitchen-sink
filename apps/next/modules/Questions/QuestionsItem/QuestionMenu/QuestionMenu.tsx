@@ -3,6 +3,7 @@ import type { InferQueryOutput } from '@tens/api/src/types';
 import { ReactElement } from 'react';
 import { FiX } from 'react-icons/fi';
 import { AnswerAction } from './AnswerAction/AnswerAction';
+import { DeleteQuestion } from './DeleteQuestion/DeleteQuestion';
 
 type Props = {
   question: InferQueryOutput<'question.list'>['questions'][0];
@@ -26,6 +27,11 @@ export const QuestionMenu = ({
           </Popover.Close>
           Hello
           <AnswerAction
+            question={question}
+            take={take}
+            showAnswered={showAnswered}
+          />
+          <DeleteQuestion
             question={question}
             take={take}
             showAnswered={showAnswered}
