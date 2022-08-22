@@ -20,6 +20,7 @@
   "dependencies": {
     "@hookform/resolvers": "^2.9.7",
     "@prisma/client": "^4.2.1",
+    "@radix-ui/react-popover": "^1.0.0",
     "@supabase/supabase-js": "^1.35.6",
     "@tens/api": "*",
     "@trpc/client": "10.0.0-alpha.41",
@@ -31,9 +32,9 @@
     "next": "^12.2.4",
     "prisma": "^4.2.1",
     "react": "^17.0.2",
-    "react-aria": "^3.18.0",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.34.1",
+    "react-icons": "^4.4.0",
     "react-query": "^3.39.2",
     "superjson": "^1.9.1",
     "zod": "^3.17.10"

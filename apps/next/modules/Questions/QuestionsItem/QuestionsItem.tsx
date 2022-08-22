@@ -38,10 +38,11 @@ export const QuestionsItem = ({
         <div className="card-title">
           <span>{votesCount}</span>
           <span>{question.content}</span>
-          <button className="btn">
-            {question.answered ? 'Unanswered' : 'Answer'}
-          </button>
-          <QuestionMenu />
+          <QuestionMenu
+            question={question}
+            take={take}
+            showAnswered={showAnswered}
+          />
         </div>
       </div>
     </div>

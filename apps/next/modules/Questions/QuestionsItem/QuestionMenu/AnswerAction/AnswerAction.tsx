@@ -29,7 +29,7 @@ export const AnswerAction = ({
   };
 
   return (
-    <button onClick={handlePress}>
+    <button className="btn" onClick={handlePress}>
       {question.answered ? t('markAsUnanswered') : t('markAsAnswered')}
     </button>
   );
