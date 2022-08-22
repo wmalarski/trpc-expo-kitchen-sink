@@ -1,4 +1,5 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
+import { useDeleteQuestionMutation } from '@tens/common/src/services/useDeleteQuestionMutation';
 import { trpc } from '@tens/expo/utils/trpc';
 import { Actionsheet, DeleteIcon } from 'native-base';
 import { ReactElement } from 'react';
@@ -17,47 +18,11 @@ export const DeleteAction = ({
 }: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Room.Questions' });
 
-  const queryClient = trpc.useContext();
-
-  const mutation = trpc.useMutation(['question.delete'], {
-    onMutate: async ({ id }) => {
-      const args = { roomId: question.roomId, showAnswered, take };
-
-      await queryClient.cancelQuery(['question.list', args]);
-
-      const previous = queryClient.getInfiniteQueryData([
-        'question.list',
-        args,
-      ]);
-
-      if (!previous) return {};
-
-      const next = previous.pages.map((page) => {
-        const nextQuestions = page.questions.filter(
-          (question) => question.id !== id,
-        );
-        return { ...page, questions: nextQuestions };
-      });
-
-      queryClient.setInfiniteQueryData(['question.list', args], {
-        ...previous,
-        pages: next,
-      });
-
-      return { previous };
-    },
-    onError: (_err, _variables, context) => {
-      if (!context?.previous) return;
-      const args = { roomId: question.roomId, showAnswered, take };
-      queryClient.setInfiniteQueryData(
-        ['question.list', args],
-        context.previous,
-      );
-    },
-    onSettled: () => {
-      const args = { roomId: question.roomId, showAnswered, take };
-      queryClient.invalidateQueries(['question.list', args]);
-    },
+  const mutation = useDeleteQuestionMutation({
+    question,
+    take,
+    trpc,
+    showAnswered,
   });
 
   const handlePress = () => {
