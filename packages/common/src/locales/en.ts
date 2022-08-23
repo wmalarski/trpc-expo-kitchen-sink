@@ -50,6 +50,7 @@ export const en = {
         header: 'Add question',
       },
       Questions: {
+        more: 'More',
         markAsAnswered: 'Mark as answered',
         markAsUnanswered: 'Mark as unanswered',
         delete: 'Delete question',
@@ -76,6 +77,9 @@ export const en = {
         errorDesc: 'Something went wrong',
         save: 'Save',
         header: 'Add Room',
+      },
+      List: {
+        header: 'Rooms',
       },
     },
     RoomSettings: {

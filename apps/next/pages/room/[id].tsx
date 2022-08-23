@@ -8,8 +8,11 @@ import { useProtectedPath } from '@tens/next/utils/paths';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import { ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const RoomPage = (): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'Navigation' });
+
   useProtectedPath();
 
   const sessionStatus = useSessionStatus();
@@ -19,7 +22,7 @@ const RoomPage = (): ReactElement => {
   return (
     <>
       <Head>
-        <title>Prisma Starter</title>
+        <title>{t('title')}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {sessionStatus === 'idle' && <Loader />}

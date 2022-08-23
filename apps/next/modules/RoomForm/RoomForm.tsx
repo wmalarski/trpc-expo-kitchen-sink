@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { DefaultErrorShape } from '@trpc/server';
 import clsx from 'clsx';
+import { useTranslation } from 'next-i18next';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -27,6 +28,8 @@ export const RoomForm = ({
   submitText,
   error,
 }: Props): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'RoomForm' });
+
   const { register, handleSubmit } = useForm<RoomFormData>({
     resolver: zodResolver(schema as any),
     defaultValues: defaultValues || {
@@ -39,25 +42,27 @@ export const RoomForm = ({
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       <div className="form-control w-full">
         <label className="label label-text" htmlFor="title">
-          Title
+          {t('nameLabel')}
         </label>
         <input
           className="input w-full"
           id="title"
           type="text"
           disabled={isLoading}
+          placeholder={t('namePlaceholder')}
           {...register('title', { required: true })}
         />
       </div>
 
       <div className="form-control w-full pb-2">
         <label className="label label-text" htmlFor="description">
-          Description
+          {t('descriptionLabel')}
         </label>
         <textarea
           className="input w-full"
           id="description"
           disabled={isLoading}
+          placeholder={t('descriptionPlaceholder')}
           {...register('description', { required: true })}
         />
       </div>

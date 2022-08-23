@@ -1,3 +1,4 @@
+import { Loader } from '@tens/next/components/Loader/Loader';
 import { trpc } from '@tens/next/utils/trpc';
 import NextError from 'next/error';
 import { ReactElement } from 'react';
@@ -18,7 +19,7 @@ export const RoomHeading = ({ roomId }: Props): ReactElement => {
   }
 
   if (query.status === 'loading' || query.status === 'idle') {
-    return <>Loading...</>;
+    return <Loader />;
   }
 
   return (

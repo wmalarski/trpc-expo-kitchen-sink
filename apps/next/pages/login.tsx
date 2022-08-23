@@ -1,4 +1,5 @@
 import { useSessionStatus } from '@tens/common/src/services/SessionService';
+import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import { ReactElement } from 'react';
 import { Loader } from '../components/Loader/Loader';
@@ -7,6 +8,8 @@ import { SignIn } from '../modules/SignIn/SignIn';
 import { usePublicPath } from '../utils/paths';
 
 const LoginPage = (): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'Navigation' });
+
   usePublicPath();
 
   const sessionStatus = useSessionStatus();
@@ -14,7 +17,7 @@ const LoginPage = (): ReactElement => {
   return (
     <>
       <Head>
-        <title>Login - Tens QA</title>
+        <title>{t('title')}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {sessionStatus === 'idle' && <Loader />}

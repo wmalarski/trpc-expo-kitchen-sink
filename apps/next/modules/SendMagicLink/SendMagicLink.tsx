@@ -1,9 +1,12 @@
 import { useAnonService } from '@tens/common/src/services/SessionService';
 import clsx from 'clsx';
+import { useTranslation } from 'next-i18next';
 import { ReactElement, useState } from 'react';
 import { useMutation } from 'react-query';
 
 export const SendMagicLink = (): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'SendLink' });
+
   const anonService = useAnonService();
 
   const mutation = useMutation(anonService.signIn);
@@ -20,7 +23,7 @@ export const SendMagicLink = (): ReactElement => {
         <input
           className="input"
           type="email"
-          placeholder="Your email"
+          placeholder={t('emailPlaceholder')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -31,7 +34,7 @@ export const SendMagicLink = (): ReactElement => {
           onClick={handleSendClick}
           disabled={mutation.isLoading}
         >
-          <span>{mutation.isLoading ? 'Loading' : 'Send magic link'}</span>
+          <span>{t('sendLink')}</span>
         </button>
       </div>
     </div>
