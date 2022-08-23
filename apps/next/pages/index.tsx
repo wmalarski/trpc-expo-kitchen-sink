@@ -4,9 +4,11 @@ import { AddRoom } from '@tens/next/modules/AddRoom/AddRoom';
 import { Navbar } from '@tens/next/modules/Navbar/Navbar';
 import { Rooms } from '@tens/next/modules/Rooms/Rooms';
 import { useProtectedPath } from '@tens/next/utils/paths';
+import { GetServerSideProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import { ReactElement } from 'react';
+import { withTranslations } from '../utils/withTranslations';
 
 const IndexPage = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Navigation' });
@@ -34,5 +36,7 @@ const IndexPage = (): ReactElement => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = withTranslations();
 
 export default IndexPage;

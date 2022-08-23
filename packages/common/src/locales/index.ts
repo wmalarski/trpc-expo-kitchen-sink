@@ -1,5 +1,5 @@
-import { en } from './en';
-
 export const resources = {
-  en,
+  common: {
+    en: require('./en/common.json'),
+  },
 };

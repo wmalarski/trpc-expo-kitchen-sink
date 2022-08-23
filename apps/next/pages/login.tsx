@@ -1,4 +1,5 @@
 import { useSessionStatus } from '@tens/common/src/services/SessionService';
+import { GetServerSideProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import { ReactElement } from 'react';
@@ -6,6 +7,7 @@ import { Loader } from '../components/Loader/Loader';
 import { SendMagicLink } from '../modules/SendMagicLink/SendMagicLink';
 import { SignIn } from '../modules/SignIn/SignIn';
 import { usePublicPath } from '../utils/paths';
+import { withTranslations } from '../utils/withTranslations';
 
 const LoginPage = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Navigation' });
@@ -30,5 +32,7 @@ const LoginPage = (): ReactElement => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = withTranslations();
 
 export default LoginPage;
