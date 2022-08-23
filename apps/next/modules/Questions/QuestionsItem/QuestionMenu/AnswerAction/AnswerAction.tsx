@@ -1,8 +1,8 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useAnswerQuestionMutation } from '@tens/common/src/services/useAnswerQuestionMutation';
 import { trpc } from '@tens/next/utils/trpc';
+import { useTranslation } from 'next-i18next';
 import { ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
 
 type Props = {
   question: InferQueryOutput<'question.list'>['questions'][0];

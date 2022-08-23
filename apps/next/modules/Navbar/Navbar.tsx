@@ -1,7 +1,7 @@
 import { paths } from '@tens/next/utils/paths';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Logout } from './Logout/Logout';
 
 export const Navbar = (): ReactElement => {

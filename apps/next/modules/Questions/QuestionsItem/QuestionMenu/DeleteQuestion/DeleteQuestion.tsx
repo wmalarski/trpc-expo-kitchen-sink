@@ -1,8 +1,8 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useDeleteQuestionMutation } from '@tens/common/src/services/useDeleteQuestionMutation';
 import { trpc } from '@tens/next/utils/trpc';
+import { useTranslation } from 'next-i18next';
 import { ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
 import { FiTrash } from 'react-icons/fi';
 
 type Props = {

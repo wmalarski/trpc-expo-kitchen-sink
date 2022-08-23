@@ -1,7 +1,7 @@
 import { trpc } from '@tens/next/utils/trpc';
+import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
 import { paths } from '../../utils/paths';
 import { RoomForm } from '../RoomForm/RoomForm';
 
