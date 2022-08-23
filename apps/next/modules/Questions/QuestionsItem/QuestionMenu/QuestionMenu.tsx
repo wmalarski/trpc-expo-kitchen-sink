@@ -1,8 +1,10 @@
 import * as Popover from '@radix-ui/react-popover';
 import type { InferQueryOutput } from '@tens/api/src/types';
+import { reactions } from '@tens/common/src/utils/reactions';
 import { useTranslation } from 'next-i18next';
 import { ReactElement } from 'react';
 import { FiX } from 'react-icons/fi';
+import { ReactionButton } from '../ReactionButton/ReactionButton';
 import { AnswerAction } from './AnswerAction/AnswerAction';
 import { DeleteQuestion } from './DeleteQuestion/DeleteQuestion';
 
@@ -28,6 +30,17 @@ export const QuestionMenu = ({
           <Popover.Close className="btn btn-sm btn-circle absolute right-1 m-1">
             <FiX />
           </Popover.Close>
+          <div className="flex">
+            {reactions.map((reaction) => (
+              <ReactionButton
+                key={reaction}
+                reaction={reaction}
+                question={question}
+                take={take}
+                showAnswered={showAnswered}
+              />
+            ))}
+          </div>
           <AnswerAction
             question={question}
             take={take}

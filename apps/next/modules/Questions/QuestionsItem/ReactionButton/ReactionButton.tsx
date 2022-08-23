@@ -1,28 +1,27 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useToggleVoteMutation } from '@tens/common/src/services/useToggleVoteMutation';
-import { trpc } from '@tens/expo/utils/trpc';
-import { Text } from 'native-base';
+import { trpc } from '@tens/next/utils/trpc';
+import clsx from 'clsx';
 import { ReactElement } from 'react';
-import { TouchableOpacity } from 'react-native';
 
 type Props = {
-  question: InferQueryOutput<'question.list'>['questions'][0];
   reaction: string;
-  showAnswered?: boolean;
+  question: InferQueryOutput<'question.list'>['questions'][0];
   take: number;
+  showAnswered?: boolean;
 };
 
 export const ReactionButton = ({
-  question,
   reaction,
-  showAnswered,
+  question,
   take,
+  showAnswered,
 }: Props): ReactElement => {
   const mutation = useToggleVoteMutation({
     question,
-    showAnswered,
     take,
     trpc,
+    showAnswered,
   });
 
   const handleReactionClick = () => {
@@ -33,10 +32,12 @@ export const ReactionButton = ({
   const isSelected = question.vote?.content === reaction;
 
   return (
-    <TouchableOpacity onPress={handleReactionClick}>
-      <Text bg={isSelected ? 'gray.200' : 'gray.100'} p={2} borderRadius="full">
-        {`${reaction}${counts?._count ? ` ${counts._count}` : ''}`}
-      </Text>
-    </TouchableOpacity>
+    <button
+      className={clsx('btn bg-base-200', { 'bg-base-300': isSelected })}
+      onClick={handleReactionClick}
+    >
+      {reaction}
+      {`${reaction}${counts?._count ? ` ${counts._count}` : ''}`}
+    </button>
   );
 };

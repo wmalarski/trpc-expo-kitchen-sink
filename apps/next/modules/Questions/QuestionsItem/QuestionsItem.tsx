@@ -1,8 +1,7 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
-import { useToggleVoteMutation } from '@tens/common/src/services/useToggleVoteMutation';
-import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement } from 'react';
 import { QuestionMenu } from './QuestionMenu/QuestionMenu';
+import { ReactionButton } from './ReactionButton/ReactionButton';
 
 type Props = {
   question: InferQueryOutput<'question.list'>['questions'][0];
@@ -16,17 +15,6 @@ export const QuestionsItem = ({
   take,
   showAnswered,
 }: Props): ReactElement => {
-  const mutation = useToggleVoteMutation({
-    question,
-    take,
-    trpc,
-    showAnswered,
-  });
-
-  const handleReactionClick = (content: string) => {
-    mutation.mutate({ content, questionId: question.id });
-  };
-
   const votesCount = question.counts.reduce(
     (prev, curr) => prev + curr._count,
     0,
@@ -38,6 +26,22 @@ export const QuestionsItem = ({
         <div className="card-title">
           <span>{votesCount}</span>
           <span>{question.content}</span>
+          {votesCount ? (
+            <div className="flex">
+              {question.counts.map(
+                ({ _count, content }) =>
+                  _count > 0 && (
+                    <ReactionButton
+                      key={content}
+                      reaction={content}
+                      question={question}
+                      showAnswered={showAnswered}
+                      take={take}
+                    />
+                  ),
+              )}
+            </div>
+          ) : null}
           <QuestionMenu
             question={question}
             take={take}
