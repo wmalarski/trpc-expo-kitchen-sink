@@ -30,11 +30,8 @@ export const AddQuestionForm = ({ roomId, onClose }: Props): ReactElement => {
 
   const toast = useToast();
 
-  const queryClient = trpc.useContext();
-
   const mutation = trpc.useMutation(['question.add'], {
     onSuccess: () => {
-      queryClient.invalidateQueries(['question.list']);
       toast.show({ description: t('successDesc'), title: t('successTitle') });
       onClose();
     },

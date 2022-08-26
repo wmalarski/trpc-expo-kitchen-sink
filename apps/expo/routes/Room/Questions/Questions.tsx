@@ -1,3 +1,5 @@
+import { useQuestionsSubscription } from '@tens/common/src/services/useQuestionSubscription';
+import { supabase } from '@tens/expo/utils/supabase';
 import { trpc } from '@tens/expo/utils/trpc';
 import { FlatList, Skeleton, Text, VStack } from 'native-base';
 import { ReactElement } from 'react';
@@ -20,6 +22,12 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
       },
     },
   );
+
+  useQuestionsSubscription({
+    roomId,
+    supabase,
+    trpc,
+  });
 
   if (query.status === 'loading' || query.status === 'idle') {
     return (

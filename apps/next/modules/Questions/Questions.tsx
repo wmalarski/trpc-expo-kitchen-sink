@@ -1,7 +1,8 @@
+import { useQuestionsSubscription } from '@tens/common/src/services/useQuestionSubscription';
 import { Loader } from '@tens/next/components/Loader/Loader';
+import { supabase } from '@tens/next/utils/supabase';
 import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement } from 'react';
-import { useQuestionsSubscription } from './Questions.utils';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
 type Props = {
@@ -17,7 +18,11 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
     { refetchOnWindowFocus: false },
   );
 
-  useQuestionsSubscription();
+  useQuestionsSubscription({
+    roomId,
+    supabase,
+    trpc,
+  });
 
   if (query.status === 'loading' || query.status === 'idle') {
     return <Loader />;
