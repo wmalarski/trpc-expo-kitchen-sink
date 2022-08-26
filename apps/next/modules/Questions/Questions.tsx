@@ -13,9 +13,25 @@ type Props = {
 const take = 10;
 
 export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
+  const trpcContext = trpc.useContext();
+
   const query = trpc.useInfiniteQuery(
     ['question.list', { take, roomId, answered: showAnswered }],
-    { refetchOnWindowFocus: false },
+    {
+      refetchOnWindowFocus: false,
+      getNextPageParam: (lastPage) => lastPage.cursor,
+      onSuccess: async (data) => {
+        await trpcContext.cancelQuery(['question.get']);
+        data.pages
+          .flatMap((page) => page.questions)
+          .forEach((question) => {
+            trpcContext.setQueryData(
+              ['question.get', { questionId: question.id }],
+              question,
+            );
+          });
+      },
+    },
   );
 
   useQuestionsSubscription({

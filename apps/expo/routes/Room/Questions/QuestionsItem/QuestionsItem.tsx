@@ -1,6 +1,7 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useAuthService } from '@tens/common/src/services/SessionService';
 import { reactions } from '@tens/common/src/utils/reactions';
+import { trpc } from '@tens/expo/utils/trpc';
 import {
   Actionsheet,
   Box,
@@ -24,7 +25,7 @@ type Props = {
 };
 
 const QuestionsItemInner = ({
-  question,
+  question: initialQuestion,
   canAnswer,
   showAnswered,
   take,
@@ -33,6 +34,13 @@ const QuestionsItemInner = ({
   const userId = authService.session.user?.id;
 
   const { isOpen, onOpen, onClose } = useDisclose();
+
+  const query = trpc.useQuery(
+    ['question.get', { questionId: initialQuestion.id }],
+    { initialData: initialQuestion, enabled: false },
+  );
+
+  const question = query.data || initialQuestion;
 
   const votesCount = question.counts.reduce(
     (prev, curr) => prev + curr._count,

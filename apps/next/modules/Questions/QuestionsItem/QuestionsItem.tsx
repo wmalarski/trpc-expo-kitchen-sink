@@ -1,4 +1,5 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
+import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement } from 'react';
 import { QuestionMenu } from './QuestionMenu/QuestionMenu';
 import { ReactionButton } from './ReactionButton/ReactionButton';
@@ -11,10 +12,17 @@ type Props = {
 };
 
 export const QuestionsItem = ({
-  question,
+  question: initialQuestion,
   take,
   showAnswered,
 }: Props): ReactElement => {
+  const query = trpc.proxy.question.get.useQuery(
+    { questionId: initialQuestion.id },
+    { initialData: initialQuestion, enabled: false },
+  );
+
+  const question = query.data || initialQuestion;
+
   const votesCount = question.counts.reduce(
     (prev, curr) => prev + curr._count,
     0,
