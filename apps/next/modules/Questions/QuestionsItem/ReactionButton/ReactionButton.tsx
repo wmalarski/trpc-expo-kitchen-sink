@@ -36,7 +36,6 @@ export const ReactionButton = ({
       className={clsx('btn bg-base-200', { 'bg-base-300': isSelected })}
       onClick={handleReactionClick}
     >
-      {reaction}
       {`${reaction}${counts?._count ? ` ${counts._count}` : ''}`}
     </button>
   );

@@ -10,33 +10,33 @@ export const voteRouter = t.router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const question = await ctx.prisma.question.findFirstOrThrow({
+        where: { id: input.questionId },
+      });
+
+      await ctx.prisma.member.findFirstOrThrow({
+        where: { roomId: question.roomId, userId: ctx.user.id },
+      });
+
       const vote = await ctx.prisma.vote.findFirst({
         where: { questionId: input.questionId, userId: ctx.user.id },
       });
 
-      if (!vote) {
-        const question = await ctx.prisma.question.findFirstOrThrow({
-          where: { id: input.questionId },
-        });
-
-        await ctx.prisma.member.findFirstOrThrow({
-          where: { roomId: question.roomId, userId: ctx.user.id },
-        });
-
-        return ctx.prisma.vote.create({
-          data: { ...input, userId: ctx.user.id },
+      if (vote?.content === input.content) {
+        return ctx.prisma.vote.delete({
+          where: { id: vote.id },
         });
       }
 
-      if (vote.content === input.content) {
-        return ctx.prisma.vote.deleteMany({
-          where: { id: vote.id, userId: ctx.user.id },
-        });
-      }
-
-      return ctx.prisma.vote.updateMany({
-        where: { id: vote.id, userId: ctx.user.id },
-        data: { content: input.content },
+      return ctx.prisma.vote.upsert({
+        where: {
+          questionId_userId: {
+            questionId: input.questionId,
+            userId: ctx.user.id,
+          },
+        },
+        create: { ...input, userId: ctx.user.id },
+        update: { ...input },
       });
     }),
 });
