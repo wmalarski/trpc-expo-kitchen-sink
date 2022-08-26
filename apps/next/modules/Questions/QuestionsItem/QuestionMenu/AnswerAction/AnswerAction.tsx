@@ -6,22 +6,14 @@ import { ReactElement } from 'react';
 
 type Props = {
   question: InferQueryOutput<'question.list'>['questions'][0];
-  showAnswered?: boolean;
-  take: number;
 };
 
-export const AnswerAction = ({
-  question,
-  showAnswered,
-  take,
-}: Props): ReactElement => {
+export const AnswerAction = ({ question }: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Room.Questions' });
 
   const mutation = useAnswerQuestionMutation({
     question,
-    take,
     trpc,
-    showAnswered,
   });
 
   const handlePress = () => {

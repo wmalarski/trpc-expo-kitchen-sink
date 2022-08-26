@@ -1,6 +1,8 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useAuthService } from '@tens/common/src/services/SessionService';
+import { useVoteSubscription } from '@tens/common/src/services/useVoteSubscription';
 import { reactions } from '@tens/common/src/utils/reactions';
+import { supabase } from '@tens/expo/utils/supabase';
 import { trpc } from '@tens/expo/utils/trpc';
 import {
   Actionsheet,
@@ -35,9 +37,20 @@ const QuestionsItemInner = ({
 
   const { isOpen, onOpen, onClose } = useDisclose();
 
+  useVoteSubscription({
+    questionId: initialQuestion.id,
+    voteId: initialQuestion.vote?.id,
+    supabase,
+    trpc,
+  });
+
   const query = trpc.useQuery(
     ['question.get', { questionId: initialQuestion.id }],
-    { initialData: initialQuestion, enabled: false },
+    {
+      initialData: initialQuestion,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
   );
 
   const question = query.data || initialQuestion;
@@ -74,8 +87,6 @@ const QuestionsItemInner = ({
                         key={count.content}
                         reaction={count.content}
                         question={question}
-                        showAnswered={showAnswered}
-                        take={take}
                       />
                     ),
                 )}
@@ -91,20 +102,12 @@ const QuestionsItemInner = ({
               <ReactionButton
                 key={reaction}
                 reaction={reaction}
-                showAnswered={showAnswered}
-                take={take}
                 question={question}
               />
             ))}
           </HStack>
           <Divider />
-          {canAnswer && (
-            <AnsweredActions
-              question={question}
-              take={take}
-              showAnswered={showAnswered}
-            />
-          )}
+          {canAnswer && <AnsweredActions question={question} />}
           {(canAnswer || userId === question.userId) && (
             <DeleteAction
               question={question}

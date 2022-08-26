@@ -7,22 +7,14 @@ import { useTranslation } from 'react-i18next';
 
 type Props = {
   question: InferQueryOutput<'question.list'>['questions'][0];
-  showAnswered?: boolean;
-  take: number;
 };
 
-export const AnsweredActions = ({
-  question,
-  showAnswered,
-  take,
-}: Props): ReactElement => {
+export const AnsweredActions = ({ question }: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Room.Questions' });
 
   const mutation = useAnswerQuestionMutation({
     question,
-    take,
     trpc,
-    showAnswered,
   });
 
   const handlePress = () => {

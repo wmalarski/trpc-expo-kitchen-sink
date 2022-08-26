@@ -29,6 +29,7 @@
     "@trpc/server": "10.0.0-alpha.41",
     "clsx": "^1.2.1",
     "daisyui": "^2.24.0",
+    "lodash.debounce": "^4.0.8",
     "next": "^12.2.4",
     "next-i18next": "^12.0.0",
     "prisma": "^4.2.1",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
+    "@types/lodash.debounce": "^4.0.7",
     "@types/node": "^18.6.4",
     "@types/react": "^17.0.39",
     "autoprefixer": "^10.4.8",

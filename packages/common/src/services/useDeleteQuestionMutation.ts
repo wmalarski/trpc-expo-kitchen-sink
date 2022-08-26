@@ -30,8 +30,6 @@ export const useDeleteQuestionMutation = ({
 
       if (!previous) return {};
 
-      console.log({ previous });
-
       const next = previous.pages.map((page) => {
         const nextQuestions = page.questions.filter(
           (question) => question.id !== id,

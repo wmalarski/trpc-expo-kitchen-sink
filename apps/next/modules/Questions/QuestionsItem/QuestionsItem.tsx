@@ -1,4 +1,6 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
+import { useVoteSubscription } from '@tens/common/src/services/useVoteSubscription';
+import { supabase } from '@tens/next/utils/supabase';
 import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement } from 'react';
 import { QuestionMenu } from './QuestionMenu/QuestionMenu';
@@ -16,9 +18,20 @@ export const QuestionsItem = ({
   take,
   showAnswered,
 }: Props): ReactElement => {
+  useVoteSubscription({
+    questionId: initialQuestion.id,
+    voteId: initialQuestion.vote?.id,
+    supabase,
+    trpc,
+  });
+
   const query = trpc.proxy.question.get.useQuery(
     { questionId: initialQuestion.id },
-    { initialData: initialQuestion, enabled: false },
+    {
+      initialData: initialQuestion,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
   );
 
   const question = query.data || initialQuestion;
@@ -43,8 +56,6 @@ export const QuestionsItem = ({
                       key={content}
                       reaction={content}
                       question={question}
-                      showAnswered={showAnswered}
-                      take={take}
                     />
                   ),
               )}

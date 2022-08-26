@@ -61,34 +61,30 @@ export const questionRouter = t.router({
         },
       });
 
-      await ctx.prisma.member.findFirstOrThrow({
-        where: {
-          userId: ctx.user.id,
-          roomId: question.roomId,
-        },
-      });
+      // await ctx.prisma.member.findFirstOrThrow({
+      //   where: {
+      //     userId: ctx.user.id,
+      //     roomId: question.roomId,
+      //   },
+      // });
 
-      const [counts, votes] = await Promise.all([
+      const [counts, vote] = await Promise.all([
         ctx.prisma.vote.groupBy({
           by: ['content', 'questionId'],
           _count: true,
           where: {
-            questionId: question.id,
+            questionId: input.questionId,
           },
         }),
-        ctx.prisma.vote.findMany({
+        ctx.prisma.vote.findFirst({
           where: {
             userId: ctx.user.id,
-            questionId: question.id,
+            questionId: input.questionId,
           },
         }),
       ]);
 
-      return {
-        ...question,
-        counts: counts.filter((entry) => entry.questionId === question.id),
-        vote: votes.find((vote) => vote.questionId === question.id),
-      };
+      return { ...question, counts, vote: vote || undefined };
     }),
   list: protectedProcedure
     .input(

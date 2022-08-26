@@ -8,20 +8,11 @@ import { TouchableOpacity } from 'react-native';
 type Props = {
   question: InferQueryOutput<'question.list'>['questions'][0];
   reaction: string;
-  showAnswered?: boolean;
-  take: number;
 };
 
-export const ReactionButton = ({
-  question,
-  reaction,
-  showAnswered,
-  take,
-}: Props): ReactElement => {
+export const ReactionButton = ({ question, reaction }: Props): ReactElement => {
   const mutation = useToggleVoteMutation({
     question,
-    showAnswered,
-    take,
     trpc,
   });
 

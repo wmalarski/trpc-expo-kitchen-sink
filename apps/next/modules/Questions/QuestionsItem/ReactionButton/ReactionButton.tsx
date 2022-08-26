@@ -7,21 +7,12 @@ import { ReactElement } from 'react';
 type Props = {
   reaction: string;
   question: InferQueryOutput<'question.list'>['questions'][0];
-  take: number;
-  showAnswered?: boolean;
 };
 
-export const ReactionButton = ({
-  reaction,
-  question,
-  take,
-  showAnswered,
-}: Props): ReactElement => {
+export const ReactionButton = ({ reaction, question }: Props): ReactElement => {
   const mutation = useToggleVoteMutation({
     question,
-    take,
     trpc,
-    showAnswered,
   });
 
   const handleReactionClick = () => {

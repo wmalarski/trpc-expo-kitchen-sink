@@ -36,16 +36,10 @@ export const QuestionMenu = ({
                 key={reaction}
                 reaction={reaction}
                 question={question}
-                take={take}
-                showAnswered={showAnswered}
               />
             ))}
           </div>
-          <AnswerAction
-            question={question}
-            take={take}
-            showAnswered={showAnswered}
-          />
+          <AnswerAction question={question} />
           <DeleteQuestion
             question={question}
             take={take}
