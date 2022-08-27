@@ -1,18 +1,16 @@
 import { useSessionStatus } from '@tens/common/src/services/SessionService';
 import { Loader } from '@tens/next/components/Loader/Loader';
-import { AddQuestion } from '@tens/next/modules/AddQuestion/AddQuestion';
 import { Navbar } from '@tens/next/modules/Navbar/Navbar';
-import { Questions } from '@tens/next/modules/Questions/Questions';
 import { RoomHeading } from '@tens/next/modules/RoomHeading/RoomHeading';
 import { useProtectedPath } from '@tens/next/utils/paths';
+import { withTranslations } from '@tens/next/utils/withTranslations';
 import { GetServerSideProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import { withTranslations } from '../../utils/withTranslations';
 
-const RoomPage = (): ReactElement => {
+const RoomSettingsPage = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Navigation' });
 
   useProtectedPath();
@@ -33,8 +31,6 @@ const RoomPage = (): ReactElement => {
           <Navbar />
           <div className="flex flex-col gap-2 p-4">
             <RoomHeading roomId={roomId} />
-            <AddQuestion roomId={roomId} />
-            <Questions roomId={roomId} />
           </div>
         </>
       )}
@@ -44,4 +40,4 @@ const RoomPage = (): ReactElement => {
 
 export const getServerSideProps: GetServerSideProps = withTranslations();
 
-export default RoomPage;
+export default RoomSettingsPage;

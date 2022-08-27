@@ -27,9 +27,6 @@ export const useVoteSubscription = ({
     const subscription = supabase
       .from(`Vote:questionId=eq.${questionId}`)
       .on('INSERT', async () => invalidate({}))
-      .on('*', (payload) => {
-        console.log('questionId', payload);
-      })
       .subscribe();
 
     return () => {
@@ -44,9 +41,6 @@ export const useVoteSubscription = ({
       .from(`Vote:id=eq.${voteId}`)
       .on('UPDATE', async () => invalidate({}))
       .on('DELETE', async () => invalidate({}))
-      .on('*', (payload) => {
-        console.log('id', payload);
-      })
       .subscribe();
 
     return () => {
