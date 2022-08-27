@@ -3,6 +3,7 @@ import { ErrorMessage } from '@tens/next/components/ErrorMessage/ErrorMessage';
 import { Loader } from '@tens/next/components/Loader/Loader';
 import { supabase } from '@tens/next/utils/supabase';
 import { trpc } from '@tens/next/utils/trpc';
+import { useTranslation } from 'next-i18next';
 import { ReactElement } from 'react';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
 
@@ -14,10 +15,12 @@ type Props = {
 const take = 10;
 
 export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'Rooms.List' });
+
   const trpcContext = trpc.useContext();
 
-  const query = trpc.useInfiniteQuery(
-    ['question.list', { take, roomId, answered: showAnswered }],
+  const query = trpc.proxy.question.list.useInfiniteQuery(
+    { take, roomId, answered: showAnswered },
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => lastPage.cursor,
@@ -68,6 +71,11 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
             showAnswered={showAnswered}
           />
         ))}
+      {query.hasNextPage && (
+        <button className="btn" onClick={() => query.fetchNextPage()}>
+          {t('showMore')}
+        </button>
+      )}
     </div>
   );
 };
