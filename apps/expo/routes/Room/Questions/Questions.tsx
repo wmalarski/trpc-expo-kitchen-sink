@@ -21,7 +21,6 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
     {
       getNextPageParam: (lastPage) => lastPage.cursor,
       onSuccess: async (data) => {
-        await trpcContext.cancelQuery(['question.get']);
         data.pages
           .flatMap((page) => page.questions)
           .forEach((question) => {

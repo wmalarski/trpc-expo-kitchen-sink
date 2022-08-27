@@ -8,20 +8,20 @@ type Props = {
 };
 
 export const useAnswerQuestionMutation = ({ question, trpc }: Props) => {
-  const queryClient = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   return trpc.useMutation(['question.answer'], {
     onMutate: async ({ id, answered }) => {
-      await queryClient.cancelQuery(['question.get', { questionId: id }]);
+      await trpcContext.cancelQuery(['question.get', { questionId: id }]);
 
-      const previous = queryClient.getQueryData([
+      const previous = trpcContext.getQueryData([
         'question.get',
         { questionId: id },
       ]);
 
       if (!previous) return {};
 
-      queryClient.setQueryData(['question.get', { questionId: id }], {
+      trpcContext.setQueryData(['question.get', { questionId: id }], {
         ...previous,
         answered,
       });
@@ -30,13 +30,13 @@ export const useAnswerQuestionMutation = ({ question, trpc }: Props) => {
     },
     onError: (_err, { id }, context) => {
       if (!context?.previous) return;
-      queryClient.setQueryData(
+      trpcContext.setQueryData(
         ['question.get', { questionId: id }],
         context.previous,
       );
     },
     onSettled: () => {
-      queryClient.invalidateQueries([
+      trpcContext.invalidateQueries([
         'question.get',
         { questionId: question.id },
       ]);

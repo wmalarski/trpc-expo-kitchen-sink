@@ -15,15 +15,15 @@ export const useDeleteQuestionMutation = ({
   take,
   trpc,
 }: Props) => {
-  const queryClient = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   return trpc.useMutation(['question.delete'], {
     onMutate: async ({ id }) => {
       const args = { roomId: question.roomId, showAnswered, take };
 
-      await queryClient.cancelQuery(['question.list', args]);
+      await trpcContext.cancelQuery(['question.list', args]);
 
-      const previous = queryClient.getInfiniteQueryData([
+      const previous = trpcContext.getInfiniteQueryData([
         'question.list',
         args,
       ]);
@@ -37,7 +37,7 @@ export const useDeleteQuestionMutation = ({
         return { ...page, questions: nextQuestions };
       });
 
-      queryClient.setInfiniteQueryData(['question.list', args], {
+      trpcContext.setInfiniteQueryData(['question.list', args], {
         ...previous,
         pages: next,
       });
@@ -47,14 +47,14 @@ export const useDeleteQuestionMutation = ({
     onError: (_err, _variables, context) => {
       if (!context?.previous) return;
       const args = { roomId: question.roomId, showAnswered, take };
-      queryClient.setInfiniteQueryData(
+      trpcContext.setInfiniteQueryData(
         ['question.list', args],
         context.previous,
       );
     },
     onSettled: () => {
       const args = { roomId: question.roomId, showAnswered, take };
-      queryClient.invalidateQueries(['question.list', args]);
+      trpcContext.invalidateQueries(['question.list', args]);
     },
   });
 };

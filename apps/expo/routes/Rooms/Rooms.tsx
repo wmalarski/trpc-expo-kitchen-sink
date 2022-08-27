@@ -7,14 +7,14 @@ import { AddRoom } from './AddRoom/AddRoom';
 import { RoomsItem } from './RoomsItem/RoomsItem';
 
 export const Rooms = (): ReactElement => {
-  const queryClient = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   const query = trpc.useInfiniteQuery(['room.list', { take: 10 }], {
     onSuccess: (data) => {
       data.pages
         .flatMap((page) => page.rooms)
         .forEach((room) => {
-          queryClient.setQueryData(['room.get', { id: room.id }], room);
+          trpcContext.setQueryData(['room.get', { id: room.id }], room);
         });
     },
     getNextPageParam: (lastPage) => {

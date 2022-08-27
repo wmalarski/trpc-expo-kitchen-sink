@@ -11,13 +11,13 @@ export const useToggleVoteMutation = ({
   question,
   trpc,
 }: UseToggleVoteMutation) => {
-  const queryClient = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   return trpc.useMutation(['vote.toggle'], {
     onMutate: async ({ content, questionId }) => {
-      await queryClient.cancelQuery(['question.list']);
+      await trpcContext.cancelQuery(['question.list']);
 
-      const previous = queryClient.getQueryData([
+      const previous = trpcContext.getQueryData([
         'question.get',
         { questionId },
       ]);
@@ -56,7 +56,7 @@ export const useToggleVoteMutation = ({
         }
       }
 
-      queryClient.setQueryData(['question.get', { questionId }], {
+      trpcContext.setQueryData(['question.get', { questionId }], {
         ...question,
         vote,
         counts,
@@ -66,13 +66,13 @@ export const useToggleVoteMutation = ({
     },
     onError: (_err, { questionId }, context) => {
       if (!context?.previous) return;
-      queryClient.setQueryData(
+      trpcContext.setQueryData(
         ['question.get', { questionId }],
         context.previous,
       );
     },
     onSettled: () => {
-      queryClient.invalidateQueries([
+      trpcContext.invalidateQueries([
         'question.get',
         { questionId: question.id },
       ]);

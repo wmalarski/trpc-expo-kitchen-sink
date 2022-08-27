@@ -11,10 +11,10 @@ type Props = {
 };
 
 export const useQuestionsSubscription = ({ roomId, trpc, supabase }: Props) => {
-  const client = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   const invalidate = useDebounce(() => {
-    client.invalidateQueries(['question.list']);
+    trpcContext.invalidateQueries(['question.list']);
   }, 250);
 
   useEffect(() => {

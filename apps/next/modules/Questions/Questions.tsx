@@ -21,7 +21,6 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) => lastPage.cursor,
       onSuccess: async (data) => {
-        await trpcContext.cancelQuery(['question.get']);
         data.pages
           .flatMap((page) => page.questions)
           .forEach((question) => {
@@ -51,7 +50,7 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
   const canAnswer = query.data.pages[0].canAnswer;
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div className="flex flex-col gap-4">
       {query.data.pages
         .flatMap((page) => page.questions)
         .map((question) => (

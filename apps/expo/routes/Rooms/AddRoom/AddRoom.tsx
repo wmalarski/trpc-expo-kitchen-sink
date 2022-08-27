@@ -15,12 +15,12 @@ export const AddRoom = (): ReactElement => {
 
   const toast = useToast();
 
-  const queryClient = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   const mutation = trpc.useMutation(['room.add'], {
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['room.list']);
-      queryClient.setQueryData(['room.get', { id: data.room.id }], data.room);
+      trpcContext.invalidateQueries(['room.list']);
+      trpcContext.setQueryData(['room.get', { id: data.room.id }], data.room);
       navigation.navigate('Room', { roomId: data.room.id });
     },
     onError: () => {

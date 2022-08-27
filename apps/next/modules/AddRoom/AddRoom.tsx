@@ -10,11 +10,11 @@ export const AddRoom = (): ReactElement => {
 
   const router = useRouter();
 
-  const client = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   const mutation = trpc.proxy.room.add.useMutation({
     onSettled() {
-      return client.invalidateQueries(['room.list']);
+      return trpcContext.invalidateQueries(['room.list']);
     },
     onSuccess(data) {
       router.push(paths.room(data.room.id));

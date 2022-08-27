@@ -21,13 +21,13 @@ export const EditRoom = ({ room }: Props): ReactElement => {
 
   const toast = useToast();
 
-  const queryClient = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   const mutation = trpc.useMutation(['room.update'], {
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries(['room.list']);
+      trpcContext.invalidateQueries(['room.list']);
       const updated = { ...room, variables };
-      queryClient.setQueryData(['room.get', { id: room.id }], updated);
+      trpcContext.setQueryData(['room.get', { id: room.id }], updated);
       toast.show({ description: t('successDesc'), title: t('successTitle') });
     },
     onError: () => {

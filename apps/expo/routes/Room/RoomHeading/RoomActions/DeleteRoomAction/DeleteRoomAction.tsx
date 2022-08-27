@@ -16,12 +16,12 @@ export const DeleteRoomAction = ({ room, onClose }: Props): ReactElement => {
 
   const navigation = useNavigation<NavigationProp<RoomsNavigatorParams>>();
 
-  const queryClient = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   const mutation = trpc.useMutation(['room.delete'], {
     onSuccess: () => {
       onClose();
-      queryClient.invalidateQueries(['room.list']);
+      trpcContext.invalidateQueries(['room.list']);
       navigation.navigate('Rooms');
     },
   });

@@ -7,14 +7,14 @@ import { RoomsItem } from './RoomsItem/RoomsItem';
 export const Rooms = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Rooms.List' });
 
-  const client = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   const query = trpc.proxy.room.list.useQuery(
     { take: 20, cursor: null },
     {
       onSuccess(data) {
         data.rooms.forEach((post) => {
-          client.setQueryData(['room.get', { id: post.id }], post);
+          trpcContext.setQueryData(['room.get', { id: post.id }], post);
         });
       },
     },

@@ -17,10 +17,10 @@ export const useVoteSubscription = ({
   trpc,
   supabase,
 }: Props) => {
-  const client = trpc.useContext();
+  const trpcContext = trpc.useContext();
 
   const invalidate = useDebounce(() => {
-    client.invalidateQueries(['question.get', { questionId }]);
+    trpcContext.invalidateQueries(['question.get', { questionId }]);
   }, 250);
 
   useEffect(() => {
