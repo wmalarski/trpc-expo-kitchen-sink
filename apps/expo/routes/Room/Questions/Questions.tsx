@@ -1,7 +1,8 @@
 import { useQuestionsSubscription } from '@tens/common/src/services/useQuestionSubscription';
+import { ErrorMessage } from '@tens/expo/components/ErrorMessage/ErrorMessage';
 import { supabase } from '@tens/expo/utils/supabase';
 import { trpc } from '@tens/expo/utils/trpc';
-import { FlatList, Skeleton, Text, VStack } from 'native-base';
+import { FlatList, Skeleton, VStack } from 'native-base';
 import { ReactElement } from 'react';
 import { SafeAreaView } from 'react-native';
 import { QuestionsItem } from './QuestionsItem/QuestionsItem';
@@ -49,13 +50,18 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
     );
   }
 
-  if (query.status === 'error') {
-    return <Text>{query.error.message}</Text>;
-  }
-
   const handleRefresh = () => {
     query.refetch();
   };
+
+  if (query.status === 'error') {
+    return (
+      <ErrorMessage
+        message={query.error.message}
+        onReloadPress={handleRefresh}
+      />
+    );
+  }
 
   const handleEndReached = () => {
     query.fetchNextPage();

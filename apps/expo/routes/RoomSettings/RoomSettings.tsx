@@ -1,4 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
+import { ErrorMessage } from '@tens/expo/components/ErrorMessage/ErrorMessage';
 import { trpc } from '@tens/expo/utils/trpc';
 import { Heading, Skeleton, Text, VStack } from 'native-base';
 import { ReactElement } from 'react';
@@ -27,7 +28,12 @@ export const RoomSettings = ({
   }
 
   if (query.status === 'error') {
-    return <Text>{query.error.message}</Text>;
+    return (
+      <ErrorMessage
+        message={query.error.message}
+        onReloadPress={() => query.refetch()}
+      />
+    );
   }
 
   return (

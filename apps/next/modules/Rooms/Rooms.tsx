@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@tens/next/components/ErrorMesssage/ErrorMesssage';
 import { Loader } from '@tens/next/components/Loader/Loader';
 import { trpc } from '@tens/next/utils/trpc';
 import { useTranslation } from 'next-i18next';
@@ -25,7 +26,12 @@ export const Rooms = (): ReactElement => {
   }
 
   if (query.status === 'error') {
-    return <span>{query.error.message}</span>;
+    return (
+      <ErrorMessage
+        message={query.error.message}
+        onReloadClick={() => query.refetch()}
+      />
+    );
   }
 
   return (

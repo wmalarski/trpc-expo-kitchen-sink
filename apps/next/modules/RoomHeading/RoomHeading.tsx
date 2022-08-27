@@ -1,6 +1,6 @@
+import { ErrorMessage } from '@tens/next/components/ErrorMesssage/ErrorMesssage';
 import { Loader } from '@tens/next/components/Loader/Loader';
 import { trpc } from '@tens/next/utils/trpc';
-import NextError from 'next/error';
 import { ReactElement } from 'react';
 
 type Props = {
@@ -14,8 +14,12 @@ export const RoomHeading = ({ roomId }: Props): ReactElement => {
   );
 
   if (query.status === 'error') {
-    const statusCode = query.error.data?.httpStatus ?? 500;
-    return <NextError title={query.error.message} statusCode={statusCode} />;
+    return (
+      <ErrorMessage
+        message={query.error.message}
+        onReloadClick={() => query.refetch()}
+      />
+    );
   }
 
   if (query.status === 'loading' || query.status === 'idle') {

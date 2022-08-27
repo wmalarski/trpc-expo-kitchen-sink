@@ -1,4 +1,5 @@
 import { useQuestionsSubscription } from '@tens/common/src/services/useQuestionSubscription';
+import { ErrorMessage } from '@tens/next/components/ErrorMesssage/ErrorMesssage';
 import { Loader } from '@tens/next/components/Loader/Loader';
 import { supabase } from '@tens/next/utils/supabase';
 import { trpc } from '@tens/next/utils/trpc';
@@ -44,7 +45,12 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
   }
 
   if (query.status === 'error') {
-    return <span>{query.error.message}</span>;
+    return (
+      <ErrorMessage
+        message={query.error.message}
+        onReloadClick={() => query.refetch()}
+      />
+    );
   }
 
   const canAnswer = query.data.pages[0].canAnswer;
