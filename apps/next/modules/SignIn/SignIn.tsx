@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAnonService } from '@tens/common/src/services/SessionService';
+import { Toast, ToastElement } from '@tens/next/components/Toast/Toast';
 import clsx from 'clsx';
 import { useTranslation } from 'next-i18next';
-import { ReactElement } from 'react';
+import { ReactElement, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { z } from 'zod';
@@ -17,9 +18,15 @@ type SignInFormData = z.infer<typeof schema>;
 export const SignIn = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'SignIn' });
 
+  const toastRef = useRef<ToastElement>(null);
+
   const anonService = useAnonService();
 
-  const mutation = useMutation(anonService.signIn);
+  const mutation = useMutation(anonService.signIn, {
+    onError: () => {
+      toastRef.current?.publish();
+    },
+  });
 
   const { register, handleSubmit } = useForm<SignInFormData>({
     resolver: zodResolver(schema as any),
@@ -71,12 +78,11 @@ export const SignIn = (): ReactElement => {
           >
             {t('signIn')}
           </button>
-
-          {/* {mutation.error && (
-            <p style={{ color: 'red' }}>{mutation.error.message}</p>
-          )} */}
         </form>
       </div>
+      <Toast ref={toastRef} variant="error" title={t('errorTitle')}>
+        {t('errorDesc')}
+      </Toast>
     </div>
   );
 };

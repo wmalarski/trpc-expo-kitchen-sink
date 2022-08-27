@@ -21,6 +21,7 @@
     "@hookform/resolvers": "^2.9.7",
     "@prisma/client": "^4.2.1",
     "@radix-ui/react-popover": "^1.0.0",
+    "@radix-ui/react-toast": "^1.0.0",
     "@supabase/supabase-js": "^1.35.6",
     "@tens/api": "*",
     "@trpc/client": "10.0.0-alpha.41",

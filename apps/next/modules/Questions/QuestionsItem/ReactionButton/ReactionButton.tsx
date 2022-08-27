@@ -1,8 +1,10 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useToggleVoteMutation } from '@tens/common/src/services/useToggleVoteMutation';
+import { Toast, ToastElement } from '@tens/next/components/Toast/Toast';
 import { trpc } from '@tens/next/utils/trpc';
 import clsx from 'clsx';
-import { ReactElement } from 'react';
+import { useTranslation } from 'next-i18next';
+import { ReactElement, useRef } from 'react';
 
 type Props = {
   reaction: string;
@@ -10,9 +12,16 @@ type Props = {
 };
 
 export const ReactionButton = ({ reaction, question }: Props): ReactElement => {
+  const { t } = useTranslation('common', { keyPrefix: 'Room.Questions' });
+
+  const toastRef = useRef<ToastElement>(null);
+
   const mutation = useToggleVoteMutation({
     question,
     trpc,
+    onError: () => {
+      toastRef.current?.publish();
+    },
   });
 
   const handleReactionClick = () => {
@@ -23,11 +32,16 @@ export const ReactionButton = ({ reaction, question }: Props): ReactElement => {
   const isSelected = question.vote?.content === reaction;
 
   return (
-    <button
-      className={clsx('btn bg-base-200', { 'bg-base-300': isSelected })}
-      onClick={handleReactionClick}
-    >
-      {`${reaction}${counts?._count ? ` ${counts._count}` : ''}`}
-    </button>
+    <>
+      <button
+        className={clsx('btn bg-base-200', { 'bg-base-300': isSelected })}
+        onClick={handleReactionClick}
+      >
+        {`${reaction}${counts?._count ? ` ${counts._count}` : ''}`}
+      </button>
+      <Toast ref={toastRef} variant="error" title={t('error')}>
+        {mutation.error?.message}
+      </Toast>
+    </>
   );
 };

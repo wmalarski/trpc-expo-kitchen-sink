@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { DefaultErrorShape } from '@trpc/server';
 import clsx from 'clsx';
 import { useTranslation } from 'next-i18next';
 import { ReactElement } from 'react';
@@ -18,7 +17,6 @@ type Props = {
   isLoading: boolean;
   onSubmit: (data: RoomFormData) => void;
   submitText: string;
-  error?: DefaultErrorShape | null;
 };
 
 export const RoomForm = ({
@@ -26,7 +24,6 @@ export const RoomForm = ({
   isLoading,
   onSubmit,
   submitText,
-  error,
 }: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'RoomForm' });
 
@@ -74,8 +71,6 @@ export const RoomForm = ({
       >
         {submitText}
       </button>
-
-      {error && <p style={{ color: 'red' }}>{error.message}</p>}
     </form>
   );
 };

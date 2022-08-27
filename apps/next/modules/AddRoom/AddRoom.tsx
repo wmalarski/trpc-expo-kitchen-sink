@@ -1,14 +1,17 @@
+import { Toast, ToastElement } from '@tens/next/components/Toast/Toast';
+import { paths } from '@tens/next/utils/paths';
 import { trpc } from '@tens/next/utils/trpc';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { ReactElement } from 'react';
-import { paths } from '../../utils/paths';
+import { ReactElement, useRef } from 'react';
 import { RoomForm } from '../RoomForm/RoomForm';
 
 export const AddRoom = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Rooms.AddRoom' });
 
   const router = useRouter();
+
+  const toastRef = useRef<ToastElement>(null);
 
   const trpcContext = trpc.useContext();
 
@@ -18,6 +21,9 @@ export const AddRoom = (): ReactElement => {
     },
     onSuccess(data) {
       router.push(paths.room(data.room.id));
+    },
+    onError: () => {
+      toastRef.current?.publish();
     },
   });
 
@@ -29,9 +35,11 @@ export const AddRoom = (): ReactElement => {
           isLoading={mutation.isLoading}
           onSubmit={mutation.mutate}
           submitText="Add"
-          error={mutation.error}
         />
       </div>
+      <Toast ref={toastRef} variant="error" title={t('errorTitle')}>
+        {t('errorDesc')}
+      </Toast>
     </div>
   );
 };

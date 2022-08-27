@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Toast, ToastElement } from '@tens/next/components/Toast/Toast';
 import { trpc } from '@tens/next/utils/trpc';
 import clsx from 'clsx';
 import { useTranslation } from 'next-i18next';
-import { ReactElement } from 'react';
+import { ReactElement, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -19,14 +20,19 @@ type Props = {
 export const AddQuestion = ({ roomId }: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Room.AddQuestion' });
 
+  const toastRef = useRef<ToastElement>(null);
+
   const { register, handleSubmit, reset } = useForm<AddQuestionFormData>({
     resolver: zodResolver(schema as any),
     defaultValues: { content: '' },
   });
 
-  const mutation = trpc.useMutation(['question.add'], {
+  const mutation = trpc.proxy.question.add.useMutation({
     onSuccess: () => {
       reset();
+    },
+    onError: () => {
+      toastRef.current?.publish();
     },
   });
 
@@ -63,6 +69,9 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
           {t('save')}
         </button>
       </form>
+      <Toast ref={toastRef} variant="error" title={t('errorTitle')}>
+        {t('errorDesc')}
+      </Toast>
     </div>
   );
 };

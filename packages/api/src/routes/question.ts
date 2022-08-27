@@ -6,7 +6,7 @@ export const questionRouter = t.router({
     .input(
       z.object({
         roomId: z.string().uuid(),
-        content: z.string().min(1),
+        content: z.string().min(5),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -61,12 +61,12 @@ export const questionRouter = t.router({
         },
       });
 
-      // await ctx.prisma.member.findFirstOrThrow({
-      //   where: {
-      //     userId: ctx.user.id,
-      //     roomId: question.roomId,
-      //   },
-      // });
+      await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          userId: ctx.user.id,
+          roomId: question.roomId,
+        },
+      });
 
       const [counts, vote] = await Promise.all([
         ctx.prisma.vote.groupBy({

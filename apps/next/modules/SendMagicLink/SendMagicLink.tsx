@@ -1,15 +1,22 @@
 import { useAnonService } from '@tens/common/src/services/SessionService';
+import { Toast, ToastElement } from '@tens/next/components/Toast/Toast';
 import clsx from 'clsx';
 import { useTranslation } from 'next-i18next';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 
 export const SendMagicLink = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'SendLink' });
 
+  const toastRef = useRef<ToastElement>(null);
+
   const anonService = useAnonService();
 
-  const mutation = useMutation(anonService.signIn);
+  const mutation = useMutation(anonService.signIn, {
+    onError: () => {
+      toastRef.current?.publish();
+    },
+  });
 
   const [email, setEmail] = useState('');
 
@@ -37,6 +44,9 @@ export const SendMagicLink = (): ReactElement => {
           <span>{t('sendLink')}</span>
         </button>
       </div>
+      <Toast ref={toastRef} variant="error" title={t('error')}>
+        {t('errorText')}
+      </Toast>
     </div>
   );
 };
