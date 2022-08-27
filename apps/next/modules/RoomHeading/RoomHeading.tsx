@@ -1,4 +1,4 @@
-import { ErrorMessage } from '@tens/next/components/ErrorMesssage/ErrorMesssage';
+import { ErrorMessage } from '@tens/next/components/ErrorMessage/ErrorMessage';
 import { Loader } from '@tens/next/components/Loader/Loader';
 import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement } from 'react';

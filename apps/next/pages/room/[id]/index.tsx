@@ -19,7 +19,9 @@ const RoomPage = (): ReactElement => {
 
   const sessionStatus = useSessionStatus();
 
-  const roomId = useRouter().query.id as string;
+  const router = useRouter();
+
+  const roomId = router.query.id as string;
 
   return (
     <>

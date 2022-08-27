@@ -1,10 +1,10 @@
 import { Toast, ToastElement } from '@tens/next/components/Toast/Toast';
+import { RoomForm } from '@tens/next/modules/RoomForm/RoomForm';
 import { paths } from '@tens/next/utils/paths';
 import { trpc } from '@tens/next/utils/trpc';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { ReactElement, useRef } from 'react';
-import { RoomForm } from '../RoomForm/RoomForm';
 
 export const AddRoom = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Rooms.AddRoom' });

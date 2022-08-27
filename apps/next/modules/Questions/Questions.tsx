@@ -1,5 +1,5 @@
 import { useQuestionsSubscription } from '@tens/common/src/services/useQuestionSubscription';
-import { ErrorMessage } from '@tens/next/components/ErrorMesssage/ErrorMesssage';
+import { ErrorMessage } from '@tens/next/components/ErrorMessage/ErrorMessage';
 import { Loader } from '@tens/next/components/Loader/Loader';
 import { supabase } from '@tens/next/utils/supabase';
 import { trpc } from '@tens/next/utils/trpc';

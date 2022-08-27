@@ -81,6 +81,9 @@ export const en = {
         save: 'Save',
         header: 'Add Room',
       },
+      List: {
+        showMore: 'Show more',
+      },
     },
     RoomSettings: {
       EditRoom: {
