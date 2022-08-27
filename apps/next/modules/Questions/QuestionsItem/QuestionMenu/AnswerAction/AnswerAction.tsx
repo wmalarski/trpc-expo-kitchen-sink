@@ -1,3 +1,4 @@
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useAnswerQuestionMutation } from '@tens/common/src/services/useAnswerQuestionMutation';
 import { Toast, ToastElement } from '@tens/next/components/Toast/Toast';
@@ -28,9 +29,9 @@ export const AnswerAction = ({ question }: Props): ReactElement => {
 
   return (
     <>
-      <button className="btn" onClick={handlePress}>
+      <DropdownMenu.Item className="" onClick={handlePress}>
         {question.answered ? t('markAsUnanswered') : t('markAsAnswered')}
-      </button>
+      </DropdownMenu.Item>
       <Toast ref={toastRef} variant="error" title={t('error')}>
         {mutation.error?.message}
       </Toast>

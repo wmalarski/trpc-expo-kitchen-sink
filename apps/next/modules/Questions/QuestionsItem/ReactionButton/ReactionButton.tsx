@@ -34,7 +34,9 @@ export const ReactionButton = ({ reaction, question }: Props): ReactElement => {
   return (
     <>
       <button
-        className={clsx('btn bg-base-200', { 'bg-base-300': isSelected })}
+        className={clsx('btn bg-base-200 btn-circle btn-sm', {
+          'bg-base-300': isSelected,
+        })}
         onClick={handleReactionClick}
       >
         {`${reaction}${counts?._count ? ` ${counts._count}` : ''}`}

@@ -1,5 +1,6 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useVoteSubscription } from '@tens/common/src/services/useVoteSubscription';
+import { reactions } from '@tens/common/src/utils/reactions';
 import { supabase } from '@tens/next/utils/supabase';
 import { trpc } from '@tens/next/utils/trpc';
 import { ReactElement } from 'react';
@@ -42,31 +43,30 @@ export const QuestionsItem = ({
   );
 
   return (
-    <div className="card">
+    <div className="card card-compact">
       <div className="card-body bg-base-300">
-        <div className="card-title">
-          <span>{votesCount}</span>
-          <span>{question.content}</span>
-          {votesCount ? (
-            <div className="flex">
-              {question.counts.map(
-                ({ _count, content }) =>
-                  _count > 0 && (
-                    <ReactionButton
-                      key={content}
-                      reaction={content}
-                      question={question}
-                    />
-                  ),
-              )}
-            </div>
-          ) : null}
+        <div className="flex flex-row justify-between">
+          <div className="card-title">
+            <span className="text-sm">{votesCount}</span>
+            <span>{question.content}</span>
+          </div>
           <QuestionMenu
             question={question}
             take={take}
             showAnswered={showAnswered}
           />
         </div>
+        {votesCount ? (
+          <div className="card-actions flex flex-nowrap gap-1">
+            {reactions.map((reaction) => (
+              <ReactionButton
+                key={reaction}
+                reaction={reaction}
+                question={question}
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
     </div>
   );

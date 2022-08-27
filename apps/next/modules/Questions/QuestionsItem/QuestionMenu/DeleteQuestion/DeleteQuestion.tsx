@@ -1,3 +1,4 @@
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useDeleteQuestionMutation } from '@tens/common/src/services/useDeleteQuestionMutation';
 import { Toast, ToastElement } from '@tens/next/components/Toast/Toast';
@@ -37,14 +38,14 @@ export const DeleteQuestion = ({
 
   return (
     <>
-      <button
-        className="btn gap-2"
+      <DropdownMenu.Item
+        className="flex gap-2"
         disabled={mutation.isLoading}
         onClick={handleClick}
       >
         <FiTrash />
         {t('delete')}
-      </button>
+      </DropdownMenu.Item>
       <Toast ref={toastRef} variant="error" title={t('error')}>
         {mutation.error?.message}
       </Toast>

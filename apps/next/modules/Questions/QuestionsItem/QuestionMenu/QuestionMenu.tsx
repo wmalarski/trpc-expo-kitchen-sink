@@ -1,10 +1,7 @@
-import * as Popover from '@radix-ui/react-popover';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import type { InferQueryOutput } from '@tens/api/src/types';
-import { reactions } from '@tens/common/src/utils/reactions';
-import { useTranslation } from 'next-i18next';
 import { ReactElement } from 'react';
-import { FiX } from 'react-icons/fi';
-import { ReactionButton } from '../ReactionButton/ReactionButton';
+import { FiMenu } from 'react-icons/fi';
 import { AnswerAction } from './AnswerAction/AnswerAction';
 import { DeleteQuestion } from './DeleteQuestion/DeleteQuestion';
 
@@ -19,34 +16,28 @@ export const QuestionMenu = ({
   take,
   showAnswered,
 }: Props): ReactElement => {
-  const { t } = useTranslation('common', { keyPrefix: 'Room.Questions' });
-
   return (
-    <Popover.Root>
-      <Popover.Trigger className="btn m-1">{t('more')}</Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Content className="dropdown-content bg-base-100 rounded-box w-52 p-2 shadow">
-          <Popover.Arrow className="fill-base-100" />
-          <Popover.Close className="btn btn-sm btn-circle absolute right-1 m-1">
-            <FiX />
-          </Popover.Close>
-          <div className="flex">
-            {reactions.map((reaction) => (
-              <ReactionButton
-                key={reaction}
-                reaction={reaction}
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger className="btn btn-circle btn-sm">
+        <FiMenu />
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content className="menu bg-base-100 rounded-box w-52 p-2 shadow">
+          <DropdownMenu.Arrow className="fill-base-100" />
+          <ul className="menu">
+            <li>
+              <AnswerAction question={question} />
+            </li>
+            <li>
+              <DeleteQuestion
                 question={question}
+                take={take}
+                showAnswered={showAnswered}
               />
-            ))}
-          </div>
-          <AnswerAction question={question} />
-          <DeleteQuestion
-            question={question}
-            take={take}
-            showAnswered={showAnswered}
-          />
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
+            </li>
+          </ul>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 };

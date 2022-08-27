@@ -56,6 +56,8 @@ export const en = {
         markAsUnanswered: 'Mark as unanswered',
         delete: 'Delete question',
         error: 'Error',
+        header: 'Questions',
+        showMore: 'Show more',
       },
       RoomHeading: {
         copyLink: 'Copy link',

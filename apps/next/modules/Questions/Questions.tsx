@@ -15,7 +15,7 @@ type Props = {
 const take = 10;
 
 export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
-  const { t } = useTranslation('common', { keyPrefix: 'Rooms.List' });
+  const { t } = useTranslation('common', { keyPrefix: 'Room.Questions' });
 
   const trpcContext = trpc.useContext();
 
@@ -60,22 +60,25 @@ export const Questions = ({ roomId, showAnswered }: Props): ReactElement => {
 
   return (
     <div className="flex flex-col gap-4">
-      {query.data.pages
-        .flatMap((page) => page.questions)
-        .map((question) => (
-          <QuestionsItem
-            key={question.id}
-            question={question}
-            take={take}
-            canAnswer={canAnswer}
-            showAnswered={showAnswered}
-          />
-        ))}
-      {query.hasNextPage && (
-        <button className="btn" onClick={() => query.fetchNextPage()}>
-          {t('showMore')}
-        </button>
-      )}
+      <h2 className="p-2 text-2xl font-bold">{t('header')}</h2>
+      <div className="flex flex-col gap-4">
+        {query.data.pages
+          .flatMap((page) => page.questions)
+          .map((question) => (
+            <QuestionsItem
+              key={question.id}
+              question={question}
+              take={take}
+              canAnswer={canAnswer}
+              showAnswered={showAnswered}
+            />
+          ))}
+        {query.hasNextPage && (
+          <button className="btn" onClick={() => query.fetchNextPage()}>
+            {t('showMore')}
+          </button>
+        )}
+      </div>
     </div>
   );
 };
