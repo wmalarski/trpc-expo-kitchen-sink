@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const schema = z.object({
-  content: z.string().min(1),
+  content: z.string().min(5),
 });
 
 type AddQuestionFormData = z.infer<typeof schema>;
@@ -22,10 +22,11 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
 
   const toastRef = useRef<ToastElement>(null);
 
-  const { register, handleSubmit, reset } = useForm<AddQuestionFormData>({
-    resolver: zodResolver(schema as any),
-    defaultValues: { content: '' },
-  });
+  const { register, handleSubmit, reset, formState } =
+    useForm<AddQuestionFormData>({
+      resolver: zodResolver(schema as any),
+      defaultValues: { content: '' },
+    });
 
   const mutation = trpc.proxy.question.add.useMutation({
     onSuccess: () => {
@@ -52,13 +53,22 @@ export const AddQuestion = ({ roomId }: Props): ReactElement => {
             {t('questionLabel')}
           </label>
           <input
-            className="input w-full"
+            className={clsx('input w-full', {
+              'input-error': !!formState.errors.content,
+            })}
             id="question"
             type="text"
             placeholder={t('questionPlaceholder')}
             disabled={mutation.isLoading}
             {...register('content', { required: true })}
           />
+          {formState.errors.content && (
+            <label className="label">
+              <span className="label-text-alt text-error">
+                {formState.errors.content.message}
+              </span>
+            </label>
+          )}
         </div>
 
         <button

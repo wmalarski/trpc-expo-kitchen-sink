@@ -27,7 +27,7 @@ export const RoomForm = ({
 }: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'RoomForm' });
 
-  const { register, handleSubmit } = useForm<RoomFormData>({
+  const { register, handleSubmit, formState } = useForm<RoomFormData>({
     resolver: zodResolver(schema as any),
     defaultValues: defaultValues || {
       title: '',
@@ -42,13 +42,22 @@ export const RoomForm = ({
           {t('nameLabel')}
         </label>
         <input
-          className="input w-full"
+          className={clsx('input w-full', {
+            'input-error': !!formState.errors.title,
+          })}
           id="title"
           type="text"
           disabled={isLoading}
           placeholder={t('namePlaceholder')}
           {...register('title', { required: true })}
         />
+        {formState.errors.title && (
+          <label className="label">
+            <span className="label-text-alt text-error">
+              {formState.errors.title.message}
+            </span>
+          </label>
+        )}
       </div>
 
       <div className="form-control w-full pb-2">
@@ -56,12 +65,21 @@ export const RoomForm = ({
           {t('descriptionLabel')}
         </label>
         <textarea
-          className="input w-full"
+          className={clsx('input w-full', {
+            'input-error': !!formState.errors.description,
+          })}
           id="description"
           disabled={isLoading}
           placeholder={t('descriptionPlaceholder')}
           {...register('description', { required: true })}
         />
+        {formState.errors.description && (
+          <label className="label">
+            <span className="label-text-alt text-error">
+              {formState.errors.description.message}
+            </span>
+          </label>
+        )}
       </div>
 
       <button
