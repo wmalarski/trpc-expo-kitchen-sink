@@ -6,6 +6,7 @@ export const paths = {
   index: '/',
   login: '/login',
   room: (id: string) => `/room/${id}`,
+  settings: (id: string) => `/room/${id}/settings`,
 };
 
 export const usePublicPath = () => {

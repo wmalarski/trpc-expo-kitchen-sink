@@ -1,3 +1,4 @@
+import { useAuthService } from '@tens/common/src/services/SessionService';
 import { paths } from '@tens/next/utils/paths';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
@@ -6,6 +7,10 @@ import { Logout } from './Logout/Logout';
 
 export const Navbar = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Navigation' });
+
+  const authService = useAuthService();
+
+  const avatar = authService.session.user?.email?.slice(0, 2);
 
   return (
     <div className="navbar bg-base-300">
@@ -17,8 +22,10 @@ export const Navbar = (): ReactElement => {
       <div className="flex-none gap-2">
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
-              <img src="https://placeimg.com/80/80/people" />
+            <div className="avatar placeholder">
+              <div className="bg-neutral-focus text-neutral-content w-10 rounded-full">
+                <span className="text-xs">{avatar}</span>
+              </div>
             </div>
           </label>
           <ul
