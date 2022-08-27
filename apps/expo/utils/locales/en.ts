@@ -2,6 +2,8 @@ export const en = {
   common: {
     Account: {
       signOut: 'Sign Out',
+      error: 'Error',
+      errorText: 'Something went wrong',
     },
     SignIn: {
       signIn: 'Sign In',
@@ -12,6 +14,8 @@ export const en = {
       sendLink: 'Sign In via link',
       signUp: 'Sign Up',
       or: 'or',
+      error: 'Error',
+      errorText: 'Something went wrong',
     },
     SignUp: {
       signUp: 'Sign Up',
@@ -22,6 +26,8 @@ export const en = {
       sendLink: 'Sign In via link',
       signIn: 'Sign In',
       or: 'or',
+      error: 'Error',
+      errorText: 'Something went wrong',
     },
     SendLink: {
       sendLink: 'Send link',
@@ -30,6 +36,8 @@ export const en = {
       email: 'Email',
       emailPlaceholder: 'email@address.com',
       or: 'or',
+      error: 'Error',
+      errorText: 'Something went wrong',
     },
     Room: {
       AddQuestion: {
@@ -47,6 +55,7 @@ export const en = {
         markAsAnswered: 'Mark as answered',
         markAsUnanswered: 'Mark as unanswered',
         delete: 'Delete question',
+        error: 'Error',
       },
       RoomHeading: {
         copyLink: 'Copy link',
@@ -55,6 +64,7 @@ export const en = {
         showUnanswered: 'Show unanswered',
         deleteRoom: 'Delete room',
         roomSettings: 'Room settings',
+        error: 'Error',
       },
     },
     RoomForm: {

@@ -1,8 +1,10 @@
 import type { AppRouter } from '@tens/api/src/routes';
 import type { InferQueryOutput } from '@tens/api/src/types';
+import type { TRPCClientErrorLike } from '@trpc/client';
 import type { CreateReactQueryHooks } from '@trpc/react/dist/createReactQueryHooks';
 
 type Props = {
+  onError: (error: TRPCClientErrorLike<AppRouter>) => void;
   question: InferQueryOutput<'question.list'>['questions'][0];
   showAnswered?: boolean;
   take: number;
@@ -10,6 +12,7 @@ type Props = {
 };
 
 export const useDeleteQuestionMutation = ({
+  onError,
   question,
   showAnswered,
   take,
@@ -44,7 +47,8 @@ export const useDeleteQuestionMutation = ({
 
       return { previous };
     },
-    onError: (_err, _variables, context) => {
+    onError: (err, _variables, context) => {
+      onError(err);
       if (!context?.previous) return;
       const args = { roomId: question.roomId, showAnswered, take };
       trpcContext.setInfiniteQueryData(

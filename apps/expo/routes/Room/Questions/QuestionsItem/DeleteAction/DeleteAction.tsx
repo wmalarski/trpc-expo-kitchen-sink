@@ -1,7 +1,7 @@
 import type { InferQueryOutput } from '@tens/api/src/types';
 import { useDeleteQuestionMutation } from '@tens/common/src/services/useDeleteQuestionMutation';
 import { trpc } from '@tens/expo/utils/trpc';
-import { Actionsheet, DeleteIcon } from 'native-base';
+import { Actionsheet, DeleteIcon, useToast } from 'native-base';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -18,11 +18,19 @@ export const DeleteAction = ({
 }: Props): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'Room.Questions' });
 
+  const toast = useToast();
+
   const mutation = useDeleteQuestionMutation({
     question,
     take,
     trpc,
     showAnswered,
+    onError: (error) => {
+      toast.show({
+        title: t('error'),
+        description: error.message,
+      });
+    },
   });
 
   const handlePress = () => {

@@ -8,6 +8,7 @@ import {
   HStack,
   Input,
   Text,
+  useToast,
   VStack,
   WarningOutlineIcon,
 } from 'native-base';
@@ -27,9 +28,18 @@ type SendLinkFormData = z.infer<typeof schema>;
 export const SendLink = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'SendLink' });
 
+  const toast = useToast();
+
   const anonService = useAnonService();
 
-  const mutation = useMutation(anonService.signIn);
+  const mutation = useMutation(anonService.signIn, {
+    onError: () => {
+      toast.show({
+        title: t('error'),
+        description: t('errorText'),
+      });
+    },
+  });
 
   const { control, handleSubmit } = useForm<SendLinkFormData>({
     resolver: zodResolver(schema as any),

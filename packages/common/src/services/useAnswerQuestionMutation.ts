@@ -1,13 +1,19 @@
 import type { AppRouter } from '@tens/api/src/routes';
 import type { InferQueryOutput } from '@tens/api/src/types';
+import type { TRPCClientErrorLike } from '@trpc/client';
 import type { CreateReactQueryHooks } from '@trpc/react/dist/createReactQueryHooks';
 
 type Props = {
   question: InferQueryOutput<'question.list'>['questions'][0];
   trpc: Pick<CreateReactQueryHooks<AppRouter>, 'useContext' | 'useMutation'>;
+  onError: (error: TRPCClientErrorLike<AppRouter>) => void;
 };
 
-export const useAnswerQuestionMutation = ({ question, trpc }: Props) => {
+export const useAnswerQuestionMutation = ({
+  question,
+  trpc,
+  onError,
+}: Props) => {
   const trpcContext = trpc.useContext();
 
   return trpc.useMutation(['question.answer'], {
@@ -28,7 +34,8 @@ export const useAnswerQuestionMutation = ({ question, trpc }: Props) => {
 
       return { previous };
     },
-    onError: (_err, { id }, context) => {
+    onError: (err, { id }, context) => {
+      onError(err);
       if (!context?.previous) return;
       trpcContext.setQueryData(
         ['question.get', { questionId: id }],

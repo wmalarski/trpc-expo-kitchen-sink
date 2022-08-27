@@ -2,7 +2,7 @@ import { Room } from '@prisma/client';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import type { RoomsNavigatorParams } from '@tens/expo/routes/Router';
 import { trpc } from '@tens/expo/utils/trpc';
-import { Actionsheet, DeleteIcon } from 'native-base';
+import { Actionsheet, DeleteIcon, useToast } from 'native-base';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,6 +16,8 @@ export const DeleteRoomAction = ({ room, onClose }: Props): ReactElement => {
 
   const navigation = useNavigation<NavigationProp<RoomsNavigatorParams>>();
 
+  const toast = useToast();
+
   const trpcContext = trpc.useContext();
 
   const mutation = trpc.useMutation(['room.delete'], {
@@ -23,6 +25,12 @@ export const DeleteRoomAction = ({ room, onClose }: Props): ReactElement => {
       onClose();
       trpcContext.invalidateQueries(['room.list']);
       navigation.navigate('Rooms');
+    },
+    onError: (error) => {
+      toast.show({
+        title: t('error'),
+        description: error.message,
+      });
     },
   });
 

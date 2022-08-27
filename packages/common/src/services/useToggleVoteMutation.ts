@@ -1,8 +1,10 @@
 import type { AppRouter } from '@tens/api/src/routes';
 import type { InferQueryOutput } from '@tens/api/src/types';
+import type { TRPCClientErrorLike } from '@trpc/client';
 import type { CreateReactQueryHooks } from '@trpc/react/dist/createReactQueryHooks';
 
 type UseToggleVoteMutation = {
+  onError: (error: TRPCClientErrorLike<AppRouter>) => void;
   question: InferQueryOutput<'question.list'>['questions'][0];
   trpc: Pick<CreateReactQueryHooks<AppRouter>, 'useContext' | 'useMutation'>;
 };
@@ -10,6 +12,7 @@ type UseToggleVoteMutation = {
 export const useToggleVoteMutation = ({
   question,
   trpc,
+  onError,
 }: UseToggleVoteMutation) => {
   const trpcContext = trpc.useContext();
 
@@ -64,7 +67,8 @@ export const useToggleVoteMutation = ({
 
       return { previous };
     },
-    onError: (_err, { questionId }, context) => {
+    onError: (err, { questionId }, context) => {
+      onError(err);
       if (!context?.previous) return;
       trpcContext.setQueryData(
         ['question.get', { questionId }],

@@ -8,6 +8,7 @@ import {
   HStack,
   Input,
   Text,
+  useToast,
   VStack,
   WarningOutlineIcon,
 } from 'native-base';
@@ -28,9 +29,18 @@ type SignUpFormData = z.infer<typeof schema>;
 export const SignUp = (): ReactElement => {
   const { t } = useTranslation('common', { keyPrefix: 'SignUp' });
 
+  const toast = useToast();
+
   const anonService = useAnonService();
 
-  const mutation = useMutation(anonService.signUp);
+  const mutation = useMutation(anonService.signUp, {
+    onError: () => {
+      toast.show({
+        title: t('error'),
+        description: t('errorText'),
+      });
+    },
+  });
 
   const { control, handleSubmit } = useForm<SignUpFormData>({
     resolver: zodResolver(schema as any),
